@@ -74,7 +74,6 @@ def refresh():
        $ curl http://localhost:5000/api/refresh -X GET \
          -H "Authorization: Bearer <your_token>"
     """
-    # TODO: Fix this
     print("refresh request")
     old_token = request.headers.get('Authorization').split(' ')[1]
     new_token = guard.refresh_jwt_token(old_token)
