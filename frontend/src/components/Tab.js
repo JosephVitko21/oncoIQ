@@ -5,7 +5,7 @@ import Archive from './Archive';
 
 export default function Tab() {
     return (
-        <div>
+        <div className='mt-5'>
             <Tabs defaultActiveKey="predict" id="uncontrolled-tab-example">
                 <Tab eventKey="predict" title="New Predictions">
                     <Predict />

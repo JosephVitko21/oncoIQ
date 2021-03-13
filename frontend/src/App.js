@@ -4,9 +4,11 @@ import Tab from './components/Tab';
 
 function App() {
     return (
-        <div className='container'>
+        <div>
             <Nav />
-            <Tab />
+            <div className='container'>
+                <Tab />
+            </div>
         </div>
     );
 }
