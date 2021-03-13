@@ -76,8 +76,7 @@ def refresh():
     """
     # TODO: Fix this
     print("refresh request")
-    old_token = request.get_data()
-    print(old_token)
+    old_token = request.headers.get('Authorization').split(' ')[1]
     new_token = guard.refresh_jwt_token(old_token)
     ret = {'access_token': new_token}
     return ret, 200
