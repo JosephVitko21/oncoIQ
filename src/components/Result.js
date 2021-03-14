@@ -20,9 +20,13 @@ export default function Result({ prediction }) {
         return base;
     }
 
-    const opa = {
-        opacity: '0.2',
-    };
+    function overOpa(risk) {
+        const opa = {
+            opacity: '' + risk,
+        };
+
+        return opa;
+    }
 
     function filePath(fileName) {
         return 'https://oncoiq-backend.herokuapp.com/static/tissue_images/' + fileName;
@@ -33,21 +37,33 @@ export default function Result({ prediction }) {
             <CardGroup className='w-50'>
                 <Card>
                     <Card.Img variant="top" src={filePath(prediction[i].file_name)} />
-                    <div className='overlay text-center bg-danger' style={opa}>
+                    <div className={overColor(prediction[i].risk_level.toFixed(2))}>
                         {prediction[i].risk_level.toFixed(2)}
                     </div>
                 </Card>
-                <Card style={{ width: '100px' }}>
-                    <Card.Img variant="top" src={sample} />
+                <Card>
+                    <Card.Img variant="top" src={filePath(prediction[i+1].file_name)} />
+                    <div className={overColor(prediction[i+1].risk_level.toFixed(2))}>
+                        {prediction[i+1].risk_level.toFixed(2)}
+                    </div>
                 </Card>
-                <Card style={{ width: '100px' }}>
-                    <Card.Img variant="top" src={sample} />
+                <Card>
+                    <Card.Img variant="top" src={filePath(prediction[i+2].file_name)} />
+                    <div className={overColor(prediction[i+2].risk_level.toFixed(2))}>
+                        {prediction[i+2].risk_level.toFixed(2)}
+                    </div>
                 </Card>
-                <Card style={{ width: '100px' }}>
-                    <Card.Img variant="top" src={sample} />
+                <Card>
+                    <Card.Img variant="top" src={filePath(prediction[i+3].file_name)} />
+                    <div className={overColor(prediction[i+3].risk_level.toFixed(2))}>
+                        {prediction[i+3].risk_level.toFixed(2)}
+                    </div>
                 </Card>
-                <Card style={{ width: '100px' }}>
-                    <Card.Img variant="top" src={sample} />
+                <Card>
+                    <Card.Img variant="top" src={filePath(prediction[i+4].file_name)} />
+                    <div className={overColor(prediction[i+4].risk_level.toFixed(2))}>
+                        {prediction[i+4].risk_level.toFixed(2)}
+                    </div>
                 </Card>
             </CardGroup>
         );

@@ -10,8 +10,6 @@ export default function Predict() {
     const [imgFile, setImgFile] = useState(null);
     const [overRisk, setOverRisk] = useState(0);
 
-    const dummy = [1, 2, 3, 4, 5, 0.6, 2, 3, 4, 5, 1, 2, 3, 4, 5, 0.2, 2, 3, 4, 5, 1, 2, 3, 4, 5];
-
     function handleIDChange(event) {
         event.preventDefault();
         setId(event.target.value);
@@ -40,7 +38,7 @@ export default function Predict() {
         .then((result) => {
             console.log(result);
             setImgFile(result.image_file);
-            setOverRisk(result.overall_risk);
+            setOverRisk(result.overall_risk.toFixed(4));
         })
         .catch((error) => {
             console.log('error', error);

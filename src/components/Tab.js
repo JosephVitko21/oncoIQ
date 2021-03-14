@@ -3,11 +3,11 @@ import Tabs from 'react-bootstrap/Tabs';
 import Predict from './Predict';
 import Archive from './Archive';
 import Temp from './Temp'
-import { LoginContext } from '../context/GlobalContext';
+import { ArchContext } from '../context/GlobalContext';
 import {login, authFetch, useAuth, logout} from "../auth";
 
 export default function Tab() {
-    const {loggedin, setLogin} = useContext(LoginContext);
+    const {arch, setArch} = useContext(ArchContext);
 
     const [logged] = useAuth();
 
@@ -17,7 +17,7 @@ export default function Tab() {
 
     return (
         <div className='mt-5'>
-            <Tabs defaultActiveKey="predict" id="uncontrolled-tab-example">
+            <Tabs defaultActiveKey="predict" id="uncontrolled-tab-example" onClick={() => setArch(true)}>
                 <Tab eventKey="predict" title="New Predictions">
                     <Predict />
                 </Tab>

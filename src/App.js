@@ -3,20 +3,20 @@ import './App.css';
 import Nav from './components/Nav';
 import Tab from './components/Tab';
 import Login from './components/Login';
-import { LoginContext } from './context/GlobalContext';
+import { ArchContext } from './context/GlobalContext';
 
 function App() {
-    const [loggedin, setLogin] = useState(false);
+    const [arch, setArch] = useState(false);
 
     return (
         <div>
             <Nav />
-            <LoginContext.Provider value={{loggedin, setLogin}}>
+            <ArchContext.Provider value={{arch, setArch}}>
                 <div className='container'>
                     <Login />
                     <Tab />
                 </div>
-            </LoginContext.Provider>
+            </ArchContext.Provider>
         </div>
     );
 }

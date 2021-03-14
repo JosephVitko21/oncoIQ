@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { LoginContext } from '../context/GlobalContext';
 import {login, authFetch, useAuth, logout} from "../auth";
 
 export default function Login() {
@@ -11,8 +10,6 @@ export default function Login() {
     const [signup, setSignup] = useState(false);
 
     const [logged] = useAuth();
-
-    const {loggedin, setLogin} = useContext(LoginContext);
     
     function handleLogin(event) {
         event.preventDefault();
@@ -37,7 +34,6 @@ export default function Login() {
             if (result.access_token != null) {
                 login(result.access_token);
                 console.log(result.access_token);
-                setLogin(true);
             }
         })
         .catch((error) => {
