@@ -34,7 +34,7 @@ export default function Result({ prediction }) {
 
     for (let i = 0; i < prediction.length; i += 5) {
         images.push(
-            <CardGroup className='w-50'>
+            <CardGroup>
                 <Card>
                     <Card.Img variant="top" src={filePath(prediction[i].file_name)} />
                     <div className={overColor(prediction[i].risk_level.toFixed(2))}>

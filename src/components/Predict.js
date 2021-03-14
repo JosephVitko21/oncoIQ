@@ -33,7 +33,7 @@ export default function Predict() {
             redirect: 'follow'
         };
 
-        fetch('http://localhost:5000/api/upload_image', requestOptions)
+        fetch('https://oncoiq-backend.herokuapp.com/api/upload_image', requestOptions)
         .then(response => response.json())
         .then((result) => {
             console.log(result);
@@ -59,7 +59,7 @@ export default function Predict() {
             redirect: 'follow'
         };
 
-        fetch('http://localhost:5000/api/get_tiles', requestOptions)
+        fetch('https://oncoiq-backend.herokuapp.com/api/get_tiles', requestOptions)
         .then(response => response.json())
         .then((result) => {
             console.log(result);
