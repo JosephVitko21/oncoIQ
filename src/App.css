@@ -22,3 +22,19 @@ html, body {
 .tab-content>.active {
     display: flex;
 }
+
+.op75 {
+    opacity: 0.75;
+}
+
+.op50 {
+    opacity: 0.5;
+}
+
+.op25 {
+    opacity: 0.25;
+}
+
+.custom-card {
+    min-width: 500px;
+}

@@ -70,7 +70,7 @@ export default function Result({ prediction }) {
     }
 
     return (
-        <div>
+        <div className='custom-card'>
             {images}
         </div>
     );
