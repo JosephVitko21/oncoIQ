@@ -15,30 +15,34 @@ class Temp extends React.Component {
   handleUploadImage(ev) {
     ev.preventDefault();
 
-    // const data = new FormData();
-    // data.append('file', this.uploadInput.files[0]);
+    var myHeaders = new Headers();
+    const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY').split('"')[1];
+    console.log("local key", token);
+    myHeaders.append("Authorization", "Bearer " + token);
 
-    // fetch('https://oncoiq-backend.herokuapp.com/api/upload_image', {
-    //   method: 'POST',
-    //   headers: myHeaders,
-    //   body: data,
-    // }).then((response) => {
+    const data = new FormData();
+    data.append('file', this.uploadInput.files[0]);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: data,
+        redirect: 'follow'
+    };
+
+    fetch('https://oncoiq-backend.herokuapp.com/api/upload_image', requestOptions)
+    // .then((response) => {
     //   response.json().then((body) => {
     //     this.setState({ imageURL: `http://localhost:8000/${body.file}` });
     //   });
     // });
-
-    authFetch("https://oncoiq-backend.herokuapp.com/api/protected").then(response => {
-        if (response.status === 401){
-          console.log("Sorry you aren't authorized!")
-          return null
-        }
-        return response.json()
-      }).then(response => {
-        if (response && response.message){
-          console.log(response.message)
-        }
-      })
+    .then(response => response.json())
+    .then((result) => {
+        console.log(result);
+    })
+    .catch((error) => {
+        console.log('error', error);
+    });
   }
 
   render() {
