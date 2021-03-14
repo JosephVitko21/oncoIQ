@@ -8,6 +8,7 @@ export default function Predict() {
     const [uploadInput, setUploadInput] =useState(null);
     const [id, setId] = useState(null);
     const [imgFile, setImgFile] = useState(null);
+    const [overRisk, setOverRisk] = useState(0);
 
     const dummy = [1, 2, 3, 4, 5, 0.6, 2, 3, 4, 5, 1, 2, 3, 4, 5, 0.2, 2, 3, 4, 5, 1, 2, 3, 4, 5];
 
@@ -39,7 +40,7 @@ export default function Predict() {
         .then((result) => {
             console.log(result);
             setImgFile(result.image_file);
-            console.log('img', imgFile);
+            setOverRisk(result.overall_risk);
         })
         .catch((error) => {
             console.log('error', error);
@@ -51,13 +52,12 @@ export default function Predict() {
         const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY').split('"')[1];
         myHeaders.append("Authorization", "Bearer " + token);
 
-        const data = new FormData();
-        data.append('image_file', imgFile);
+        var raw = JSON.stringify({"image_file":imgFile});
 
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
-            body: data,
+            body: raw,
             redirect: 'follow'
         };
 
@@ -65,6 +65,7 @@ export default function Predict() {
         .then(response => response.json())
         .then((result) => {
             console.log(result);
+            setPrediction(result.tiles);
             setImgFile(null);
         })
         .catch((error) => {
@@ -75,7 +76,8 @@ export default function Predict() {
     if (prediction != null) {
         return (
             <div className='mt-5'>
-                <Result prediction={dummy}/>
+                <Result prediction={prediction}/>
+                <p>Overall Risk: {overRisk}</p>
                 <Button className='mt-3' variant='primary' onClick={() => setPrediction(null)}>New Predictions</Button>
             </div>
         );

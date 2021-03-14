@@ -20,17 +20,21 @@ export default function Result({ prediction }) {
         return base;
     }
 
-    function overOpa(risk) {
-        
+    const opa = {
+        opacity: '0.2',
+    };
+
+    function filePath(fileName) {
+        return 'https://oncoiq-backend.herokuapp.com/static/tissue_images/' + fileName;
     }
 
     for (let i = 0; i < prediction.length; i += 5) {
         images.push(
             <CardGroup className='w-50'>
                 <Card>
-                    <Card.Img variant="top" src={sample} />
-                    <div className={overColor(prediction[i])}>
-                        {prediction[i]}
+                    <Card.Img variant="top" src={filePath(prediction[i].file_name)} />
+                    <div className='overlay text-center bg-danger' style={opa}>
+                        {prediction[i].risk_level.toFixed(2)}
                     </div>
                 </Card>
                 <Card style={{ width: '100px' }}>
