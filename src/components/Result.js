@@ -20,6 +20,10 @@ export default function Result({ prediction }) {
         return base;
     }
 
+    function overOpa(risk) {
+        
+    }
+
     for (let i = 0; i < prediction.length; i += 5) {
         images.push(
             <CardGroup className='w-50'>

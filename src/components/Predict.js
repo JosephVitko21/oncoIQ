@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Result from'./Result';
@@ -7,12 +7,9 @@ export default function Predict() {
     const [prediction, setPrediction] = useState(null);
     const [uploadInput, setUploadInput] =useState(null);
     const [id, setId] = useState(null);
+    const [imgFile, setImgFile] = useState(null);
 
-    const dummy = [];
-
-    function upload() {
-        setPrediction(69);
-    }
+    const dummy = [1, 2, 3, 4, 5, 0.6, 2, 3, 4, 5, 1, 2, 3, 4, 5, 0.2, 2, 3, 4, 5, 1, 2, 3, 4, 5];
 
     function handleIDChange(event) {
         event.preventDefault();
@@ -41,24 +38,52 @@ export default function Predict() {
         .then(response => response.json())
         .then((result) => {
             console.log(result);
-            setPrediction(result);
+            setImgFile(result.image_file);
+            console.log('img', imgFile);
         })
         .catch((error) => {
             console.log('error', error);
         });
     }
 
+    useEffect(() => {
+        var myHeaders = new Headers();
+        const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY').split('"')[1];
+        myHeaders.append("Authorization", "Bearer " + token);
+
+        const data = new FormData();
+        data.append('image_file', imgFile);
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: data,
+            redirect: 'follow'
+        };
+
+        fetch('https://oncoiq-backend.herokuapp.com/api/get_tiles', requestOptions)
+        .then(response => response.json())
+        .then((result) => {
+            console.log(result);
+            setImgFile(null);
+        })
+        .catch((error) => {
+            console.log('error', error);
+        });
+    }, [imgFile]);
+
     if (prediction != null) {
         return (
             <div className='mt-5'>
                 <Result prediction={dummy}/>
+                <Button className='mt-3' variant='primary' onClick={() => setPrediction(null)}>New Predictions</Button>
             </div>
         );
     }
 
     return (
         <div className='mt-5'>
-            {/* <Form onSubmit={handleUploadImage}>
+            <Form onSubmit={handleUploadImage}>
                 <input ref={(ref) => setUploadInput(ref)} type="file" />
                 <br />
                 <Form.Group className='mt-3' controlId='formID'>
@@ -68,10 +93,7 @@ export default function Predict() {
                 <Button className='mt-3' variant='primary' type='submit'>
                     Upload
                 </Button>
-            </Form> */}
-            <div className='mt-5'>
-                <Result prediction={dummy}/>
-            </div>
+            </Form>
         </div>
     );
 }
