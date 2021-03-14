@@ -2,3 +2,19 @@ html, body {
     background-color: white;
     font-family: 'Varela Round', sans-serif;
 }
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.25;
+    transition: .5s ease;
+  }
+  
+  .overlay:hover {
+    opacity: 0.8;
+  }

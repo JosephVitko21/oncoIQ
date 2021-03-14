@@ -70,7 +70,7 @@ export default function Login() {
                     <Form.Control type='password' placeholder='Password' onChange={handlePasswordChange}/>
                 </Form.Group>
 
-                <Button className='black-btn' variant='primary' type='submit'>
+                <Button variant='primary' type='submit'>
                     Login
                 </Button>
             </Form>

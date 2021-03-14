@@ -19,7 +19,7 @@ export default function Tab() {
         <div className='mt-5'>
             <Tabs defaultActiveKey="predict" id="uncontrolled-tab-example">
                 <Tab eventKey="predict" title="New Predictions">
-                    <Temp />
+                    <Predict />
                 </Tab>
                 <Tab eventKey="archive" title="Archive">
                     <Archive />

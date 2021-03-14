@@ -1,58 +1,77 @@
 import React, { useState } from 'react';
-import PredictDisplay from './PredictDisplay';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Result from'./Result';
 
 export default function Predict() {
     const [prediction, setPrediction] = useState(null);
-    const [imgUrl, setImgUrl] = useState({
-        imageURL: '',
-    });
+    const [uploadInput, setUploadInput] =useState(null);
+    const [id, setId] = useState(null);
+
+    const dummy = [];
 
     function upload() {
         setPrediction(69);
     }
 
+    function handleIDChange(event) {
+        event.preventDefault();
+        setId(event.target.value);
+    }
+
     function handleUploadImage(event) {
         event.preventDefault();
     
-        const data = new FormData();
-        data.append('file', this.uploadInput.files[0]);
-        data.append('filename', this.fileName.value);
+        var myHeaders = new Headers();
+        const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY').split('"')[1];
+        myHeaders.append("Authorization", "Bearer " + token);
 
-        fetch('http://localhost:8000/upload', {
+        const data = new FormData();
+        data.append('file', uploadInput.files[0]);
+        data.append('name', id);
+
+        var requestOptions = {
             method: 'POST',
+            headers: myHeaders,
             body: data,
-        }).then((response) => {
-            response.json().then((body) => {
-                setImgUrl({ imageURL: `http://localhost:8000/${body.file}` });
-            });
+            redirect: 'follow'
+        };
+
+        fetch('https://oncoiq-backend.herokuapp.com/api/upload_image', requestOptions)
+        .then(response => response.json())
+        .then((result) => {
+            console.log(result);
+            setPrediction(result);
+        })
+        .catch((error) => {
+            console.log('error', error);
         });
     }
 
     if (prediction != null) {
         return (
             <div className='mt-5'>
-                <PredictDisplay />
+                <Result prediction={dummy}/>
             </div>
         );
     }
 
     return (
         <div className='mt-5'>
-            {/* <Button variant="outline-primary" onClick={upload}>Upload Slide Image</Button> */}
-            <form onSubmit={handleUploadImage}>
-                <div>
-                <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
-                </div>
-                <div>
-                <input ref={(ref) => { this.fileName = ref; }} type="text" placeholder="Enter the desired name of file" />
-                </div>
+            {/* <Form onSubmit={handleUploadImage}>
+                <input ref={(ref) => setUploadInput(ref)} type="file" />
                 <br />
-                <div>
-                <button>Upload</button>
-                </div>
-                <img src={this.state.imageURL} alt="img" />
-            </form>
+                <Form.Group className='mt-3' controlId='formID'>
+                    <Form.Label>Patient ID</Form.Label>
+                    <Form.Control type='text' placeholder='Patient ID' onChange={handleIDChange}/>
+                </Form.Group>
+                <Button className='mt-3' variant='primary' type='submit'>
+                    Upload
+                </Button>
+            </Form> */}
+            <div className='mt-5'>
+                <Result prediction={dummy}/>
+            </div>
         </div>
     );
 }

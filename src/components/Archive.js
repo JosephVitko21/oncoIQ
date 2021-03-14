@@ -16,7 +16,7 @@ export default function Archive() {
                         <Card.Body>
                             <Card.Title>{item}</Card.Title>
                             <Card.Text>
-                                Positive: 0.9, Negative: 0.1
+                                Risk 0.9
                             </Card.Text>
                             <Button variant="outline-danger">Delete</Button>
                         </Card.Body>
