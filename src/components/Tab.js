@@ -18,7 +18,7 @@ export default function Tab() {
     return (
         <div className='mt-5'>
             <Tabs defaultActiveKey="predict" id="uncontrolled-tab-example" onClick={() => setArch(true)}>
-                <Tab eventKey="predict" title="New Predictions">
+                <Tab eventKey="predict" title="Upload" className='custom-tab justify-content-center'>
                     <Predict />
                 </Tab>
                 <Tab eventKey="archive" title="Archive">

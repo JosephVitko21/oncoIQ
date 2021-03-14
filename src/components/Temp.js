@@ -30,7 +30,7 @@ class Temp extends React.Component {
         redirect: 'follow'
     };
 
-    fetch('https://oncoiq-backend.herokuapp.com/api/upload_image', requestOptions)
+    fetch('http://localhost:5000/api/upload_image', requestOptions)
     // .then((response) => {
     //   response.json().then((body) => {
     //     this.setState({ imageURL: `http://localhost:8000/${body.file}` });

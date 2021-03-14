@@ -18,3 +18,7 @@ html, body {
   .overlay:hover {
     opacity: 0.8;
   }
+
+.tab-content>.active {
+    display: flex;
+}

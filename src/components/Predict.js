@@ -33,7 +33,7 @@ export default function Predict() {
             redirect: 'follow'
         };
 
-        fetch('https://oncoiq-backend.herokuapp.com/api/upload_image', requestOptions)
+        fetch('http://localhost:5000/api/upload_image', requestOptions)
         .then(response => response.json())
         .then((result) => {
             console.log(result);
@@ -59,7 +59,7 @@ export default function Predict() {
             redirect: 'follow'
         };
 
-        fetch('https://oncoiq-backend.herokuapp.com/api/get_tiles', requestOptions)
+        fetch('http://localhost:5000/api/get_tiles', requestOptions)
         .then(response => response.json())
         .then((result) => {
             console.log(result);
@@ -76,21 +76,22 @@ export default function Predict() {
             <div className='mt-5'>
                 <Result prediction={prediction}/>
                 <p>Overall Risk: {overRisk}</p>
-                <Button className='mt-3' variant='primary' onClick={() => setPrediction(null)}>New Predictions</Button>
+                <Button className='mt-3' variant='primary' onClick={() => setPrediction(null)}>Upload</Button>
             </div>
         );
     }
 
     return (
-        <div className='mt-5'>
+        <div className='mt-4'>
+            <br />
+            <h3 className='mb-4'>Upload a histopathology image</h3>
             <Form onSubmit={handleUploadImage}>
-                <input ref={(ref) => setUploadInput(ref)} type="file" />
-                <br />
                 <Form.Group className='mt-3' controlId='formID'>
                     <Form.Label>Patient ID</Form.Label>
-                    <Form.Control type='text' placeholder='Patient ID' onChange={handleIDChange}/>
+                    <Form.Control className='w-auto' type='text' placeholder='Patient ID' onChange={handleIDChange}/>
                 </Form.Group>
-                <Button className='mt-3' variant='primary' type='submit'>
+                <input className='mt-4' ref={(ref) => setUploadInput(ref)} type="file" />
+                <Button className='' variant='primary' type='submit'>
                     Upload
                 </Button>
             </Form>

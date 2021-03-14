@@ -8,5 +8,8 @@ export const [useAuth, authFetch, login, logout] =
             method: 'POST',
             body: token.access_token
         })
-        .then(r => r.json())
+        .then(r => {
+            console.log("r: " + r)
+            r.json()
+        })
     });

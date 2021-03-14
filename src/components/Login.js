@@ -117,25 +117,31 @@ export default function Login() {
     }
 
     return (
-        <div className='mt-5'>
-            <Form onSubmit={handleLogin}>
-                <Form.Group controlId='formUsername'>
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control type='text' placeholder='Username' onChange={handleUsernameChange}/>
-                </Form.Group>
+        <div className='mt-5 d-flex justify-content-center'>
+            <div className='p-5'>
+                <h1>Welcome to oncoIQ</h1>
+                <p>Using AI image recognition to help pathologists make diagnoses</p>
+            </div>
+            <div>
+                <Form onSubmit={handleLogin}>
+                    <Form.Group controlId='formUsername'>
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control className='w-auto' type='text' placeholder='Username' onChange={handleUsernameChange}/>
+                    </Form.Group>
 
-                <Form.Group controlId='formPassword'>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type='password' placeholder='Password' onChange={handlePasswordChange}/>
-                </Form.Group>
+                    <Form.Group controlId='formPassword'>
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control className='w-auto' type='password' placeholder='Password' onChange={handlePasswordChange}/>
+                    </Form.Group>
 
-                <Button variant='primary' type='submit'>
-                    Login
-                </Button>
-                <Button className='ml-2' variant='outline-primary' onClick={() => setSignup(true)}>
-                    Sign Up
-                </Button>
-            </Form>
+                    <Button variant='primary' type='submit'>
+                        Login
+                    </Button>
+                    <Button className='ml-2' variant='outline-primary' onClick={() => setSignup(true)}>
+                        Sign Up
+                    </Button>
+                </Form>
+            </div>
         </div>
     );
 }
