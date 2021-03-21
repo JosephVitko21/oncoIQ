@@ -23,18 +23,26 @@ html, body {
     display: flex;
 }
 
-.op75 {
-    opacity: 0.75;
+.risk-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    //transition: .5s ease;
 }
 
-.op50 {
-    opacity: 0.5;
-}
-
-.op25 {
-    opacity: 0.25;
+.risk-text {
+    padding: 36px 0;
+    text-align: center;
 }
 
 .custom-card {
     min-width: 500px;
+}
+
+.risk-card {
+    border: 0;
 }

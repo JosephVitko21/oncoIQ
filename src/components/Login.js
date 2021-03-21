@@ -26,7 +26,7 @@ export default function Login() {
             redirect: 'follow'
         };
 
-        fetch("https://oncoiq-backend.herokuapp.com/api/login", requestOptions)
+        fetch("http://localhost:5000/api/login", requestOptions)
         .then(response => response.json())
         .then((result) => {
             console.log(result);
@@ -56,7 +56,7 @@ export default function Login() {
             redirect: 'follow'
         };
 
-        fetch("https://oncoiq-backend.herokuapp.com/api/register", requestOptions)
+        fetch("http://localhost:5000/api/register", requestOptions)
         .then(response => response.json())
         .then((result) => {
             console.log(result);

@@ -4,7 +4,7 @@ import {createAuthProvider} from 'react-token-auth';
 export const [useAuth, authFetch, login, logout] =
     createAuthProvider({
         accessTokenKey: 'access_token',
-        onUpdateToken: (token) => fetch('https://oncoiq-backend.herokuapp.com//api/refresh', {
+        onUpdateToken: (token) => fetch('http://localhost:5000//api/refresh', {
             method: 'POST',
             body: token.access_token
         })
@@ -13,3 +13,9 @@ export const [useAuth, authFetch, login, logout] =
             r.json()
         })
     });
+
+function setToken(userToken) {
+}
+
+function getToken() {
+}

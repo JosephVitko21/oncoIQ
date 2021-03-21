@@ -19,7 +19,7 @@ export default function Archive() {
             redirect: 'follow'
         };
 
-        fetch('https://oncoiq-backend.herokuapp.com/api/get_user_images', requestOptions)
+        fetch('http://localhost:5000/api/get_user_images', requestOptions)
         .then(response => response.json())
         .then((result) => {
             console.log(result);
@@ -31,7 +31,7 @@ export default function Archive() {
     }
 
     function filePath(fileName) {
-        return 'https://oncoiq-backend.herokuapp.com/static/tissue_images/' + fileName;
+        return 'http://localhost:5000/static/tissue_images/' + fileName;
     }
 
     if (arch) {

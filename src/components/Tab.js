@@ -5,6 +5,7 @@ import Archive from './Archive';
 import Temp from './Temp'
 import { ArchContext } from '../context/GlobalContext';
 import {login, authFetch, useAuth, logout} from "../auth";
+import ImageList from "./ImageList";
 
 export default function Tab() {
     const {arch, setArch} = useContext(ArchContext);
@@ -22,7 +23,7 @@ export default function Tab() {
                     <Predict />
                 </Tab>
                 <Tab eventKey="archive" title="Archive">
-                    <Archive />
+                    <ImageList />
                 </Tab>
             </Tabs>
         </div>

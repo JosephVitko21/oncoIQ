@@ -3,7 +3,8 @@ import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import sample from './sample.png';
 
-export default function Result({ prediction }) {
+export default function Result({ image_id, prediction }) {
+    console.log(prediction)
     const images = [];
 
     function overColor(risk) {
@@ -29,7 +30,7 @@ export default function Result({ prediction }) {
     }
 
     function filePath(fileName) {
-        return 'https://oncoiq-backend.herokuapp.com/static/tissue_images/' + fileName;
+        return 'http://localhost:5000/static/tissue_images/' + image_id + '/' + fileName;
     }
 
     for (let i = 0; i < prediction.length; i += 5) {
