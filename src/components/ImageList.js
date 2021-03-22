@@ -3,9 +3,10 @@ import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Col from "react-bootstrap/Col"
 import ImageDetailModal from "./ImageDetail";
-import User from "./User";
 import {Container} from "react-bootstrap";
+const user =  require("./User");
 const domain = require("./siteDomain");
+const utils = require("./utils")
 
 
 function Entry(props) {
@@ -45,16 +46,8 @@ export default class ImageList extends React.Component {
         }
     }
     componentDidMount() {
-        const apiUrl = domain + '/api/get_user_images'
-        fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                Authorization: "Bearer " + User.getAuthToken(),
-            },
-            redirect: 'follow'
-        }).then(response => response.json())
+        fetchUserImages()
             .then(data => {
-                console.log("data:", data)
                 this.setState({
                     image_list_data: data,
                 })
@@ -80,4 +73,45 @@ export default class ImageList extends React.Component {
             </Row>
         </Container>
     }
+}
+
+async function fetchUserImages() {
+    return new Promise(async function(resolve, reject) {
+        const apiUrl = domain + '/api/get_user_images'
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                Authorization: "Bearer " + user.getAuthToken(),
+            },
+            redirect: 'follow'
+        }).then(response => {
+            response.json()
+                .then(data => {
+                    console.log("data:", data)
+                    if(data.status_code === 401) {
+                        // if request returns 401, get new token and try again
+                        console.log("refreshing token")
+                        user.refreshToken()
+                            .then(_ => {
+                                fetchUserImages()
+                                    .then(response => {
+                                        response.json()
+                                            .then(data => {
+                                                if(data.status_code === 200) {
+                                                    // if it works this time, return data
+                                                    resolve(data)
+                                                } else {
+                                                    console.log("Refresh token failed, going back to login page")
+                                                    reject("Could not log in")
+                                                }
+                                            }).catch(err => reject(err))
+                                    }).catch(err => reject(err))
+                            }).catch(err => reject(err))
+                    } else {
+                        // otherwise, return data
+                        resolve(data);
+                    }
+                }).catch(err => reject(err))
+        }).catch(e => reject(e))
+    })
 }

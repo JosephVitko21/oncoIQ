@@ -31,17 +31,17 @@ html, body {
     right: 0;
     height: 100%;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
     //transition: .5s ease;
 }
 
 .risk-text {
-    padding: 36px 0;
     text-align: center;
 }
 
-.custom-card {
-    min-width: 500px;
-}
 
 .risk-card {
     border: 0;

@@ -12,7 +12,7 @@ class Tile extends React.Component {
         super(props);
         this.state = {
             hover: false,
-            opacity: this.props.riskScore,
+            opacity: this.props.riskScore * .9,
             color: "rgb(255, 0, 0)"
         }
 
@@ -38,7 +38,7 @@ class Tile extends React.Component {
 
                 >
                     <div className="risk-text" style={ textStyle }>
-                        { utils.makePercentage(this.props.riskScore) }
+                        { utils.makePercentage(this.props.riskScore, 0) }
                     </div>
                 </div>
             </Card>
@@ -55,7 +55,7 @@ class Tile extends React.Component {
     handleHoverOff = () => {
         this.setState({
             hover: false,
-            opacity: this.props.riskScore,
+            opacity: this.props.riskScore * .9,
             color: "rgb(255, 0, 0)"
         })
     }
@@ -116,40 +116,46 @@ export default class ImageDetailModal extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            show: false,
+            show: (!!this.props.showOnCreate),
             data: null
         }
     }
 
     render() {
-        if (!this.state.data) return (
-            <Button variant="outline-primary" onClick={this.handleShow} size="sm">
-                Show Details
-            </Button>
-        )
-
         return (
             <>
-                <Modal show={this.state.show} onHide={this.handleHide}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>
-                            { this.state.data.name }
-                        </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div className="image-detail">
-                            <p>Overall Risk: {utils.makePercentage(this.state.data.risk_level)}</p>
-                            {console.log("data to render:", this.state.data)}
-                            <TileGrid
-                                tiles={this.state.data.tiles}
-                                id={this.state.data.image_file}
-                            />
-                        </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={this.handleHide}>Close</Button>
-                    </Modal.Footer>
-                </Modal>
+                <Button variant="outline-primary" onClick={this.handleShow} size="sm">
+                    Show Details
+                </Button>
+                <Button variant="outline-danger ml-3" onClick={this.handleShow} size="sm">
+                    Delete
+                </Button>
+                {this.state.data ? (
+                    <Modal
+                        size="lg"
+                        show={this.state.show}
+                        onHide={this.handleHide}
+                    >
+                        <Modal.Header closeButton>
+                            <Modal.Title>
+                                { this.state.data.name }
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <div className="image-detail">
+                                <p>Overall Risk: {utils.makePercentage(this.state.data.risk_level, 0)}</p>
+                                {console.log("data to render:", this.state.data)}
+                                <TileGrid
+                                    tiles={this.state.data.tiles}
+                                    id={this.state.data.image_file}
+                                />
+                            </div>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={this.handleHide}>Close</Button>
+                        </Modal.Footer>
+                    </Modal>
+                ) : <></>}
             </>
         )
     }
@@ -184,12 +190,33 @@ async function fetchData(imageID) {
             redirect: 'follow'
         }).then(r => {
             let resp = r.json()
-                .then(r => {
-                    console.log(r)
-                    resolve(r)
-                })
-        }).catch(function (err) {
-            reject(err)
-        })
+                .then(data => {
+                    console.log(data)
+                    console.log("data:", data)
+                    if(data.status_code === 401) {
+                        // if request returns 401, get new token and try again
+                        console.log("refreshing token")
+                        user.refreshToken()
+                            .then(_ => {
+                                fetchData()
+                                    .then(response => {
+                                        response.json()
+                                            .then(data => {
+                                                if(data.status_code === 200) {
+                                                    // if it works this time, return data
+                                                    resolve(data)
+                                                } else {
+                                                    console.log("Refresh token failed, going back to login page")
+                                                    reject("Could not log in")
+                                                }
+                                            }).catch(err => reject(err))
+                                    }).catch(err => reject(err))
+                            }).catch(err => reject(err))
+                    } else {
+                        // otherwise, return data
+                        resolve(data);
+                    }
+                }).catch(err => reject(err))
+        }).catch(err => reject(err))
     })
 }
