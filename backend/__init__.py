@@ -7,7 +7,7 @@ from os.path import dirname, join
 
 def create_app(config_class=Config):
     # create app
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
     app.config.from_object(config_class)
 
     # initialize app with extension objects
