@@ -5,8 +5,6 @@ from flask import Blueprint, request
 from backend.extensions import guard, db, bcrypt
 from backend.models import User, create_all_model_db, Image, SubImage
 from backend.images.utils import save_picture, calculate_risk_score, split
-from backend.ai import get_modelled_risk_score
-from backend import breast_idc_model
 import json
 
 

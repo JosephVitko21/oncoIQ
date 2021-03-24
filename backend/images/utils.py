@@ -6,8 +6,6 @@ import requests
 from image_slicer import slice
 from backend.models import SubImage, Image
 from backend.extensions import db
-from backend import breast_idc_model
-from backend.ai import get_modelled_risk_score
 
 
 def save_picture(form_picture):

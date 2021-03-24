@@ -2,13 +2,7 @@ from flask import Flask
 from backend.config import Config
 from backend.extensions import db, bcrypt, login_manager, mail, guard, rest_api, cors
 from backend.models import User, Image, SubImage
-from backend.ai import download_models, initialize_model
 from os.path import dirname, join
-
-
-# load ai models
-model_paths = download_models()
-breast_idc_model = initialize_model(model_paths[0])
 
 
 def create_app(config_class=Config):
