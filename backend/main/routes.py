@@ -2,7 +2,7 @@ from flask import Blueprint
 from backend.config import Config
 
 
-main = Blueprint('main', __name__)
+main = Blueprint('main', __name__, static_folder='../../frontend/build', static_url_path='/')
 
 
 @main.route('/')
