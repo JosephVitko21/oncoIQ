@@ -3,9 +3,9 @@ import Card from 'react-bootstrap/Card'
 import Button from "react-bootstrap/Button";
 import {Modal} from "react-bootstrap";
 
-import user from "./user";
-import utils from "./utils";
-import domain from "./siteDomain";
+import user from "../utils/user";
+import utils from "../utils/utils";
+import domain from "../utils/site-domain";
 
 class Tile extends React.Component {
     constructor(props) {

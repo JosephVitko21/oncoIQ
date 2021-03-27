@@ -5,9 +5,9 @@ import Col from "react-bootstrap/Col"
 import ImageDetailModal from "./ImageDetail";
 import {Container} from "react-bootstrap";
 
-import user from "./user";
-import utils from "./utils";
-import domain from "./siteDomain";
+import user from "../utils/user";
+import utils from "../utils/utils";
+import domain from "../utils/site-domain";
 
 
 function Entry(props) {

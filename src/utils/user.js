@@ -1,4 +1,4 @@
-import domain from "./siteDomain";
+import domain from "./site-domain";
 const {logout} = require("../auth");
 
 const user = {
