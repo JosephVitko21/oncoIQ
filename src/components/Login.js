@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {login, authFetch, useAuth, logout} from "../auth";
+import domain from "../utils/site-domain";
 
 export default function Login() {
     const [username, setUsername] = useState('');
@@ -26,7 +27,7 @@ export default function Login() {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:5000/api/users/login", requestOptions)
+        fetch(domain + "/api/users/login", requestOptions)
         .then(response => response.json())
         .then((result) => {
             console.log(result);
@@ -56,7 +57,7 @@ export default function Login() {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:5000/api/users/register", requestOptions)
+        fetch(domain + "/api/users/register", requestOptions)
         .then(response => response.json())
         .then((result) => {
             console.log(result);

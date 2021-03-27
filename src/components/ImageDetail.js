@@ -117,19 +117,27 @@ export default class ImageDetailModal extends React.Component {
         super(props)
         this.state = {
             show: (!!this.props.showOnCreate),
-            data: null
+            data: this.props.data,
         }
     }
 
     render() {
         return (
             <>
-                <Button variant="outline-primary" onClick={this.handleShow} size="sm">
-                    Show Details
-                </Button>
-                <Button variant="outline-danger ml-3" onClick={this.handleRemove} size="sm">
-                    Delete
-                </Button>
+                {!this.props.showOnCreate ? (
+                    <>
+                        <Button variant="outline-primary" onClick={this.handleShow} size="sm">
+                            Show Details
+                        </Button>
+                        <Button variant="outline-danger ml-3" onClick={this.handleRemove} size="sm">
+                            Delete
+                        </Button>
+                    </>
+
+                ) : (
+                    <></>
+                    )}
+
                 {this.state.data ? (
                     <Modal
                         size="lg"
@@ -170,6 +178,7 @@ export default class ImageDetailModal extends React.Component {
     }
 
     handleHide = () => {
+        // this.props.handleHide()
         this.setState({
             show: false,
             data: null,

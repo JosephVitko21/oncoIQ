@@ -1,2 +1,2 @@
-const domain = "http://localhost:5000";
+const domain = "https://oncoiq-backend.herokuapp.com";
 export default domain;

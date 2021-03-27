@@ -1,10 +1,11 @@
 import {createAuthProvider} from 'react-token-auth';
+import domain from "../utils/site-domain";
 
 
 export const [useAuth, authFetch, login, logout] =
     createAuthProvider({
         accessTokenKey: 'access_token',
-        onUpdateToken: (token) => fetch('http://localhost:5000/api/users/refresh', {
+        onUpdateToken: (token) => fetch(domain + '/api/users/refresh', {
             method: 'POST',
             body: token.access_token
         })

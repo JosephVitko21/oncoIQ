@@ -8,6 +8,7 @@ import Button from "react-bootstrap/Button";
 import user from "../utils/user";
 import utils from "../utils/utils";
 import domain from "../utils/site-domain";
+import ImageDetailModal from "./ImageDetail";
 
 export default class Upload extends React.Component {
     constructor(props) {
@@ -19,7 +20,8 @@ export default class Upload extends React.Component {
             imageFile: null,
             uploadAttempted: false,
             uploadMessage: 'Only pics allowed: (jpg,jpeg,bmp,png)',
-            selectModelText: 'Select a Model'
+            selectModelText: 'Select a Model',
+            imageDetailData: null
         }
     }
     handleNameChange = (event) => {
@@ -61,8 +63,17 @@ export default class Upload extends React.Component {
         formData.append('description', this.state.imageDescription)
         console.log(formData)
         fetchUploadFile(formData)
-            .then(response => {
-                console.log(response.data)
+            .then(data => {
+                this.setState({
+                    selectedModel: null,
+                    imageName: null,
+                    imageDescription: null,
+                    imageFile: null,
+                    uploadAttempted: false,
+                    uploadMessage: 'Only pics allowed: (jpg,jpeg,bmp,png)',
+                    selectModelText: 'Select a Model',
+                    imageDetailData: data
+                })
             })
     }
 
@@ -80,6 +91,16 @@ export default class Upload extends React.Component {
                             selectText={this.state.selectModelText}
                             size="lg"
                         />
+                        {!this.state.imageDetailData ? (
+                            <></>
+                        ) : (
+                            // TODO: Make this go to the archive tab when it closes
+                            <ImageDetailModal
+                                data={this.state.imageDetailData}
+                                showOnCreate={true}
+                            />
+                        )}
+
                     </>
 
                 ) : (

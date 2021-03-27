@@ -1,11 +1,8 @@
 import React, { useContext } from 'react';
 import Tabs from 'react-bootstrap/Tabs';
-import Predict from './Predict';
 import Archive from './Archive';
-import Temp from './Temp'
 import { ArchContext } from '../context/GlobalContext';
 import {login, authFetch, useAuth, logout} from "../auth";
-import ImageList from "./ImageList";
 import Upload from "./Upload"
 
 export default function Tab() {
@@ -26,7 +23,7 @@ export default function Tab() {
                     />
                 </Tab>
                 <Tab eventKey="archive" title="Archive">
-                    <ImageList />
+                    <Archive />
                 </Tab>
             </Tabs>
         </div>
