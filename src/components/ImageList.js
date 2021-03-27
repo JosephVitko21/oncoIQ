@@ -4,9 +4,10 @@ import Row from 'react-bootstrap/Row'
 import Col from "react-bootstrap/Col"
 import ImageDetailModal from "./ImageDetail";
 import {Container} from "react-bootstrap";
-const user =  require("./User");
-const domain = require("./siteDomain");
-const utils = require("./utils")
+
+import user from "./user";
+import utils from "./utils";
+import domain from "./siteDomain";
 
 
 function Entry(props) {

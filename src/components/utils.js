@@ -1,4 +1,4 @@
-module.exports = {
+const utils = {
     capitalize: function(str) {
         let firstLetter = str.substr(0, 1);
         return firstLetter.toUpperCase() + str.substr(1);
@@ -36,3 +36,5 @@ module.exports = {
     // returns the timestamp for the current time in UTC
 
 }
+
+export default utils;

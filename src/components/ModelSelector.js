@@ -4,9 +4,10 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import {Modal} from "react-bootstrap";
-import user from "./User";
-const domain = require("./siteDomain");
-const utils = require("./utils")
+
+import user from "./user";
+import utils from "./utils";
+import domain from "./siteDomain";
 
 function Model_Card(props) {
     let thumbnail_src = domain + props.thumbnail_url

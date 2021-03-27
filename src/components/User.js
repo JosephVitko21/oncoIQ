@@ -1,7 +1,7 @@
-const domain = require("./siteDomain");
+import domain from "./siteDomain";
 const {logout} = require("../auth");
 
-module.exports = {
+const user = {
     getAuthToken: function() {
         return localStorage.getItem('REACT_TOKEN_AUTH_KEY').split('"')[1]
     },
@@ -41,3 +41,5 @@ module.exports = {
         })
     }
 }
+
+export default user;
