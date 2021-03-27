@@ -21,7 +21,9 @@ export default function Tab() {
         <div className='mt-5'>
             <Tabs defaultActiveKey="predict" id="uncontrolled-tab-example" onClick={() => setArch(true)}>
                 <Tab eventKey="predict" title="Upload" className='custom-tab justify-content-center'>
-                    <Upload />
+                    <Upload
+                        switchTab = {() => setArch(true)}
+                    />
                 </Tab>
                 <Tab eventKey="archive" title="Archive">
                     <ImageList />

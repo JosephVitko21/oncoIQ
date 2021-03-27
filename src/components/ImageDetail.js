@@ -248,7 +248,7 @@ async function fetchRemoveImage(imageID) {
                         console.log("refreshing token")
                         user.refreshToken()
                             .then(_ => {
-                                fetchData()
+                                fetchRemoveImage()
                                     .then(response => {
                                         response.json()
                                             .then(data => {
