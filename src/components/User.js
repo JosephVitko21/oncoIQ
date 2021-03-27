@@ -13,7 +13,7 @@ module.exports = {
     refreshToken: async function() {
         let token = this.getAuthToken()
         return new Promise(async function(resolve, reject) {
-            const apiUrl = domain + '/api/refresh'
+            const apiUrl = domain + '/api/users/refresh'
             fetch(apiUrl, {
                 method: 'GET',
                 headers: {

@@ -10,11 +10,8 @@ const utils = require("./utils")
 
 
 function Entry(props) {
-    const [show, setShow] = useState(false)
-    const handleClose = () => setShow(false)
-    const handleShow = () => setShow(true)
 
-    let image_src = "http://localhost:5000/static/tissue_images/" + props.image_id + "/large.png"
+    let image_src = domain + "/static/tissue_images/" + props.image_id + "/large.png"
     console.log(image_src)
     return (
         <Card>
@@ -29,7 +26,7 @@ function Entry(props) {
                 <Col className="col-md-8">
                     <Card.Body>
                         <Card.Title>{ props.name }</Card.Title>
-                        <Card.Text className="text-muted">{ props.date }</Card.Text>
+                        <Card.Text className="text-muted">{ utils.timeSince(props.date) }</Card.Text>
                         <ImageDetailModal imageID={props.image_id}/>
                     </Card.Body>
                 </Col>
@@ -77,9 +74,9 @@ export default class ImageList extends React.Component {
 
 async function fetchUserImages() {
     return new Promise(async function(resolve, reject) {
-        const apiUrl = domain + '/api/get_user_images'
+        const apiUrl = domain + '/api/images'
         fetch(apiUrl, {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 Authorization: "Bearer " + user.getAuthToken(),
             },

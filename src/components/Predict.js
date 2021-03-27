@@ -34,7 +34,7 @@ export default function Predict() {
             redirect: 'follow'
         };
 
-        fetch('http://localhost:5000/api/upload_image', requestOptions)
+        fetch('http://localhost:5000/api/images/upload_image', requestOptions)
         .then(response => response.json())
         .then((result) => {
             console.log(result);
@@ -54,13 +54,12 @@ export default function Predict() {
         var raw = JSON.stringify({"image_file":imgFile});
 
         var requestOptions = {
-            method: 'POST',
+            method: 'GET',
             headers: myHeaders,
-            body: raw,
             redirect: 'follow'
         };
 
-        fetch('http://localhost:5000/api/get_tiles', requestOptions)
+        fetch('http://localhost:5000/api/images/' + imgFile, requestOptions)
         .then(response => response.json())
         .then((result) => {
             console.log(result);

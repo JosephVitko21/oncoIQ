@@ -127,7 +127,7 @@ export default class ImageDetailModal extends React.Component {
                 <Button variant="outline-primary" onClick={this.handleShow} size="sm">
                     Show Details
                 </Button>
-                <Button variant="outline-danger ml-3" onClick={this.handleShow} size="sm">
+                <Button variant="outline-danger ml-3" onClick={this.handleRemove} size="sm">
                     Delete
                 </Button>
                 {this.state.data ? (
@@ -175,18 +175,68 @@ export default class ImageDetailModal extends React.Component {
             data: null,
         })
     }
+
+    handleRemove = () => {
+        fetchRemoveImage(this.props.imageID)
+            .then(r => {
+                window.location.reload();
+            })
+    }
 }
 
 async function fetchData(imageID) {
     return new Promise(async function(resolve, reject) {
-        const apiUrl = domain + '/api/get_tiles'
+        const apiUrl = domain + '/api/images/' + imageID
         fetch(apiUrl, {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 Authorization: "Bearer " + user.getAuthToken(),
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({"image_file": imageID}),
+            redirect: 'follow'
+        }).then(r => {
+            let resp = r.json()
+                .then(data => {
+                    console.log(data)
+                    console.log("data:", data)
+                    if(data.status_code === 401) {
+                        // if request returns 401, get new token and try again
+                        console.log("refreshing token")
+                        user.refreshToken()
+                            .then(_ => {
+                                fetchData()
+                                    .then(response => {
+                                        response.json()
+                                            .then(data => {
+                                                if(data.status_code === 200) {
+                                                    // if it works this time, return data
+                                                    resolve(data)
+                                                } else {
+                                                    console.log("Refresh token failed, going back to login page")
+                                                    reject("Could not log in")
+                                                }
+                                            }).catch(err => reject(err))
+                                    }).catch(err => reject(err))
+                            }).catch(err => reject(err))
+                    } else {
+                        // otherwise, return data
+                        resolve(data);
+                    }
+                }).catch(err => reject(err))
+        }).catch(err => reject(err))
+    })
+}
+
+
+async function fetchRemoveImage(imageID) {
+    return new Promise(async function(resolve, reject) {
+        const apiUrl = domain + '/api/images/' + imageID + '/remove'
+        fetch(apiUrl, {
+            method: 'DELETE',
+            headers: {
+                Authorization: "Bearer " + user.getAuthToken(),
+                "Content-Type": "application/json"
+            },
             redirect: 'follow'
         }).then(r => {
             let resp = r.json()
