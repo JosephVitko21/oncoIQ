@@ -1,2 +1,2 @@
-const domain = "https://oncoiq-backend.herokuapp.com";
+const domain = "https://api.oncoiq.io";
 export default domain;

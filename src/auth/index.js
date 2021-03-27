@@ -5,7 +5,7 @@ import domain from "../utils/site-domain";
 export const [useAuth, authFetch, login, logout] =
     createAuthProvider({
         accessTokenKey: 'access_token',
-        onUpdateToken: (token) => fetch(domain + '/api/users/refresh', {
+        onUpdateToken: (token) => fetch(domain + '/users/refresh', {
             method: 'POST',
             body: token.access_token
         })

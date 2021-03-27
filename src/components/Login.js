@@ -27,7 +27,7 @@ export default function Login() {
             redirect: 'follow'
         };
 
-        fetch(domain + "/api/users/login", requestOptions)
+        fetch(domain + "/users/login", requestOptions)
         .then(response => response.json())
         .then((result) => {
             console.log(result);
@@ -57,7 +57,7 @@ export default function Login() {
             redirect: 'follow'
         };
 
-        fetch(domain + "/api/users/register", requestOptions)
+        fetch(domain + "/users/register", requestOptions)
         .then(response => response.json())
         .then((result) => {
             console.log(result);

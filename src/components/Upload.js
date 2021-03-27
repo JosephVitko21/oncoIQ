@@ -183,7 +183,7 @@ export default class Upload extends React.Component {
 
 async function fetchUploadFile(formData) {
     return new Promise(async function(resolve, reject) {
-        const apiUrl = domain + '/api/images/upload_image'
+        const apiUrl = domain + '/images/upload_image'
         fetch(apiUrl, {
             method: 'POST',
             headers: {

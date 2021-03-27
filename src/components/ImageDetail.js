@@ -195,7 +195,7 @@ export default class ImageDetailModal extends React.Component {
 
 async function fetchData(imageID) {
     return new Promise(async function(resolve, reject) {
-        const apiUrl = domain + '/api/images/' + imageID
+        const apiUrl = domain + '/images/' + imageID
         fetch(apiUrl, {
             method: 'GET',
             headers: {
@@ -239,7 +239,7 @@ async function fetchData(imageID) {
 
 async function fetchRemoveImage(imageID) {
     return new Promise(async function(resolve, reject) {
-        const apiUrl = domain + '/api/images/' + imageID + '/remove'
+        const apiUrl = domain + '/images/' + imageID + '/remove'
         fetch(apiUrl, {
             method: 'DELETE',
             headers: {

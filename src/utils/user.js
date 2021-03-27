@@ -13,7 +13,7 @@ const user = {
     refreshToken: async function() {
         let token = this.getAuthToken()
         return new Promise(async function(resolve, reject) {
-            const apiUrl = domain + '/api/users/refresh'
+            const apiUrl = domain + '/users/refresh'
             fetch(apiUrl, {
                 method: 'GET',
                 headers: {

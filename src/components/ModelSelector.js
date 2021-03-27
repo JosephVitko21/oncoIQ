@@ -118,7 +118,7 @@ export default class ModelSelector extends React.Component {
 
 async function fetchModels() {
     return new Promise(async function(resolve, reject) {
-        const apiUrl = domain + '/api/models'
+        const apiUrl = domain + '/models'
         fetch(apiUrl, {
             method: 'GET',
             headers: {

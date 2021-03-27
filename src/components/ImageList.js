@@ -75,7 +75,7 @@ export default class ImageList extends React.Component {
 
 async function fetchUserImages() {
     return new Promise(async function(resolve, reject) {
-        const apiUrl = domain + '/api/images'
+        const apiUrl = domain + '/images'
         fetch(apiUrl, {
             method: 'GET',
             headers: {
