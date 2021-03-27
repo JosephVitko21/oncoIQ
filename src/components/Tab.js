@@ -5,6 +5,8 @@ import Archive from './Archive';
 import Temp from './Temp'
 import { ArchContext } from '../context/GlobalContext';
 import {login, authFetch, useAuth, logout} from "../auth";
+import ImageList from "./ImageList";
+import Upload from "./Upload"
 
 export default function Tab() {
     const {arch, setArch} = useContext(ArchContext);
@@ -19,10 +21,10 @@ export default function Tab() {
         <div className='mt-5'>
             <Tabs defaultActiveKey="predict" id="uncontrolled-tab-example" onClick={() => setArch(true)}>
                 <Tab eventKey="predict" title="Upload" className='custom-tab justify-content-center'>
-                    <Predict />
+                    <Upload />
                 </Tab>
                 <Tab eventKey="archive" title="Archive">
-                    <Archive />
+                    <ImageList />
                 </Tab>
             </Tabs>
         </div>

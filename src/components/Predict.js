@@ -9,6 +9,7 @@ export default function Predict() {
     const [id, setId] = useState(null);
     const [imgFile, setImgFile] = useState(null);
     const [overRisk, setOverRisk] = useState(0);
+    const [imageID, setImageID] = useState(null)
 
     function handleIDChange(event) {
         event.preventDefault();
@@ -33,7 +34,7 @@ export default function Predict() {
             redirect: 'follow'
         };
 
-        fetch('https://oncoiq-backend.herokuapp.com/api/upload_image', requestOptions)
+        fetch('http://localhost:5000/api/images/upload_image', requestOptions)
         .then(response => response.json())
         .then((result) => {
             console.log(result);
@@ -53,18 +54,18 @@ export default function Predict() {
         var raw = JSON.stringify({"image_file":imgFile});
 
         var requestOptions = {
-            method: 'POST',
+            method: 'GET',
             headers: myHeaders,
-            body: raw,
             redirect: 'follow'
         };
 
-        fetch('https://oncoiq-backend.herokuapp.com/api/get_tiles', requestOptions)
+        fetch('http://localhost:5000/api/images/' + imgFile, requestOptions)
         .then(response => response.json())
         .then((result) => {
             console.log(result);
             setPrediction(result.tiles);
             setImgFile(null);
+            setImageID(result.image_file)
         })
         .catch((error) => {
             console.log('error', error);
@@ -74,7 +75,7 @@ export default function Predict() {
     if (prediction != null) {
         return (
             <div className='mt-5'>
-                <Result prediction={prediction}/>
+                <Result prediction={prediction} image_id={imageID}/>
                 <p>Overall Risk: {overRisk}</p>
                 <Button className='mt-3' variant='primary' onClick={() => setPrediction(null)}>Upload</Button>
             </div>

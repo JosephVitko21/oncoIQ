@@ -23,18 +23,144 @@ html, body {
     display: flex;
 }
 
-.op75 {
-    opacity: 0.75;
+.risk-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    //transition: .5s ease;
 }
 
-.op50 {
-    opacity: 0.5;
+.risk-text {
+    text-align: center;
 }
 
-.op25 {
-    opacity: 0.25;
+
+.risk-card {
+    border: 0;
 }
 
-.custom-card {
-    min-width: 500px;
+.wrap-input {
+    width: 100%;
+    position: relative;
+    border-bottom: 2px solid #d9d9d9;
+    padding-bottom: 13px;
+}
+
+.wrap-input-full {
+    width: 100%;
+    position: relative;
+    border: 2px solid #d9d9d9;
+    padding-bottom: 13px;
+    margin-bottom: 27px;
+}
+
+.label-input {
+    font-size: 13px;
+    color: #666666;
+    line-height: 1.5;
+    padding-left: 5px;
+}
+
+.input {
+    display: block;
+    width: 100%;
+    background: transparent;
+    font-size: 18px;
+    color: #333333;
+    line-height: 1.2;
+    padding: 0 5px;
+    outline: none;
+    border: none;
+}
+
+input.input {
+    height: 40px;
+}
+
+textarea.input {
+    min-height: 110px;
+    padding-top: 9px;
+    padding-bottom: 13px;
+    overflow: auto;
+    resize: vertical;
+    touch-action: manipulation;
+}
+
+.focus-input {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.file-input {
+    opacity: 0;
+    -moz-opacity: 0;
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+    width: 200px;
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px;
+    height: 50px;
+    display: block;
+}
+
+.file-input-container {
+    background: #ffffff;
+    border-radius: 5px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.imgupload {
+    color: #d9d9d9;
+    font-size: 7em;
+}
+
+.imgupload.ok {
+    display: none;
+    color: green;
+}
+
+.imgupload.stop {
+    display: none;
+    color: red;
+}
+
+.file-uploader {
+    width:fit-content;
+}
+
+.file-uploader:hover > .btn {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    cursor: pointer;
+}
+
+.model-card:hover {
+    color: #fff;
+    background-color: #007bff;
+    cursor: pointer;
+}
+
+.model-card > .card-text {
+    color: #6c757d;
+}
+
+.model-card:hover > .card-text {
+    color: #fff;
 }
