@@ -5,9 +5,9 @@ import {FileUploader} from "./FileUploader";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-const domain = require("./siteDomain");
-const user = require("./User")
-const utils = require("./utils")
+import user from "../utils/user";
+import utils from "../utils/utils";
+import domain from "../utils/site-domain";
 
 export default class Upload extends React.Component {
     constructor(props) {
@@ -55,10 +55,10 @@ export default class Upload extends React.Component {
         console.log("file to upload:", this.state.imageFile)
         console.log("model to upload:", this.state.selectedModel.file_name)
         let formData = new FormData();
+        formData.append('file', this.state.imageFile)
         formData.append('model', this.state.selectedModel.file_name)
         formData.append('name', this.state.imageName)
         formData.append('description', this.state.imageDescription)
-        formData.append('file', this.state.imageFile)
         console.log(formData)
         fetchUploadFile(formData)
             .then(response => {
@@ -167,7 +167,6 @@ async function fetchUploadFile(formData) {
             method: 'POST',
             headers: {
                 Authorization: "Bearer " + user.getAuthToken(),
-                "Content-Type": "application/json"
             },
             body: formData,
             redirect: 'follow'
