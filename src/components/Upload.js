@@ -2,6 +2,12 @@ import React from 'react';
 import ModelListModal from "./ModelSelector";
 import Row from "react-bootstrap/Row";
 import {FileUploader} from "./FileUploader";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+
+const domain = require("./siteDomain");
+const user = require("./User")
+const utils = require("./utils")
 
 export default class Upload extends React.Component {
     constructor(props) {
@@ -16,8 +22,21 @@ export default class Upload extends React.Component {
             selectModelText: 'Select a Model'
         }
     }
+    handleNameChange = (event) => {
+        let name = event.target.value
+        this.setState({
+            imageName: name
+        })
+    }
+    handleDescriptionChange = (event) => {
+        let description = event.target.value
+        this.setState({
+            imageDescription: description
+        })
+    }
 
     handleUploadFile = (file) => {
+        console.log("file:", file)
         this.setState({
             imageFile: file,
             uploadAttempted: true,
@@ -31,6 +50,20 @@ export default class Upload extends React.Component {
             uploadAttempted: true,
             uploadMessage: 'Error: Please upload a valid image'
         })
+    }
+    submitForm = () => {
+        console.log("file to upload:", this.state.imageFile)
+        console.log("model to upload:", this.state.selectedModel.file_name)
+        let formData = new FormData();
+        formData.append('model', this.state.selectedModel.file_name)
+        formData.append('name', this.state.imageName)
+        formData.append('description', this.state.imageDescription)
+        formData.append('file', this.state.imageFile)
+        console.log(formData)
+        fetchUploadFile(formData)
+            .then(response => {
+                console.log(response.data)
+            })
     }
 
     render() {
@@ -65,19 +98,30 @@ export default class Upload extends React.Component {
 
 
                         </div>
-                        <form className='upload-form validate-form'>
+                        <div className='upload-form validate-form'>
                             <div className="wrap-input validate-input mb-5" data-validate="Name is required">
                                 <span className="label-input">Name</span>
-                                <input className="input" type="text" name="name" placeholder="Enter image name" />
+                                <input
+                                    className="input"
+                                    type="text"
+                                    name="name"
+                                    placeholder="Enter image name"
+                                    onChange={this.handleNameChange}
+                                />
                                 <span className="focus-input"/>
                             </div>
                             <div className="wrap-input validate-input mb-5" data-validate="Message is required">
                                 <span className="label-input">Description</span>
-                                <textarea className="input" name="message" placeholder="Image description here ..."/>
+                                <textarea
+                                    className="input"
+                                    name="message"
+                                    placeholder="Image description here ..."
+                                    onChange={this.handleDescriptionChange}
+                                />
                                 <span className="focus-input"/>
                             </div>
                             <Row >
-                                <div className="wrap-input validate-input file-input-container text-center">
+                                <div className="wrap-input validate-input file-input-container text-center mb-5">
                                     <h1 className="imgupload">
                                         {!this.state.uploadAttempted ? (
                                             <i className="fa fa-file-image-o"/>
@@ -99,10 +143,14 @@ export default class Upload extends React.Component {
                                             onFileSelectError={(error) => this.handleUploadError(error)}
                                         />
                                     </div>
-
                                 </div>
                             </Row>
-                        </form>
+                            <div className='d-flex justify-content-center'>
+                                <Button className='w-100' variant='primary' type='submit' size='lg' onClick={this.submitForm}>
+                                    Upload
+                                </Button>
+                            </div>
+                        </div>
                     </>
                 )}
 
@@ -110,4 +158,48 @@ export default class Upload extends React.Component {
         )
     }
 
+}
+
+async function fetchUploadFile(formData) {
+    return new Promise(async function(resolve, reject) {
+        const apiUrl = domain + '/api/images/upload_image'
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                Authorization: "Bearer " + user.getAuthToken(),
+                "Content-Type": "application/json"
+            },
+            body: formData,
+            redirect: 'follow'
+        }).then(r => {
+            let resp = r.json()
+                .then(data => {
+                    console.log(data)
+                    console.log("data:", data)
+                    if(data.status_code === 401) {
+                        // if request returns 401, get new token and try again
+                        console.log("refreshing token")
+                        user.refreshToken()
+                            .then(_ => {
+                                fetchUploadFile(formData)
+                                    .then(response => {
+                                        response.json()
+                                            .then(data => {
+                                                if(data.status_code === 200) {
+                                                    // if it works this time, return data
+                                                    resolve(data)
+                                                } else {
+                                                    console.log("Refresh token failed, going back to login page")
+                                                    reject("Could not log in")
+                                                }
+                                            }).catch(err => reject(err))
+                                    }).catch(err => reject(err))
+                            }).catch(err => reject(err))
+                    } else {
+                        // otherwise, return data
+                        resolve(data);
+                    }
+                }).catch(err => reject(err))
+        }).catch(err => reject(err))
+    })
 }

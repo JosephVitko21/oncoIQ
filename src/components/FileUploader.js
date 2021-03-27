@@ -5,10 +5,18 @@ export const FileUploader = ({onFileSelectSuccess, onFileSelectError}) => {
 
     const handleFileInput = (e) => {
         // handle validations
+        let validFileExtensions = ["jpg", "jpeg", "bmp", "gif", "png"]
         const file = e.target.files[0];
-        if (file.size > 1024)
-            onFileSelectError({ error: "File size cannot exceed more than 1MB" });
-        else onFileSelectSuccess(file);
+        if (!file || file.size === 0) {
+            onFileSelectError({ error: "Image file cannot be blank" });
+        } else {
+            let extension = file.name.split('.')[1]
+            if (validFileExtensions.includes(extension)) {
+                onFileSelectSuccess(file);
+            } else {
+                onFileSelectError({ error: "Uploaded file must be an image" });
+            }
+        }
     }
 
     const handleClick = () => {
