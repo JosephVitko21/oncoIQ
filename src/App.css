@@ -1,6 +1,7 @@
 html, body {
     background-color: white;
     font-family: 'Varela Round', sans-serif;
+    height: 100%;
 }
 
 .overlay {
@@ -35,7 +36,7 @@ html, body {
     justify-content: center;
     align-content: center;
     flex-direction: column;
-    //transition: .5s ease;
+    /* transition: .5s ease; */
 }
 
 .risk-text {
@@ -146,14 +147,14 @@ textarea.input {
 
 .file-uploader:hover > .btn {
     color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #5bc0de;
+    border-color: #5bc0de;
     cursor: pointer;
 }
 
 .model-card:hover {
     color: #fff;
-    background-color: #007bff;
+    background-color: #5bc0de;
     cursor: pointer;
 }
 
@@ -163,4 +164,12 @@ textarea.input {
 
 .model-card:hover > .card-text {
     color: #fff;
+}
+
+.nav-tabs a {
+    color: #5bc0de;
+}
+
+.text-lightgrey {
+    color: #C5C6C7;
 }

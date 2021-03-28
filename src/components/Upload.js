@@ -2,11 +2,9 @@ import React from 'react';
 import ModelListModal from "./ModelSelector";
 import Row from "react-bootstrap/Row";
 import {FileUploader} from "./FileUploader";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 import user from "../utils/user";
-import utils from "../utils/utils";
 import domain from "../utils/site-domain";
 import ImageDetailModal from "./ImageDetail";
 
@@ -166,8 +164,8 @@ export default class Upload extends React.Component {
                                     </div>
                                 </div>
                             </Row>
-                            <div className='d-flex justify-content-center'>
-                                <Button className='w-100' variant='primary' type='submit' size='lg' onClick={this.submitForm}>
+                            <div className='mb-4 d-flex justify-content-center'>
+                                <Button className='w-100' variant='info' type='submit' size='lg' onClick={this.submitForm}>
                                     Upload
                                 </Button>
                             </div>

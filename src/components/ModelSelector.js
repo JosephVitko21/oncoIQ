@@ -63,7 +63,7 @@ export default class ModelSelector extends React.Component {
         return (
             <>
                 <div className="text-center">
-                    <Button variant="outline-primary" onClick={this.handleShow} size={this.props.size}>
+                    <Button variant="outline-info" onClick={this.handleShow} size={this.props.size}>
                         {this.props.selectText}
                     </Button>
                 </div>

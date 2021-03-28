@@ -1,16 +1,15 @@
-import React, { useState, useContext } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import React, {useState, useContext} from "react";
+import {Button, Form, Modal} from "react-bootstrap";
 import {login, authFetch, useAuth, logout} from "../auth";
 import domain from "../utils/site-domain";
 
 export default function Login() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
-    const [signup, setSignup] = useState(false);
-
     const [logged] = useAuth();
+
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [view, setView] = useState("login");
     
     function handleLogin(event) {
         event.preventDefault();
@@ -21,10 +20,10 @@ export default function Login() {
         var raw = JSON.stringify({"username":username,"password":password});
 
         var requestOptions = {
-            method: 'POST',
+            method: "POST",
             headers: myHeaders,
             body: raw,
-            redirect: 'follow'
+            redirect: "follow"
         };
 
         fetch(domain + "/users/login", requestOptions)
@@ -38,7 +37,7 @@ export default function Login() {
             }
         })
         .catch((error) => {
-            console.log('error', error);
+            console.log("error", error);
         });
     }
 
@@ -51,20 +50,20 @@ export default function Login() {
         var raw = JSON.stringify({"username":username,"email":email,"password":password});
 
         var requestOptions = {
-            method: 'POST',
+            method: "POST",
             headers: myHeaders,
             body: raw,
-            redirect: 'follow'
+            redirect: "follow"
         };
 
         fetch(domain + "/users/register", requestOptions)
         .then(response => response.json())
         .then((result) => {
             console.log(result);
-            setSignup(false);
+            setView("login");
         })
         .catch((error) => {
-            console.log('error', error);
+            console.log("error", error);
         });
     }
 
@@ -83,66 +82,66 @@ export default function Login() {
         setEmail(event.target.value);
     }
 
-    if (logged) {
-        return null;
-    }
-
-    if (signup) {
+    if (view == "signup") {
         return (
-            <div className='mt-5'>
-                <Form onSubmit={handleSignup}>
-                    <Form.Group controlId='formEmail'>
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type='email' placeholder='Email' onChange={handleEmailChange}/>
-                    </Form.Group>
+            <div>
+                <Modal.Header closeButton>
+                    <Modal.Title>Sign Up</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={handleSignup}>
+                        <Form.Group controlId="formEmail">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control type="email" placeholder="Email" onChange={handleEmailChange}/>
+                        </Form.Group>
 
-                    <Form.Group controlId='formUsername'>
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control type='text' placeholder='Username' onChange={handleUsernameChange}/>
-                    </Form.Group>
+                        <Form.Group controlId="formUsername">
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control type="text" placeholder="Username" onChange={handleUsernameChange}/>
+                        </Form.Group>
 
-                    <Form.Group controlId='formPassword'>
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type='password' placeholder='Password' onChange={handlePasswordChange}/>
-                    </Form.Group>
+                        <Form.Group controlId="formPassword">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control type="password" placeholder="Password" onChange={handlePasswordChange}/>
+                        </Form.Group>
 
-                    <Button variant='primary' type='submit'>
-                        Sign Up
-                    </Button>
-                    <Button className='ml-2' variant='outline-primary' onClick={() => setSignup(false)}>
-                        Login
-                    </Button>
-                </Form>
+                        <Button variant="info" type="submit">
+                            Sign Up
+                        </Button>
+                        <Button className="ml-2" variant="outline-info" onClick={() => setView(login)}>
+                            Login
+                        </Button>
+                    </Form>
+                </Modal.Body>
             </div>
         );
     }
 
     return (
-        <div className='mt-5 d-flex justify-content-center'>
-            <div className='p-5'>
-                <h1>Welcome to oncoIQ</h1>
-                <p>Using AI image recognition to help pathologists make diagnoses</p>
-            </div>
-            <div>
+        <div>
+            <Modal.Header closeButton>
+                <Modal.Title>Login</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
                 <Form onSubmit={handleLogin}>
-                    <Form.Group controlId='formUsername'>
+                    <Form.Group controlId="formUsername">
                         <Form.Label>Username</Form.Label>
-                        <Form.Control className='w-auto' type='text' placeholder='Username' onChange={handleUsernameChange}/>
+                        <Form.Control className="w-auto" type="text" placeholder="Username" onChange={handleUsernameChange}/>
                     </Form.Group>
 
-                    <Form.Group controlId='formPassword'>
+                    <Form.Group controlId="formPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control className='w-auto' type='password' placeholder='Password' onChange={handlePasswordChange}/>
+                        <Form.Control className="w-auto" type="password" placeholder="Password" onChange={handlePasswordChange}/>
                     </Form.Group>
 
-                    <Button variant='primary' type='submit'>
+                    <Button variant="info" type="submit">
                         Login
                     </Button>
-                    <Button className='ml-2' variant='outline-primary' onClick={() => setSignup(true)}>
+                    <Button className="ml-2" variant="outline-info" onClick={() => setView("signup")}>
                         Sign Up
                     </Button>
                 </Form>
-            </div>
+            </Modal.Body>
         </div>
     );
 }

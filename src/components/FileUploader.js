@@ -27,7 +27,7 @@ export const FileUploader = ({onFileSelectSuccess, onFileSelectError}) => {
 
     return (
         <div className="file-uploader">
-            <button type="button" onClick={handleClick} className="btn btn-outline-primary btn-lg">
+            <button type="button" onClick={handleClick} className="btn btn-outline-info btn-lg">
                 Browse for your image
             </button>
             <input type="file" onChange={handleFileInput} ref={fileInput} className='file-input'/>
