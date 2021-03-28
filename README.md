@@ -1,5 +1,4 @@
-![screenshot](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/001/431/809/datas/original.PNG)
+![screenshot](./public/screenshots/landing.PNG)
 # oncoIQ
-🔍Using AI vision to assist pathologists in diagnosing IDC breast cancer.\
-[Check it out](https://oncoiq.herokuapp.com)\
-[Learn more about this project](https://devpost.com/software/oncoiq)
+🔍Using AI image recognition to help pathologists make diagnoses.\
+[Check it out](https://oncoiq.io)\
