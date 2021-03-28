@@ -50,11 +50,11 @@ export default function Demo() {
             <h5 className="text-info font-weight-bold mt-5">2, Upload the scanned pathology slide</h5>
             <img src="/screenshots/upload.PNG" className="w-100"></img>
             <h5 className="text-info font-weight-bold mt-5">3, Get predictions</h5>
-            <p>The model will generate a heatmap to highlight high risk areas, Hover your mouse over each tiles to see the individual risk level</p>
+            <p>The model will generate a heatmap to highlight high-risk areas. Hover your mouse over each tile to see the individual risk level.</p>
             <h5><Badge pill variant="danger">Overall Risk: 58%</Badge></h5>
             {image}
             <h5 className="text-info font-weight-bold mt-5">The Archive</h5>
-            <p>Review your saved uploads and predictions</p>
+            <p>Review saved uploads and predictions</p>
             <img src="/screenshots/archive.PNG" className="w-100"></img>
         </div>
     );
