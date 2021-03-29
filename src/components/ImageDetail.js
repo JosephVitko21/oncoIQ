@@ -1,61 +1,10 @@
 import React from 'react';
-import {Modal, Button, Card} from "react-bootstrap";
+import {Modal, Button, Card, Badge} from "react-bootstrap";
 
 import user from "../utils/user";
 import utils from "../utils/utils";
 import domain from "../utils/site-domain";
-import Tile from "./Tile"
-
-class TileGrid extends React.Component {
-    renderTile(i) {
-        {console.log("props to render:", this.props)}
-        return <Tile
-            image={domain + "/static/tissue_images/" + this.props.id + "/" + this.props.tiles[i].file_name}
-            riskScore={this.props.tiles[i].risk_level}
-        />
-    }
-    render() {
-        return (
-            <div className="custom-card">
-                <div className="card-group">
-                    {this.renderTile(0)}
-                    {this.renderTile(1)}
-                    {this.renderTile(2)}
-                    {this.renderTile(3)}
-                    {this.renderTile(4)}
-                </div>
-                <div className="card-group">
-                    {this.renderTile(5)}
-                    {this.renderTile(6)}
-                    {this.renderTile(7)}
-                    {this.renderTile(8)}
-                    {this.renderTile(9)}
-                </div>
-                <div className="card-group">
-                    {this.renderTile(10)}
-                    {this.renderTile(11)}
-                    {this.renderTile(12)}
-                    {this.renderTile(13)}
-                    {this.renderTile(14)}
-                </div>
-                <div className="card-group">
-                    {this.renderTile(15)}
-                    {this.renderTile(16)}
-                    {this.renderTile(17)}
-                    {this.renderTile(18)}
-                    {this.renderTile(19)}
-                </div>
-                <div className="card-group">
-                    {this.renderTile(20)}
-                    {this.renderTile(21)}
-                    {this.renderTile(22)}
-                    {this.renderTile(23)}
-                    {this.renderTile(24)}
-                </div>
-            </div>
-        )
-    }
-}
+import TileGrid from "./TileGrid";
 
 export default class ImageDetailModal extends React.Component {
     constructor(props) {
@@ -96,11 +45,11 @@ export default class ImageDetailModal extends React.Component {
                         </Modal.Header>
                         <Modal.Body>
                             <div className="image-detail">
-                                <p>Overall Risk: {utils.makePercentage(this.state.data.risk_level, 0)}</p>
+                                <h5><Badge pill variant="danger">Overall Risk: {utils.makePercentage(this.state.data.risk_level, 0)}</Badge></h5>
                                 {console.log("data to render:", this.state.data)}
                                 <TileGrid
                                     tiles={this.state.data.tiles}
-                                    id={this.state.data.image_file}
+                                    id={this.state.data.id}
                                 />
                             </div>
                         </Modal.Body>

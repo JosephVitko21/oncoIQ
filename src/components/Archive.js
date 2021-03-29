@@ -8,11 +8,12 @@ import {Container} from "react-bootstrap";
 import user from "../utils/user";
 import utils from "../utils/utils";
 import domain from "../utils/site-domain";
+import googleDomain from "../utils/google-drive-domain";
 
 
 function Entry(props) {
 
-    let image_src = domain + "/static/tissue_images/" + props.image_id + "/large.png"
+    let image_src = googleDomain + props.file_id
     console.log(image_src)
     return (
         <Card>
@@ -28,7 +29,7 @@ function Entry(props) {
                     <Card.Body>
                         <Card.Title>{ props.name }</Card.Title>
                         <Card.Text className="text-muted">{ utils.timeSince(props.date) }</Card.Text>
-                        <ImageDetailModal imageID={props.image_id}/>
+                        <ImageDetailModal fileID={props.file_id} imageID={props.image_id}/>
                     </Card.Body>
                 </Col>
             </Row>
@@ -61,7 +62,8 @@ export default class Archive extends React.Component {
                     return (
                         <Col className='col-6 mt-4'>
                             <Entry
-                                image_id={datum.image_file}
+                                file_id={datum.file_id}
+                                image_id={datum.image_id}
                                 name={datum.name}
                                 date={datum.date}
                             />

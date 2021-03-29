@@ -25,7 +25,7 @@ export default class Tile extends Component {
 
         return (
             <Card className="risk-card">
-                <img src={ this.props.image } />
+                <img src={ this.props.image }  alt='risk-tile'/>
                 <div
                     className="risk-overlay"
                     style={ overlayStyle }
