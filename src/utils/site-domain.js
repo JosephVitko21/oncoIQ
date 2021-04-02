@@ -1,2 +1,2 @@
-const domain = "https://api.oncoiq.io";
+const domain = "http://api.oncoiq.io";
 export default domain;
