@@ -2,7 +2,7 @@ import React from 'react';
 import ModelListModal from "./ModelSelector";
 import Row from "react-bootstrap/Row";
 import {FileUploader} from "./FileUploader";
-import Button from "react-bootstrap/Button";
+import {Button, Spinner} from "react-bootstrap";
 
 import user from "../utils/user";
 import domain from "../utils/site-domain";
@@ -19,15 +19,18 @@ export default class Upload extends React.Component {
             uploadAttempted: false,
             uploadMessage: 'Only pics allowed: (jpg,jpeg,bmp,png)',
             selectModelText: 'Select a Model',
-            imageDetailData: null
+            imageDetailData: null,
+            loading: false
         }
     }
+    
     handleNameChange = (event) => {
         let name = event.target.value
         this.setState({
             imageName: name
         })
     }
+
     handleDescriptionChange = (event) => {
         let description = event.target.value
         this.setState({
@@ -51,6 +54,7 @@ export default class Upload extends React.Component {
             uploadMessage: 'Error: Please upload a valid image'
         })
     }
+
     submitForm = () => {
         console.log("file to upload:", this.state.imageFile)
         console.log("model to upload:", this.state.selectedModel.file_name)
@@ -72,10 +76,27 @@ export default class Upload extends React.Component {
                     selectModelText: 'Select a Model',
                     imageDetailData: data
                 })
-            })
+            });
+        this.setState({
+            loading: true
+        })
     }
 
     render() {
+        let spinning;
+        if (this.state.loading) {
+            spinning =
+                <Button className='w-100' variant='info' type='submit' size='lg'>
+                    <Spinner animation="border" variant="light" />
+                </Button>;
+          console.log("spinning");
+        } else {
+            spinning =
+                <Button className='w-100' variant='info' type='submit' size='lg' onClick={this.submitForm}>
+                    Upload
+                </Button>;
+        }
+
         return (
             <div className='mt-4'>
                 <h3>Upload a Histology Image</h3>
@@ -165,9 +186,7 @@ export default class Upload extends React.Component {
                                 </div>
                             </Row>
                             <div className='mb-4 d-flex justify-content-center'>
-                                <Button className='w-100' variant='info' type='submit' size='lg' onClick={this.submitForm}>
-                                    Upload
-                                </Button>
+                                {spinning}
                             </div>
                         </div>
                     </>
