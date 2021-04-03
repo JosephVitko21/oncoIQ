@@ -10,6 +10,7 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [view, setView] = useState("login");
+    const [errorMsg, setErrorMsg] = useState(null);
     
     function handleLogin(event) {
         event.preventDefault();
@@ -34,10 +35,13 @@ export default function Login() {
             if (result.access_token != null) {
                 login(result.access_token);
                 console.log(result.access_token);
+            } else {
+                console.log("error message: ", result.message);
+                setErrorMsg(result.message);
             }
         })
         .catch((error) => {
-            console.log("error", error);
+            console.log("error: ", error);
         });
     }
 
@@ -60,10 +64,12 @@ export default function Login() {
         .then(response => response.json())
         .then((result) => {
             console.log(result);
-            setView("login");
+            // setView("login");
+            setErrorMsg("Successfully signed up");
         })
         .catch((error) => {
-            console.log("error", error);
+            console.log("error: ", error);
+            setErrorMsg("Successfully signed up");
         });
     }
 
@@ -105,6 +111,8 @@ export default function Login() {
                             <Form.Control type="password" placeholder="Password" onChange={handlePasswordChange}/>
                         </Form.Group>
 
+                        <p className="text-success">{errorMsg}</p>
+
                         <Button variant="info" type="submit">
                             Sign Up
                         </Button>
@@ -133,6 +141,8 @@ export default function Login() {
                         <Form.Label>Password</Form.Label>
                         <Form.Control className="w-auto" type="password" placeholder="Password" onChange={handlePasswordChange}/>
                     </Form.Group>
+
+                    <p className="text-danger">{errorMsg}</p>
 
                     <Button variant="info" type="submit">
                         Login
