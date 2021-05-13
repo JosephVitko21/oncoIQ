@@ -173,3 +173,7 @@ textarea.input {
 .text-lightgrey {
     color: #C5C6C7;
 }
+
+.archive-entry {
+    margin: 1%;
+}
