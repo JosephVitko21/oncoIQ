@@ -16,7 +16,7 @@ export default function Archive() {
 
     if (!imgList) return <p>Loading...</p>
     return (
-        <div className="d-flex flex-wrap mt-4">
+        <div className="container d-flex flex-wrap mt-4">
             {console.log(imgList)}
             {imgList.map((datum) => {
                 console.log("datum:", datum)

@@ -3,15 +3,23 @@ import {Button, Form, Modal, Card} from "react-bootstrap";
 import {login, authFetch, useAuth, logout} from "../auth";
 import Demo from "./Demo";
 import Login from "./Login";
-import {LoginPopContext} from "../context/GlobalContext"
+import Archive from './Archive';
+import Upload from "./Upload"
+import {LoginPopContext, NavContext} from "../context/GlobalContext"
 
 export default function Landing() {
     const [demo, setDemo] = useState(false);
     const [logged] = useAuth();
     const {loginPop, setLoginPop} = useContext(LoginPopContext);
+    const {navState, setNavState} = useContext(NavContext);
 
     if (logged) {
-        return null;
+        if (navState === "upload") {
+            return <Upload />;
+        }
+        if (navState === "archive") {
+            return <Archive />;
+        }
     }
 
     if (demo) {

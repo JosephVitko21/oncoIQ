@@ -1,50 +1,15 @@
 import React, {useContext, useState} from 'react';
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import {Modal} from "react-bootstrap";
+import {Modal, Button} from "react-bootstrap";
+import ModelCard from "./ModelCard";
 
 import user from "../utils/user";
 import utils from "../utils/utils";
 import domain from "../utils/site-domain";
 
-function Model_Card(props) {
-    let thumbnail_src = domain + props.thumbnail_url
-    let status_text = ''
-    if (props.status === 0) {
-        status_text = "Not Downloaded"
-    } else if (props.status === 1) {
-        status_text = "Sleeping"
-    } else if (props.status === 2) {
-        status_text = "Loaded"
-    }
-    console.log(thumbnail_src)
-    return (
-        <Card onClick={props.selectModel} className='model-card'>
-            <Row>
-                <Col className="col-md-4">
-                    <img
-                        src={ thumbnail_src }
-                        width="100%"
-                        height="100%"
-                    />
-                </Col>
-                <Col className="col-md-8">
-                    <Card.Body>
-                        <Card.Title>{ props.name }</Card.Title>
-                        <Card.Text>{ status_text }</Card.Text>
-                    </Card.Body>
-                </Col>
-            </Row>
-        </Card>
-    )
-}
-
 export default class ModelSelector extends React.Component {
     renderModelCard(model_datum) {
         console.log("creating model card")
-        return <Model_Card
+        return <ModelCard
             thumbnail_url={model_datum.thumbnail}
             name={model_datum.name}
             status={model_datum.status}
@@ -79,17 +44,17 @@ export default class ModelSelector extends React.Component {
                             </Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <Row>
+                            <div className="row">
                                 {console.log(this.state.data)}
                                 {this.state.data.map((datum) => {
                                     console.log("datum:", datum)
                                     return (
-                                        <Col className='col-sm-6'>
+                                        <div className='col-sm-6'>
                                             {this.renderModelCard(datum)}
-                                        </Col>
+                                        </div>
                                     )
                                 })}
-                            </Row>
+                            </div>
                         </Modal.Body>
                     </Modal>
                 ) : <></>}

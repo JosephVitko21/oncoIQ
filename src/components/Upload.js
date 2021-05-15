@@ -1,7 +1,6 @@
 import React from 'react';
 import ModelListModal from "./ModelSelector";
-import Row from "react-bootstrap/Row";
-import {FileUploader} from "./FileUploader";
+import FileUploader from "./FileUploader";
 import {Button, Spinner} from "react-bootstrap";
 
 import user from "../utils/user";
@@ -89,7 +88,6 @@ export default class Upload extends React.Component {
                 <Button className='w-100' variant='info' type='submit' size='lg'>
                     <Spinner animation="border" variant="light" />
                 </Button>;
-          console.log("spinning");
         } else {
             spinning =
                 <Button className='w-100' variant='info' type='submit' size='lg' onClick={this.submitForm}>
@@ -98,7 +96,7 @@ export default class Upload extends React.Component {
         }
 
         return (
-            <div className='mt-4'>
+            <div className="container text-center mt-5">
                 <h3>Upload a Histology Image</h3>
 
                 {!this.state.selectedModel ? (
@@ -135,9 +133,8 @@ export default class Upload extends React.Component {
                                 selectText={this.state.selectModelText}
                                 size=""
                             />
-
-
                         </div>
+                        
                         <div className='upload-form validate-form'>
                             <div className="wrap-input validate-input mb-5" data-validate="Name is required">
                                 <span className="label-input">Name</span>
@@ -160,7 +157,7 @@ export default class Upload extends React.Component {
                                 />
                                 <span className="focus-input"/>
                             </div>
-                            <Row >
+                            <div >
                                 <div className="wrap-input validate-input file-input-container text-center mb-5">
                                     <h1 className="imgupload">
                                         {!this.state.uploadAttempted ? (
@@ -184,7 +181,7 @@ export default class Upload extends React.Component {
                                         />
                                     </div>
                                 </div>
-                            </Row>
+                            </div>
                             <div className='mb-4 d-flex justify-content-center'>
                                 {spinning}
                             </div>
