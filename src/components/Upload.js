@@ -1,8 +1,7 @@
 import React from 'react';
 import ModelListModal from "./ModelSelector";
-import Row from "react-bootstrap/Row";
-import {FileUploader} from "./FileUploader";
-import Button from "react-bootstrap/Button";
+import FileUploader from "./FileUploader";
+import {Button, Spinner} from "react-bootstrap";
 
 import user from "../utils/user";
 import domain from "../utils/site-domain";
@@ -19,15 +18,18 @@ export default class Upload extends React.Component {
             uploadAttempted: false,
             uploadMessage: 'Only pics allowed: (jpg,jpeg,bmp,png)',
             selectModelText: 'Select a Model',
-            imageDetailData: null
+            imageDetailData: null,
+            loading: false
         }
     }
+    
     handleNameChange = (event) => {
         let name = event.target.value
         this.setState({
             imageName: name
         })
     }
+
     handleDescriptionChange = (event) => {
         let description = event.target.value
         this.setState({
@@ -51,6 +53,7 @@ export default class Upload extends React.Component {
             uploadMessage: 'Error: Please upload a valid image'
         })
     }
+
     submitForm = () => {
         console.log("file to upload:", this.state.imageFile)
         console.log("model to upload:", this.state.selectedModel.file_name)
@@ -72,12 +75,28 @@ export default class Upload extends React.Component {
                     selectModelText: 'Select a Model',
                     imageDetailData: data
                 })
-            })
+            });
+        this.setState({
+            loading: true
+        })
     }
 
     render() {
+        let spinning;
+        if (this.state.loading) {
+            spinning =
+                <Button className='w-100' variant='info' type='submit' size='lg'>
+                    <Spinner animation="border" variant="light" />
+                </Button>;
+        } else {
+            spinning =
+                <Button className='w-100' variant='info' type='submit' size='lg' onClick={this.submitForm}>
+                    Upload
+                </Button>;
+        }
+
         return (
-            <div className='mt-4'>
+            <div className="container text-center mt-5">
                 <h3>Upload a Histology Image</h3>
 
                 {!this.state.selectedModel ? (
@@ -114,9 +133,8 @@ export default class Upload extends React.Component {
                                 selectText={this.state.selectModelText}
                                 size=""
                             />
-
-
                         </div>
+                        
                         <div className='upload-form validate-form'>
                             <div className="wrap-input validate-input mb-5" data-validate="Name is required">
                                 <span className="label-input">Name</span>
@@ -139,7 +157,7 @@ export default class Upload extends React.Component {
                                 />
                                 <span className="focus-input"/>
                             </div>
-                            <Row >
+                            <div >
                                 <div className="wrap-input validate-input file-input-container text-center mb-5">
                                     <h1 className="imgupload">
                                         {!this.state.uploadAttempted ? (
@@ -163,11 +181,9 @@ export default class Upload extends React.Component {
                                         />
                                     </div>
                                 </div>
-                            </Row>
+                            </div>
                             <div className='mb-4 d-flex justify-content-center'>
-                                <Button className='w-100' variant='info' type='submit' size='lg' onClick={this.submitForm}>
-                                    Upload
-                                </Button>
+                                {spinning}
                             </div>
                         </div>
                     </>

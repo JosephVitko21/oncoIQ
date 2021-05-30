@@ -1,6 +1,6 @@
 import React, {useRef} from 'react'
 
-export const FileUploader = ({onFileSelectSuccess, onFileSelectError}) => {
+export default function FileUploader({onFileSelectSuccess, onFileSelectError}) {
     const fileInput = useRef(null)
 
     const handleFileInput = (e) => {
