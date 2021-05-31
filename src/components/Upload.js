@@ -19,7 +19,10 @@ export default class Upload extends React.Component {
             uploadMessage: 'Only pics allowed: (jpg,jpeg,bmp,png)',
             selectModelText: 'Select a Model',
             imageDetailData: null,
-            loading: false
+            loading: false,
+            loadingProgress: 0,
+            loadingTotal: 0,
+            loadingMessage: null,
         }
     }
     
@@ -64,7 +67,16 @@ export default class Upload extends React.Component {
         formData.append('description', this.state.imageDescription)
         console.log(formData)
         fetchUploadFile(formData)
-            .then(data => {
+            .then(async response => {
+                this.setState({
+                    loading: true
+                })
+                console.log("form upload response:", JSON.stringify(response))
+
+                const data = await this.getProgress(domain + response.location)
+                // polling is now complete
+                console.log('polling is now complete')
+                console.log('polling result:', data)
                 this.setState({
                     selectedModel: null,
                     imageName: null,
@@ -73,12 +85,77 @@ export default class Upload extends React.Component {
                     uploadAttempted: false,
                     uploadMessage: 'Only pics allowed: (jpg,jpeg,bmp,png)',
                     selectModelText: 'Select a Model',
-                    imageDetailData: data
+                    loading: false,
                 })
             });
-        this.setState({
-            loading: true
-        })
+    }
+
+    getProgress = async (location) => {
+        // delay mechanism
+        function wait(ms = 1000) {
+            return new Promise(resolve => {
+                setTimeout(resolve, ms);
+            });
+        }
+        async function pollingFunction(url) {
+            return new Promise(async function(resolve, reject) {
+                fetch(url,
+                    {
+                        'method': 'GET',
+                    }).then(r => {
+                        r.json()
+                            .then(data => {
+                                if (data.state === 'PROGRESS') {
+                                    reject(data)
+                                } else {
+                                    console.log('Successfully got result. Polling should conclude')
+                                    resolve(data)
+                                }
+                            }).catch(() => {
+                                let data = {
+                                    state: 'ERROR'
+                                }
+                                reject(data)
+                        })
+                    }).catch(() => {
+                    let data = {
+                        state: 'ERROR'
+                    }
+                    reject(data)
+                    })
+            })
+
+        }
+        let continuePolling = true;
+        let attempts = 0
+        while (attempts < 100 && continuePolling) {
+            attempts++
+            await wait()
+            await pollingFunction(location)
+                .then(data => {
+                    console.log('Progress complete')
+                    console.log(data)
+                    this.setState({
+                        loadingProgress: data.current,
+                        loadingTotal: data.total,
+                        loadingMessage: data.status,
+                        imageDetailData: data.result,
+                    })
+                    continuePolling = false
+                    return data.result;
+                }).catch(data => {
+                    console.log('Must continue polling')
+                    console.log(data)
+                    if (data.state !== 'ERROR') {
+                        this.setState({
+                            loadingProgress: data.current,
+                            loadingTotal: data.total,
+                            loadingMessage: data.status,
+                        })
+                    }
+                })
+        }
+        console.log('polling loop broken out of')
     }
 
     render() {
