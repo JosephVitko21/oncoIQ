@@ -1,7 +1,7 @@
 import React from 'react';
 import ModelListModal from "./ModelSelector";
 import FileUploader from "./FileUploader";
-import {Button, Spinner} from "react-bootstrap";
+import {Button, ProgressBar, Spinner} from "react-bootstrap";
 
 import user from "../utils/user";
 import domain from "../utils/site-domain";
@@ -25,7 +25,7 @@ export default class Upload extends React.Component {
             loadingMessage: null,
         }
     }
-    
+
     handleNameChange = (event) => {
         let name = event.target.value
         this.setState({
@@ -86,13 +86,16 @@ export default class Upload extends React.Component {
                     uploadMessage: 'Only pics allowed: (jpg,jpeg,bmp,png)',
                     selectModelText: 'Select a Model',
                     loading: false,
+                    loadingCurrent: 0,
+                    loadingTotal: 0,
+                    loadingMessage: null,
                 })
             });
     }
 
     getProgress = async (location) => {
         // delay mechanism
-        function wait(ms = 1000) {
+        function wait(ms = 100) {
             return new Promise(resolve => {
                 setTimeout(resolve, ms);
             });
@@ -158,12 +161,18 @@ export default class Upload extends React.Component {
         console.log('polling loop broken out of')
     }
 
+    calculateLoadingProgress = () => {
+        let progress = 100 * (parseFloat(this.state.loadingProgress) / parseFloat(this.state.loadingTotal))
+        console.log("Loading progress:", progress)
+        return progress
+    }
+
     render() {
         let spinning;
         if (this.state.loading) {
             spinning =
                 <Button className='w-100' variant='info' type='submit' size='lg'>
-                    <Spinner animation="border" variant="light" />
+                    <ProgressBar animated striped variant="info" now={this.calculateLoadingProgress()} label={this.state.loadingMessage} />
                 </Button>;
         } else {
             spinning =
@@ -211,7 +220,7 @@ export default class Upload extends React.Component {
                                 size=""
                             />
                         </div>
-                        
+
                         <div className='upload-form validate-form'>
                             <div className="wrap-input validate-input mb-5" data-validate="Name is required">
                                 <span className="label-input">Name</span>
