@@ -1,10 +1,11 @@
 import React from 'react';
-import {Modal, Button, Card, Badge} from "react-bootstrap";
+import {Modal, Button, Card, Badge, Image} from "react-bootstrap";
 
 import user from "../utils/user";
 import utils from "../utils/utils";
 import domain from "../utils/site-domain";
 import TileGrid from "./TileGrid";
+import googleDomain from "../utils/google-drive-domain";
 
 export default class ImageDetailModal extends React.Component {
     constructor(props) {
@@ -50,6 +51,7 @@ export default class ImageDetailModal extends React.Component {
                                 <TileGrid
                                     tiles={this.state.data.tiles}
                                     id={this.state.data.id}
+                                    image_url={googleDomain + this.state.data.file_id}
                                 />
                             </div>
                         </Modal.Body>

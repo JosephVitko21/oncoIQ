@@ -15,7 +15,7 @@ export default class TileGrid extends React.Component {
                 <div className="card-group">{row}</div>
             )
         }
-        return(<div className="custom-card">{rows}</div>)
+        return(<div className="custom-card" style={{backgroundImage: `url(${this.props.image_url})`, backgroundSize: 'cover'}}>{rows}</div>)
     }
     renderTile(i) {
         console.log("props to render:", this.props)
