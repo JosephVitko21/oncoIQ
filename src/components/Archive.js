@@ -20,7 +20,7 @@ export default function Archive() {
     if (!imgList) return <p>Loading...</p>
     // TODO: Separate the search box and button from the filter and sort buttons
     // TODO: Add search, filter, sort, functionality
-    // TODO: Implement lazy loading
+    // TODO: Implement lazy loading (Load more button should display after each set of 12)
     return (
         <div className="container text-center mt-5">
             <h3>My Image Archive</h3>
@@ -51,6 +51,9 @@ export default function Archive() {
                         />
                     );
                 })}
+            </div>
+            <div className='flex-grow-1 justify-content-center mt-4'>
+                <Button variant='outline-primary'>View More</Button>
             </div>
         </div>
     );
