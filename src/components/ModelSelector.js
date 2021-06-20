@@ -25,6 +25,8 @@ export default class ModelSelector extends React.Component {
         }
     }
     render() {
+        // TODO: make this hide on selection
+        // TODO: add search
         return (
             <>
                 <div className="text-center">

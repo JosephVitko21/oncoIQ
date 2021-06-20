@@ -3,7 +3,8 @@ import {Button, Navbar, Nav} from 'react-bootstrap';
 import {login, authFetch, useAuth, logout} from "../auth";
 import {LoginPopContext, NavContext} from "../context/GlobalContext"
 
-export default function Navig() {
+// TODO: add a profile icon that contains the sign out button
+export default function Navigation() {
     const [logged] = useAuth();
     const {loginPop, setLoginPop} = useContext(LoginPopContext);
     const {navState, setNavState} = useContext(NavContext);
@@ -13,7 +14,7 @@ export default function Navig() {
 
     if (logged) {
         logBtn = <Button variant="outline-light" onClick={() => logout()}>Logout</Button>;
-        navContent = 
+        navContent =
             <Nav className="mr-auto">
                 <Nav.Link href="#Upload" onClick={() => setNavState("upload")}>Upload</Nav.Link>
                 <Nav.Link href="#Archive" onClick={() => setNavState("archive")}>Archive</Nav.Link>

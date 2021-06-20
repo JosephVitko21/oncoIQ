@@ -19,6 +19,8 @@ export default function Archive() {
 
     if (!imgList) return <p>Loading...</p>
     // TODO: Separate the search box and button from the filter and sort buttons
+    // TODO: Add search, filter, sort, functionality
+    // TODO: Implement lazy loading
     return (
         <div className="container text-center mt-5">
             <h3>My Image Archive</h3>

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import Navig from './components/Navig';
+import Navigation from './components/Navigation';
 import Tab from './components/Tab';
 import Landing from './components/Landing';
 import {LoginPopContext, NavContext} from './context/GlobalContext';
@@ -13,7 +13,7 @@ function App() {
         <div className="h-100">
             <NavContext.Provider value={{navState, setNavState}}>
                 <LoginPopContext.Provider value={{loginPop, setLoginPop}}>
-                    <Navig />
+                    <Navigation />
                     <Landing />
                 </LoginPopContext.Provider>
             </NavContext.Provider>

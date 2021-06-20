@@ -212,6 +212,7 @@ export default class Upload extends React.Component {
                     </>
 
                 ) : (
+                    // TODO: make form fields more relevant to those needed when sorting through patient data
                     <>
                         <br/>
 
