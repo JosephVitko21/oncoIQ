@@ -1,11 +1,13 @@
 import React from 'react';
 import ModelListModal from "./ModelSelector";
 import FileUploader from "./FileUploader";
-import {Button, ProgressBar, Spinner} from "react-bootstrap";
+import {Button, Col, ProgressBar, Row, Spinner} from "react-bootstrap";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import user from "../utils/user";
 import domain from "../utils/site-domain";
 import ImageDetailModal from "./ImageDetail";
+import {faArrowDown, faArrowLeft, faChevronDown, faRedo} from "@fortawesome/free-solid-svg-icons";
 
 export default class Upload extends React.Component {
     constructor(props) {
@@ -190,7 +192,10 @@ export default class Upload extends React.Component {
                         <p>One of our AI models will predict its cancer risk</p>
                         <br/>
                         <ModelListModal
-                            selectModel={(model) => this.setState({selectedModel: model, selectModelText: '↶'})}
+                            selectModel={(model) => this.setState({
+                                selectedModel: model,
+                                selectModelText: <FontAwesomeIcon icon={faChevronDown}/>,
+                            })}
                             selectText={this.state.selectModelText}
                             size="lg"
                         />
@@ -209,8 +214,9 @@ export default class Upload extends React.Component {
                 ) : (
                     <>
                         <br/>
-                        <div className="d-flex justify-content-around align-items-center mb-5">
-                            <div>
+
+                        <div className="d-flex justify-content-center align-items-center mb-5">
+                            <div className='mr-4'>
                                 <h5 className='mb-0'>Selected Model:</h5>
                                 <p className='mb-0 text-muted'>{this.state.selectedModel.name}</p>
                             </div>
@@ -220,57 +226,62 @@ export default class Upload extends React.Component {
                                 size=""
                             />
                         </div>
+                        <div className='upload-form validate-form d-flex'>
+                            <Col xs={12} md={6}>
+                                <div className="wrap-input validate-input mb-5" data-validate="Name is required">
+                                    <span className="label-input">Name</span>
+                                    <input
+                                        className="input text-center"
+                                        type="text"
+                                        name="name"
+                                        placeholder="Enter image name"
+                                        onChange={this.handleNameChange}
+                                    />
+                                    <span className="focus-input"/>
+                                </div>
+                                <div className="wrap-input validate-input mb-5" data-validate="Message is required">
+                                    <span className="label-input">Description</span>
+                                    <textarea
+                                        className="input text-center"
+                                        name="message"
+                                        placeholder="Enter image description"
+                                        onChange={this.handleDescriptionChange}
+                                    />
+                                    <span className="focus-input"/>
+                                </div>
+                            </Col>
+                            <Col xs={12} md={6}>
+                                <div >
+                                    <div className="wrap-input validate-input file-input-container text-center mb-5">
+                                        <h1 className="imgupload">
+                                            {!this.state.uploadAttempted ? (
+                                                <i className="fa fa-file-image-o"/>
+                                            ) : (
+                                                <>
+                                                    {this.state.imageFile ? (
+                                                        <i className="fa fa-check text-success"/>
+                                                    ) : (
+                                                        <i className="fa fa-times text-danger"/>
+                                                    )}
+                                                </>
+                                            )}
+                                        </h1>
+                                        <p id="namefile">{this.state.uploadMessage}</p>
 
-                        <div className='upload-form validate-form'>
-                            <div className="wrap-input validate-input mb-5" data-validate="Name is required">
-                                <span className="label-input">Name</span>
-                                <input
-                                    className="input"
-                                    type="text"
-                                    name="name"
-                                    placeholder="Enter image name"
-                                    onChange={this.handleNameChange}
-                                />
-                                <span className="focus-input"/>
-                            </div>
-                            <div className="wrap-input validate-input mb-5" data-validate="Message is required">
-                                <span className="label-input">Description</span>
-                                <textarea
-                                    className="input"
-                                    name="message"
-                                    placeholder="Image description here ..."
-                                    onChange={this.handleDescriptionChange}
-                                />
-                                <span className="focus-input"/>
-                            </div>
-                            <div >
-                                <div className="wrap-input validate-input file-input-container text-center mb-5">
-                                    <h1 className="imgupload">
-                                        {!this.state.uploadAttempted ? (
-                                            <i className="fa fa-file-image-o"/>
-                                        ) : (
-                                            <>
-                                                {this.state.imageFile ? (
-                                                    <i className="fa fa-check text-success"/>
-                                                ) : (
-                                                    <i className="fa fa-times text-danger"/>
-                                                )}
-                                            </>
-                                        )}
-                                    </h1>
-                                    <p id="namefile">{this.state.uploadMessage}</p>
-
-                                    <div className='d-flex justify-content-center'>
-                                        <FileUploader
-                                            onFileSelectSuccess={(file) => this.handleUploadFile(file)}
-                                            onFileSelectError={(error) => this.handleUploadError(error)}
-                                        />
+                                        <div className='d-flex justify-content-center mb-4'>
+                                            <FileUploader
+                                                onFileSelectSuccess={(file) => this.handleUploadFile(file)}
+                                                onFileSelectError={(error) => this.handleUploadError(error)}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className='mb-4 d-flex justify-content-center'>
-                                {spinning}
-                            </div>
+                            </Col>
+                            <Row className='flex-grow-1 justify-content-center mt-4'>
+                                <div className='flex-grow-1 mb-4 d-flex justify-content-center'>
+                                    {spinning}
+                                </div>
+                            </Row>
                         </div>
                     </>
                 )}

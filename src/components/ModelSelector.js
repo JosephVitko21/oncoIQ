@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Modal, Button} from "react-bootstrap";
+import {Modal, Button, Col} from "react-bootstrap";
 import ModelCard from "./ModelCard";
 
 import user from "../utils/user";
@@ -49,9 +49,9 @@ export default class ModelSelector extends React.Component {
                                 {this.state.data.map((datum) => {
                                     console.log("datum:", datum)
                                     return (
-                                        <div className='col-sm-6'>
+                                        <Col lg="6" sm="12">
                                             {this.renderModelCard(datum)}
-                                        </div>
+                                        </Col>
                                     )
                                 })}
                             </div>

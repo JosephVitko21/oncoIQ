@@ -9,7 +9,7 @@ export default class TileGrid extends React.Component {
         for (let i = 0; i < numRows; i++) {
             let row = []
             for (let j = 0; j < numCols; j++) {
-                row.push(this.renderTile(i * 5 + j))
+                row.push(this.renderTile(i * numCols + j))
             }
             rows.push(
                 <div className="card-group">{row}</div>
@@ -27,7 +27,7 @@ export default class TileGrid extends React.Component {
     render() {
         return (
             <>
-                {this.renderGrid(5, 5)}
+                {this.renderGrid(this.props.num_rows, this.props.num_cols)}
             </>
 
         )

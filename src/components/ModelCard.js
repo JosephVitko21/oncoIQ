@@ -1,5 +1,5 @@
 import React from 'react'
-import {Card} from "react-bootstrap";
+import {Card, Col, Row} from "react-bootstrap";
 
 import domain from "../utils/site-domain";
 
@@ -18,21 +18,21 @@ export default function ModelCard(props) {
 
     return (
         <Card onClick={props.selectModel} className='model-card'>
-            <div className="row">
-                <div className="col-4">
+            <Row>
+                <Col xs="4">
                     <img
                         src={ thumbnail_src }
                         width="100%"
                         height="100%"
                     />
-                </div>
-                <div className="col-8">
+                </Col>
+                <Col xs="8" className="align-self-center">
                     <Card.Body>
                         <Card.Title>{ props.name }</Card.Title>
                         <Card.Text>{ status_text }</Card.Text>
                     </Card.Body>
-                </div>
-            </div>
+                </Col>
+            </Row>
         </Card>
     );
 }

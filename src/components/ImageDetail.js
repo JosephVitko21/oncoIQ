@@ -1,11 +1,14 @@
 import React from 'react';
-import {Modal, Button, Card, Badge, Image} from "react-bootstrap";
+import {Modal, Button, Card, Badge, Image, Row, Col} from "react-bootstrap";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import user from "../utils/user";
 import utils from "../utils/utils";
 import domain from "../utils/site-domain";
 import TileGrid from "./TileGrid";
 import googleDomain from "../utils/google-drive-domain";
+import RiskBadge from "./RiskBadge";
+import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 
 export default class ImageDetailModal extends React.Component {
     constructor(props) {
@@ -17,18 +20,23 @@ export default class ImageDetailModal extends React.Component {
     }
 
     render() {
+        const image_src = googleDomain + this.props.file_id
+        // TODO: handle editing
+        // TODO: confirm delete dialog
         return (
             <>
                 {!this.props.showOnCreate ? (
-                    <>
-                        <Button variant="outline-info" onClick={this.handleShow} size="sm">
-                            Show Details
-                        </Button>
-                        <Button variant="outline-danger ml-3" onClick={this.handleRemove} size="sm">
-                            Delete
-                        </Button>
-                    </>
-
+                        <Col xs="6" sm="6" md="6" lg="4" xl="3">
+                            <Card className="archive-entry transform-on-hover" onClick={this.handleShow}>
+                                <Card.Img variant="top" src={image_src} />
+                                <div className="archive-card-body">
+                                    <Card.Title>{this.props.name}</Card.Title>
+                                    <Card.Subtitle className='mb-1'>{this.props.model}</Card.Subtitle>
+                                    <Card.Text className="text-muted">{utils.timeSince(this.props.date)}</Card.Text>
+                                    <RiskBadge risk_level={this.props.risk_level} />
+                                </div>
+                            </Card>
+                        </Col>
                 ) : (
                     <></>
                     )}
@@ -46,16 +54,27 @@ export default class ImageDetailModal extends React.Component {
                         </Modal.Header>
                         <Modal.Body>
                             <div className="image-detail">
-                                <h5><Badge pill variant="danger">Overall Risk: {utils.makePercentage(this.state.data.risk_level, 0)}</Badge></h5>
+                                <RiskBadge risk_level={this.props.risk_level} />
                                 {console.log("data to render:", this.state.data)}
                                 <TileGrid
                                     tiles={this.state.data.tiles}
                                     id={this.state.data.id}
                                     image_url={googleDomain + this.state.data.file_id}
+                                    num_rows={this.state.data.num_rows}
+                                    num_cols={this.state.data.num_cols}
                                 />
                             </div>
+                            <p>{this.state.data.description}</p>
                         </Modal.Body>
                         <Modal.Footer>
+                            <Row className='mr-auto'>
+                                <Button variant="outline-danger" className='mr-2' onClick={this.handleRemove}>
+                                    <FontAwesomeIcon icon={faTrash} />
+                                </Button>
+                                <Button variant="outline-secondary" className='mr-auto'>
+                                    <FontAwesomeIcon icon={faEdit} />
+                                </Button>
+                            </Row>
                             <Button variant="secondary" onClick={this.handleHide}>Close</Button>
                         </Modal.Footer>
                     </Modal>
@@ -64,7 +83,8 @@ export default class ImageDetailModal extends React.Component {
         )
     }
     handleShow = () => {
-        fetchData(this.props.imageID)
+        console.log('showing')
+        fetchData(this.props.image_id)
             .then(r => {
                 this.setState({
                     show: true,
@@ -82,9 +102,10 @@ export default class ImageDetailModal extends React.Component {
     }
 
     handleRemove = () => {
-        fetchRemoveImage(this.props.imageID)
+        fetchRemoveImage(this.props.image_id)
             .then(r => {
-                window.location.reload();
+                this.handleHide()
+                window.location.reload()
             })
     }
 }
