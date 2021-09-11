@@ -177,6 +177,26 @@ textarea.input {
     margin-bottom: 0;
 }
 
+@media (max-width: 992px) {
+    _::-webkit-full-page-media, _:future, :root .card-group > .card {
+        height: 46.6px;
+    }
+}
+
+@media (min-width: 992px) {
+    _::-webkit-full-page-media, _:future, :root .card-group > .card {
+        height: 76.6px;
+    }
+}
+
+@media (min-width: 992px) {
+    _::-webkit-full-page-media, _:future, :root .card-group > .card {
+        height: 76.6px;
+    }
+}
+
+
+
 .nav-tabs a {
     color: #5bc0de;
 }
