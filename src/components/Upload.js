@@ -110,7 +110,7 @@ export default class Upload extends React.Component {
                     }).then(r => {
                         r.json()
                             .then(data => {
-                                if (data.state === 'PROGRESS') {
+                                if (data.state === 'PROGRESS' || data.state === 'PENDING') {
                                     reject(data)
                                 } else {
                                     console.log('Successfully got result. Polling should conclude')
@@ -133,7 +133,7 @@ export default class Upload extends React.Component {
         }
         let continuePolling = true;
         let attempts = 0
-        while (attempts < 100 && continuePolling) {
+        while (attempts < 1000 && continuePolling) {
             attempts++
             await wait()
             await pollingFunction(location)
