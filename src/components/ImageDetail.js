@@ -9,6 +9,7 @@ import TileGrid from "./TileGrid";
 import googleDomain from "../utils/google-drive-domain";
 import RiskBadge from "./RiskBadge";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
+import moment from "moment";
 
 export default class ImageDetailModal extends React.Component {
     constructor(props) {
@@ -35,7 +36,7 @@ export default class ImageDetailModal extends React.Component {
                                 <div className="archive-card-body">
                                     <Card.Title>{this.props.name}</Card.Title>
                                     <Card.Subtitle className='mb-1'>{this.props.model}</Card.Subtitle>
-                                    <Card.Text className="text-muted">{utils.timeSince(this.props.date)}</Card.Text>
+                                    <Card.Text className="text-muted">{moment(this.props.date).fromNow()}</Card.Text>
                                     <RiskBadge risk_level={this.props.risk_level} />
                                 </div>
                             </Card>
