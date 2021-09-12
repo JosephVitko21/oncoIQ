@@ -17,7 +17,7 @@ export default function Archive() {
         makeAuthenticatedRequest('GET', `/images?page=${nextPageToGet}`)
             .then(data => {
                 setImgList(imgList.concat(data))
-                if (!data || data.length === 0) {
+                if (!data || data.length < 12) {
                     setAllShown(true)
                 } else {
                     setNextPageToGet(nextPageToGet + 1)

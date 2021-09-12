@@ -33,6 +33,7 @@ export default class ImageDetailModal extends React.Component {
         // TODO: clean up format, especially the description and adding the model.
         // TODO: add a slider to toggle between no overlay, semi-transparent overlay, and solid overlay
         // TODO: Find a way to handle wrapping/overflow from long names in the preview card
+        // TODO: Fix footer buttons not working on iOS
         return (
             <>
                 {!this.props.showOnCreate ? (
