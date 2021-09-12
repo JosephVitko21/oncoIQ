@@ -1,3 +1,6 @@
+import domain from "./site-domain";
+import user from "./user";
+
 const utils = {
     capitalize: function(str) {
         let firstLetter = str.substr(0, 1);
@@ -7,8 +10,6 @@ const utils = {
     makePercentage: function(flt, decimals) {
         return (Math.round(flt * 10 ** (decimals + 2)) / 10 ** decimals).toString() + "%"
     },
-
-    // returns the timestamp for the current time in UTC
 
 }
 

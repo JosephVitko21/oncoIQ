@@ -2,14 +2,13 @@ import React from 'react';
 import {Modal, Button, Card, Badge, Image, Row, Col} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import user from "../utils/user";
-import utils from "../utils/utils";
-import domain from "../utils/site-domain";
 import TileGrid from "./TileGrid";
 import googleDomain from "../utils/google-drive-domain";
 import RiskBadge from "./RiskBadge";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
+import ErrorDialog from "./ErrorDialog";
+import {makeAuthenticatedRequest} from "../utils/middleware";
 
 export default class ImageDetailModal extends React.Component {
     constructor(props) {
@@ -53,49 +52,57 @@ export default class ImageDetailModal extends React.Component {
                     )}
 
                 {this.state.data ? (
-                    <Modal
-                        size="lg"
-                        show={this.state.show}
-                        onHide={this.handleHide}
-                    >
-                        <Modal.Header closeButton>
-                            <Modal.Title>
-                                { this.state.data.name }
-                            </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <div className="image-detail">
-                                <RiskBadge risk_level={this.props.risk_level} />
-                                {console.log("data to render:", this.state.data)}
-                                <TileGrid
-                                    tiles={this.state.data.tiles}
-                                    id={this.state.data.id}
-                                    image_url={googleDomain + this.state.data.file_id}
-                                    num_rows={this.state.data.num_rows}
-                                    num_cols={this.state.data.num_cols}
-                                />
-                            </div>
-                            <p>{this.state.data.description}</p>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Row className='mr-auto'>
-                                <Button variant="outline-danger" className='mr-2' onClick={this.handleRemove}>
-                                    <FontAwesomeIcon icon={faTrash} />
-                                </Button>
-                                <Button variant="outline-secondary" className='mr-auto'>
-                                    <FontAwesomeIcon icon={faEdit} />
-                                </Button>
-                            </Row>
-                            <Button variant="secondary" onClick={this.handleHide}>Close</Button>
-                        </Modal.Footer>
-                    </Modal>
+                    <div className='modalsContainer'>
+                        <Modal
+                            size="lg"
+                            show={this.state.show}
+                            onHide={this.handleHide}
+                        >
+                            <Modal.Header closeButton>
+                                <Modal.Title>
+                                    { this.state.data.name }
+                                </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <div className="image-detail">
+                                    <RiskBadge risk_level={this.props.risk_level} />
+                                    {console.log("data to render:", this.state.data)}
+                                    <TileGrid
+                                        tiles={this.state.data.tiles}
+                                        id={this.state.data.id}
+                                        image_url={googleDomain + this.state.data.file_id}
+                                        num_rows={this.state.data.num_rows}
+                                        num_cols={this.state.data.num_cols}
+                                    />
+                                </div>
+                                <p>{this.state.data.description}</p>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Row className='mr-auto'>
+                                    <Button variant="outline-danger" className='mr-2' onClick={this.handleRemove}>
+                                        <FontAwesomeIcon icon={faTrash} />
+                                    </Button>
+                                    <Button variant="outline-secondary" className='mr-auto'>
+                                        <FontAwesomeIcon icon={faEdit} />
+                                    </Button>
+                                </Row>
+                                <Button variant="secondary" onClick={this.handleHide}>Close</Button>
+                            </Modal.Footer>
+                        </Modal>
+                        {!this.props.file_id && !this.props.showOnCreate ? (
+                            <ErrorDialog
+                                message="There seems to be an issue loading this image. You may want to delete and reupload it."
+                            />
+                        ) : <></>}
+                    </div>
+
                 ) : <></>}
             </>
         )
     }
     handleShow = () => {
         console.log('showing')
-        fetchData(this.props.image_id)
+        makeAuthenticatedRequest('GET', '/images/' + this.props.image_id)
             .then(r => {
                 this.setState({
                     show: true,
@@ -106,104 +113,17 @@ export default class ImageDetailModal extends React.Component {
 
     handleHide = () => {
         // this.props.handleHide()
+        console.log('hiding dialog')
         this.setState({
             show: false,
             data: null,
         })
     }
 
-    handleRemove = () => {
-        fetchRemoveImage(this.props.image_id)
-            .then(r => {
-                this.handleHide()
-                window.location.reload()
-            })
+    handleRemove = async () => {
+        await makeAuthenticatedRequest('DELETE', '/images/' + this.props.image_id + '/remove')
+        console.log('finished fetching remove image')
+        this.handleHide()
+        window.location.reload()
     }
-}
-
-async function fetchData(imageID) {
-    return new Promise(async function(resolve, reject) {
-        const apiUrl = domain + '/images/' + imageID
-        fetch(apiUrl, {
-            method: 'GET',
-            headers: {
-                Authorization: "Bearer " + user.getAuthToken(),
-                "Content-Type": "application/json"
-            },
-            redirect: 'follow'
-        }).then(r => {
-            let resp = r.json()
-                .then(data => {
-                    console.log(data)
-                    console.log("data:", data)
-                    if(data.status_code === 401) {
-                        // if request returns 401, get new token and try again
-                        console.log("refreshing token")
-                        user.refreshToken()
-                            .then(_ => {
-                                fetchData()
-                                    .then(response => {
-                                        response.json()
-                                            .then(data => {
-                                                if(data.status_code === 200) {
-                                                    // if it works this time, return data
-                                                    resolve(data)
-                                                } else {
-                                                    console.log("Refresh token failed, going back to login page")
-                                                    reject("Could not log in")
-                                                }
-                                            }).catch(err => reject(err))
-                                    }).catch(err => reject(err))
-                            }).catch(err => reject(err))
-                    } else {
-                        // otherwise, return data
-                        resolve(data);
-                    }
-                }).catch(err => reject(err))
-        }).catch(err => reject(err))
-    })
-}
-
-
-async function fetchRemoveImage(imageID) {
-    return new Promise(async function(resolve, reject) {
-        const apiUrl = domain + '/images/' + imageID + '/remove'
-        fetch(apiUrl, {
-            method: 'DELETE',
-            headers: {
-                Authorization: "Bearer " + user.getAuthToken(),
-                "Content-Type": "application/json"
-            },
-            redirect: 'follow'
-        }).then(r => {
-            let resp = r.json()
-                .then(data => {
-                    console.log(data)
-                    console.log("data:", data)
-                    if(data.status_code === 401) {
-                        // if request returns 401, get new token and try again
-                        console.log("refreshing token")
-                        user.refreshToken()
-                            .then(_ => {
-                                fetchRemoveImage()
-                                    .then(response => {
-                                        response.json()
-                                            .then(data => {
-                                                if(data.status_code === 200) {
-                                                    // if it works this time, return data
-                                                    resolve(data)
-                                                } else {
-                                                    console.log("Refresh token failed, going back to login page")
-                                                    reject("Could not log in")
-                                                }
-                                            }).catch(err => reject(err))
-                                    }).catch(err => reject(err))
-                            }).catch(err => reject(err))
-                    } else {
-                        // otherwise, return data
-                        resolve(data);
-                    }
-                }).catch(err => reject(err))
-        }).catch(err => reject(err))
-    })
 }

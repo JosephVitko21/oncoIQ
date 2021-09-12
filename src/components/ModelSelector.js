@@ -5,6 +5,7 @@ import ModelCard from "./ModelCard";
 import user from "../utils/user";
 import utils from "../utils/utils";
 import domain from "../utils/site-domain";
+import {makeAuthenticatedRequest} from "../utils/middleware";
 
 export default class ModelSelector extends React.Component {
     renderModelCard(model_datum) {
@@ -65,7 +66,7 @@ export default class ModelSelector extends React.Component {
     }
     handleShow = () => {
         console.log("Loading models")
-        fetchModels()
+        makeAuthenticatedRequest('GET', '/models')
             .then(r => {
                 console.log("loaded models")
                 this.setState({
@@ -81,27 +82,4 @@ export default class ModelSelector extends React.Component {
             data: null,
         })
     }
-}
-
-async function fetchModels() {
-    return new Promise(async function(resolve, reject) {
-        const apiUrl = domain + '/models'
-        fetch(apiUrl, {
-            method: 'GET',
-            headers: {
-                Authorization: "Bearer " + user.getAuthToken(),
-            },
-            redirect: 'follow'
-        }).then(response => {
-            response.json()
-                .then(data => {
-                    console.log("data:", data)
-                    // return data
-                    resolve(data);
-                }).catch(err => {
-                    console.log(err)
-                    reject(err)
-                })
-        }).catch(e => reject(e))
-    })
 }

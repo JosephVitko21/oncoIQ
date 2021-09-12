@@ -43,7 +43,9 @@ export default class ErrorDialog extends React.Component {
         this.setState({
             show: false,
         })
-        this.props.hideAction()
+        if (this.props.hidden != null) {
+            this.props.hideAction()
+        }
     }
 
 }

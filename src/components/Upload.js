@@ -9,6 +9,7 @@ import domain from "../utils/site-domain";
 import ImageDetailModal from "./ImageDetail";
 import {faArrowDown, faArrowLeft, faChevronDown, faRedo} from "@fortawesome/free-solid-svg-icons";
 import ErrorDialog from "./ErrorDialog";
+import {makeAuthenticatedRequest} from "../utils/middleware";
 
 export default class Upload extends React.Component {
     constructor(props) {
@@ -71,7 +72,8 @@ export default class Upload extends React.Component {
         formData.append('name', this.state.imageName)
         formData.append('description', this.state.imageDescription)
         console.log(formData)
-        fetchUploadFile(formData)
+
+        makeAuthenticatedRequest("POST", "/images/upload_image", formData)
             .then(async response => {
                 this.setState({
                     loading: true
@@ -145,7 +147,7 @@ export default class Upload extends React.Component {
         }
         let continuePolling = true;
         let attempts = 0
-        let maxAttempts = 600
+        let maxAttempts = 100
         while (attempts < maxAttempts && continuePolling) {
             attempts++
             await wait()
@@ -162,6 +164,7 @@ export default class Upload extends React.Component {
                         })
                     } else {
                         // a successful result was obtained, the polling loop can break
+                        console.log('result received. Polling loop can break')
                         this.setState({
                             loadingProgress: data.current,
                             loadingTotal: data.total,
@@ -330,47 +333,4 @@ export default class Upload extends React.Component {
         )
     }
 
-}
-
-async function fetchUploadFile(formData) {
-    return new Promise(async function(resolve, reject) {
-        const apiUrl = domain + '/images/upload_image'
-        fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                Authorization: "Bearer " + user.getAuthToken(),
-            },
-            body: formData,
-            redirect: 'follow'
-        }).then(r => {
-            let resp = r.json()
-                .then(data => {
-                    console.log(data)
-                    console.log("data:", data)
-                    if(data.status_code === 401) {
-                        // if request returns 401, get new token and try again
-                        console.log("refreshing token")
-                        user.refreshToken()
-                            .then(_ => {
-                                fetchUploadFile(formData)
-                                    .then(response => {
-                                        response.json()
-                                            .then(data => {
-                                                if(data.status_code === 200) {
-                                                    // if it works this time, return data
-                                                    resolve(data)
-                                                } else {
-                                                    console.log("Refresh token failed, going back to login page")
-                                                    reject("Could not log in")
-                                                }
-                                            }).catch(err => reject(err))
-                                    }).catch(err => reject(err))
-                            }).catch(err => reject(err))
-                    } else {
-                        // otherwise, return data
-                        resolve(data);
-                    }
-                }).catch(err => reject(err))
-        }).catch(err => reject(err))
-    })
 }

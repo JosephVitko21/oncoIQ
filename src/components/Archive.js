@@ -6,12 +6,13 @@ import ImageDetailModal from "./ImageDetail";
 import {Button, FormControl, FormLabel, Row} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faFilter, faSearch, faSort} from '@fortawesome/free-solid-svg-icons'
+import {makeAuthenticatedRequest} from "../utils/middleware";
 
 export default function Archive() {
     const [imgList, setImgList] = useState(null);
 
     useEffect(() => {
-        fetchUserImages()
+        makeAuthenticatedRequest('GET', '/images')
             .then(data => {
                 setImgList(data);
             });
@@ -57,45 +58,4 @@ export default function Archive() {
             </div>
         </div>
     );
-}
-
-async function fetchUserImages() {
-    return new Promise(async function(resolve, reject) {
-        const apiUrl = domain + '/images'
-        fetch(apiUrl, {
-            method: 'GET',
-            headers: {
-                Authorization: "Bearer " + user.getAuthToken(),
-            },
-            redirect: 'follow'
-        }).then(response => {
-            response.json()
-                .then(data => {
-                    console.log("data:", data)
-                    if(data.status_code === 401) {
-                        // if request returns 401, get new token and try again
-                        console.log("refreshing token")
-                        user.refreshToken()
-                            .then(_ => {
-                                fetchUserImages()
-                                    .then(response => {
-                                        response.json()
-                                            .then(data => {
-                                                if(data.status_code === 200) {
-                                                    // if it works this time, return data
-                                                    resolve(data)
-                                                } else {
-                                                    console.log("Refresh token failed, going back to login page")
-                                                    reject("Could not log in")
-                                                }
-                                            }).catch(err => reject(err))
-                                    }).catch(err => reject(err))
-                            }).catch(err => reject(err))
-                    } else {
-                        // otherwise, return data
-                        resolve(data);
-                    }
-                }).catch(err => reject(err))
-        }).catch(e => reject(e))
-    })
 }
