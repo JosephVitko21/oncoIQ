@@ -19,9 +19,20 @@ export default class TileGrid extends React.Component {
     }
     renderTile(i) {
         console.log("props to render:", this.props)
+        let image;
+        let riskScore;
+        if (!this.props.tiles || !this.props.tiles[i]) {
+            // load placeholder
+            image = "https://2rri712hg8ztbbaed491mw10-wpengine.netdna-ssl.com/wp-content/uploads/2018/12/placeholder-square.png"
+            riskScore = 0
+        } else {
+            image = googleDomain + this.props.tiles[i].id
+            riskScore = this.props.tiles[i].risk_level
+        }
+
         return <Tile
-            image={googleDomain + this.props.tiles[i].id}
-            riskScore={this.props.tiles[i].risk_level}
+            image={image}
+            riskScore={riskScore}
         />
     }
     render() {
