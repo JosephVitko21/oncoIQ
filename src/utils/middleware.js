@@ -14,8 +14,8 @@ export async function makeAuthenticatedRequest(method, path, formData) {
         }).then(r => {
             let resp = r.json()
                 .then(data => {
-                    console.log(data)
-                    console.log("data:", data)
+                    //console.log(data)
+                    //console.log("data:", data)
                     if(data.status_code === 401) {
                         // if request returns 401, get new token and try again
                         console.log("refreshing token")
