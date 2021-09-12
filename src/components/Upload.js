@@ -147,7 +147,7 @@ export default class Upload extends React.Component {
         }
         let continuePolling = true;
         let attempts = 0
-        let maxAttempts = 100
+        let maxAttempts = 500
         while (attempts < maxAttempts && continuePolling) {
             attempts++
             await wait()
