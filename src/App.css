@@ -238,3 +238,64 @@ textarea.input {
 .upload-form {
     flex-flow: wrap;
 }
+
+.error-modal-content {
+    padding: 20px;
+    border-radius: 5px;
+    border: none;
+}
+
+.error-modal-content .modal-header {
+    border-bottom: none;
+    position: relative;
+}
+
+.error-modal-content .icon-box {
+    color: #fff;
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: -70px;
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    z-index: 9;
+    background: #ef513a;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0px 2px 2px rgba(0 0 0 25);
+}
+
+.error-modal-content .icon-box svg {
+    font-size: 56px;
+    position: relative;
+    top: 4px;
+}
+
+.error-modal-content h4 {
+    text-align: center;
+    font-size: 26px;
+    margin: 30px 0 -15px;
+}
+
+.error-modal-content .modal-footer {
+    border: none;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+.error-modal-content .btn {
+    color: #fff;
+    border-radius: 4px;
+    background: #ef513a;
+    text-decoration: none;
+    transition: all 0.4s;
+    line-height: normal;
+    border: none;
+}
+
+.error-modal-container {
+    margin-top: 80px;
+}

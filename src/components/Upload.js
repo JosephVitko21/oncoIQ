@@ -8,6 +8,7 @@ import user from "../utils/user";
 import domain from "../utils/site-domain";
 import ImageDetailModal from "./ImageDetail";
 import {faArrowDown, faArrowLeft, faChevronDown, faRedo} from "@fortawesome/free-solid-svg-icons";
+import ErrorDialog from "./ErrorDialog";
 
 export default class Upload extends React.Component {
     constructor(props) {
@@ -25,6 +26,8 @@ export default class Upload extends React.Component {
             loadingProgress: 0,
             loadingTotal: 0,
             loadingMessage: null,
+            errorMessage: null,
+            showErrorDialog: false,
         }
     }
 
@@ -104,51 +107,71 @@ export default class Upload extends React.Component {
         }
         async function pollingFunction(url) {
             return new Promise(async function(resolve, reject) {
+                // fetch the url to get a status update
                 fetch(url,
                     {
                         'method': 'GET',
                     }).then(r => {
+                        // convert the resulting data json to an object
                         r.json()
                             .then(data => {
                                 if (data.state === 'PROGRESS' || data.state === 'PENDING') {
+                                    // if the task state is either PROGRESS or PENDING
                                     reject(data)
+                                } else if (data.state === 'ERROR') {
+                                    // an error occurred server side, polling can conclude
+                                    resolve(data)
                                 } else {
+                                    // if the task state is complete, polling can conclude
                                     console.log('Successfully got result. Polling should conclude')
                                     resolve(data)
                                 }
                             }).catch(() => {
+                                // if converting to JSON failed, an error has occurred and polling can stop
                                 let data = {
                                     state: 'ERROR'
                                 }
                                 reject(data)
                         })
                     }).catch(() => {
-                    let data = {
-                        state: 'ERROR'
-                    }
-                    reject(data)
+                        // if the request failed, an error has occurred and polling can stop.
+                        let data = {
+                            state: 'ERROR'
+                        }
+                        reject(data)
                     })
             })
 
         }
         let continuePolling = true;
         let attempts = 0
-        while (attempts < 1000 && continuePolling) {
+        let maxAttempts = 600
+        while (attempts < maxAttempts && continuePolling) {
             attempts++
             await wait()
             await pollingFunction(location)
                 .then(data => {
-                    console.log('Progress complete')
+                    console.log('Polling complete')
                     console.log(data)
-                    this.setState({
-                        loadingProgress: data.current,
-                        loadingTotal: data.total,
-                        loadingMessage: data.status,
-                        imageDetailData: data.result,
-                    })
                     continuePolling = false
-                    return data.result;
+                    if (data.state === 'ERROR') {
+                        // a server-side error has occurred, display error dialog and break out of polling loop
+                        this.setState({
+                            errorMessage: data.status,
+                            showErrorDialog: true,
+                        })
+                    } else {
+                        // a successful result was obtained, the polling loop can break
+                        this.setState({
+                            loadingProgress: data.current,
+                            loadingTotal: data.total,
+                            loadingMessage: data.status,
+                            imageDetailData: data.result,
+                        })
+                        return data.result;
+                    }
                 }).catch(data => {
+                    // a result was not obtained from the server. Update the progress bar before trying again
                     console.log('Must continue polling')
                     console.log(data)
                     if (data.state !== 'ERROR') {
@@ -160,7 +183,13 @@ export default class Upload extends React.Component {
                     }
                 })
         }
-        console.log('polling loop broken out of')
+        if (attempts >= maxAttempts) {
+            // max polling attempts were tried. Show the error dialog
+            this.setState({
+                errorMessage: 'File upload timed out',
+                showErrorDialog: true,
+            })
+        }
     }
 
     calculateLoadingProgress = () => {
@@ -185,6 +214,16 @@ export default class Upload extends React.Component {
 
         return (
             <div className="container text-center mt-5">
+
+                {this.state.showErrorDialog ? (
+                    <ErrorDialog
+                        message={this.state.errorMessage}
+                        hideAction={() => {this.setState({errorMessage: null, showErrorDialog: false,})}}
+                    />
+                ) : (
+                    <></>
+                )}
+
                 <h3>Upload a Histology Image</h3>
 
                 {!this.state.selectedModel ? (
