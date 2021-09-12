@@ -21,7 +21,14 @@ export default class ImageDetailModal extends React.Component {
     }
 
     render() {
-        const image_src = googleDomain + this.props.file_id
+        let image_src
+        if (!this.props.file_id) {
+            // load the placeholder image
+            image_src = "https://2rri712hg8ztbbaed491mw10-wpengine.netdna-ssl.com/wp-content/uploads/2018/12/placeholder-square.png"
+        } else {
+            image_src = googleDomain + this.props.file_id
+        }
+
         // TODO: handle editing
         // TODO: confirm delete dialog
         // TODO: clean up format, especially the description and adding the model.
