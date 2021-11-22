@@ -1,13 +1,10 @@
 import React, {useState, useContext} from "react";
-import {Button, Form, Modal, Card} from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import Login from "../components/Login";
-import Archive from './Archive';
-import Upload from "./Upload"
-import {LoginPopContext, NavContext} from "../context/GlobalContext"
+import { LoginPopContext } from "../context/GlobalContext"
 
 export default function Landing() {
     const {loginPop, setLoginPop} = useContext(LoginPopContext);
-    const {navState, setNavState} = useContext(NavContext);
 
     return (
         <div className="container-fluid h-100 bg-info">
