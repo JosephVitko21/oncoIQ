@@ -1,14 +1,14 @@
 import React from 'react';
-import ModelListModal from "./ModelSelector";
-import FileUploader from "./FileUploader";
+import ModelListModal from "../components/ModelSelector";
+import FileUploader from "../components/FileUploader";
 import {Button, Col, ProgressBar, Row, Spinner} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import user from "../utils/user";
 import domain from "../utils/site-domain";
-import ImageDetailModal from "./ImageDetail";
+import ImageDetailModal from "../components/ImageDetail";
 import {faArrowDown, faArrowLeft, faChevronDown, faRedo} from "@fortawesome/free-solid-svg-icons";
-import ErrorDialog from "./ErrorDialog";
+import ErrorDialog from "../components/ErrorDialog";
 import {makeAuthenticatedRequest} from "../utils/middleware";
 
 export default class Upload extends React.Component {

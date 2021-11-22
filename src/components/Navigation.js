@@ -1,13 +1,14 @@
 import React, {useContext} from 'react';
 import {Button, Navbar, Nav} from 'react-bootstrap';
 import {login, authFetch, useAuth, logout} from "../auth";
-import {LoginPopContext, NavContext} from "../context/GlobalContext"
+import { LoginPopContext } from "../context/GlobalContext"
+import { useNavigate } from "react-router-dom";
 
 // TODO: add a profile icon that contains the sign out button
 export default function Navigation() {
     const [logged] = useAuth();
     const {loginPop, setLoginPop} = useContext(LoginPopContext);
-    const {navState, setNavState} = useContext(NavContext);
+    let navigate = useNavigate();
 
     var logBtn = <Button variant="outline-light" onClick={() => setLoginPop(true)}>Login</Button>;
     var navContent = null;
@@ -16,15 +17,15 @@ export default function Navigation() {
         logBtn = <Button variant="outline-light" onClick={() => logout()}>Logout</Button>;
         navContent =
             <Nav className="mr-auto">
-                <Nav.Link href="#Upload" onClick={() => setNavState("upload")}>Upload</Nav.Link>
-                <Nav.Link href="#Archive" onClick={() => setNavState("archive")}>Archive</Nav.Link>
+                <Nav.Link onClick={() => navigate("/upload")}>Upload</Nav.Link>
+                <Nav.Link onClick={() => navigate("/archive")}>Archive</Nav.Link>
             </Nav>;
     }
 
     return (
         <div>
             <Navbar bg="info" variant="dark">
-                <Navbar.Brand href="#home">oncoIQ</Navbar.Brand>
+                <Navbar.Brand onClick={() => navigate("/")}>oncoIQ</Navbar.Brand>
                 {navContent}
                 <Navbar.Collapse className="justify-content-end">
                     {logBtn}

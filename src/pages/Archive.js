@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 
 import user from "../utils/user";
 import domain from "../utils/site-domain";
-import ImageDetailModal from "./ImageDetail";
+import ImageDetailModal from "../components/ImageDetail";
 import {Button, FormControl, FormLabel, Row} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faFilter, faSearch, faSort} from '@fortawesome/free-solid-svg-icons'
