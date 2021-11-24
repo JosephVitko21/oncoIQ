@@ -1,8 +1,7 @@
 import React, {useContext} from 'react';
 import {login, authFetch, useAuth, logout} from "../auth";
 import { LoginPopContext } from "../context/GlobalContext"
-import { useNavigate, Link } from "react-router-dom";
-import { Button, Box, Flex, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Image, Spacer } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import logo from "./oncoiq-white.png"
 
 // TODO: add a profile icon that contains the sign out button
@@ -11,28 +10,27 @@ export default function Navigation() {
     const {loginPop, setLoginPop} = useContext(LoginPopContext);
     let navigate = useNavigate();
 
-    var logBtn = <Button colorScheme="gray" onClick={() => setLoginPop(true)}>Login</Button>
-    var navContent = null;
+    var logBtn = <button className="btn btn-outline-light" onClick={() => setLoginPop(true)}>Login</button>;
+    var navContent = <div className="navbar-nav mr-auto"></div>;
 
     if (logged) {
-        logBtn = <Button colorScheme="gray" onClick={() => logout()}>Logout</Button>
+        logBtn = <button className="btn btn-outline-light" onClick={() => logout()}>Logout</button>;
         navContent =
-            <Breadcrumb color="white" separator=" ">
-                <BreadcrumbItem>
-                    <BreadcrumbLink as={Link} to="/upload">Upload</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbItem>
-                    <BreadcrumbLink as={Link} to="/archive">Archive</BreadcrumbLink>
-                </BreadcrumbItem>
-        </Breadcrumb>
+            <div className="navbar-nav mr-auto">
+                <a className="nav-link" onClick={() => navigate("/upload")}>Upload</a>
+                <a className="nav-link" onClick={() => navigate("/archive")}>Archive</a>
+            </div>;
     }
 
     return (
-        <Flex bg="#011c33" align="center" p={2}>
-            <Image src={logo} boxSize="5%" mr={5} />
-            {navContent}
-            <Spacer />
-            {logBtn}
-        </Flex>
+        <div>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-navy">
+                <a className="navbar-brand" onClick={() => navigate("/")}>
+                    <img src={logo} width="100"></img>
+                </a>
+                {navContent}
+                {logBtn}
+            </nav>
+        </div>
     );
 }

@@ -195,6 +195,10 @@ textarea.input {
     }
 }
 
+.bg-navy {
+    background-color: #011c33;
+}
+
 
 
 .nav-tabs a {
@@ -298,4 +302,13 @@ textarea.input {
 
 .error-modal-container {
     margin-top: 80px;
+}
+
+.profile-pic {
+    border-radius: 50%;
+    border: 1px solid grey;
+}
+
+.pointer {
+    cursor: pointer;
 }
