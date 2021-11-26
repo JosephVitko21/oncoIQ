@@ -3,7 +3,8 @@ import './App.css';
 import Navigation from './components/Navigation';
 import Landing from './pages/Landing';
 import Archive from './pages/Archive';
-import Upload from "./pages/Upload"
+import Post from "./pages/Post"
+import AI from "./pages/AI"
 import Explore from './pages/Explore';
 import Case from './pages/Case'
 
@@ -28,7 +29,8 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Explore />} />
                         <Route path="/archive" element={<Archive />} />
-                        <Route path="/upload" element={<Upload />} />
+                        <Route path="/ai" element={<AI />} />
+                        <Route path="/post" element={<Post />} />
                         <Route path="/case" element={<Case />} />
                     </Routes>
                 </BrowserRouter>

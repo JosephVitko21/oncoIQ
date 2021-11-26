@@ -2,6 +2,7 @@ import React, {useState, useContext} from "react";
 import {Button, Form, Modal} from "react-bootstrap";
 import {login, authFetch, useAuth, logout} from "../auth";
 import domain from "../utils/site-domain";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
     const [logged] = useAuth();
@@ -11,6 +12,8 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [view, setView] = useState("login");
     const [errorMsg, setErrorMsg] = useState(null);
+
+    const navigate = useNavigate();
     
     function handleLogin(event) {
         event.preventDefault();
@@ -35,6 +38,8 @@ export default function Login() {
             if (result.access_token != null) {
                 login(result.access_token);
                 console.log(result.access_token);
+
+                navigate("/");
             } else {
                 console.log("error message: ", result.message);
                 setErrorMsg(result.message);
@@ -113,12 +118,12 @@ export default function Login() {
 
                         <p className="text-success">{errorMsg}</p>
 
-                        <Button variant="info" type="submit">
+                        <button className="btn btn-navy" type="submit">
                             Sign Up
-                        </Button>
-                        <Button className="ml-2" variant="outline-info" onClick={() => setView(login)}>
+                        </button>
+                        <button className="btn btn-outline-navy ml-2" onClick={() => setView(login)}>
                             Login
-                        </Button>
+                        </button>
                     </Form>
                 </Modal.Body>
             </div>
@@ -144,12 +149,12 @@ export default function Login() {
 
                     <p className="text-danger">{errorMsg}</p>
 
-                    <Button variant="info" type="submit">
+                    <button className="btn btn-navy" type="submit">
                         Login
-                    </Button>
-                    <Button className="ml-2" variant="outline-info" onClick={() => setView("signup")}>
+                    </button>
+                    <button className="btn btn-outline-navy ml-2" onClick={() => setView("signup")}>
                         Sign Up
-                    </Button>
+                    </button>
                 </Form>
             </Modal.Body>
         </div>

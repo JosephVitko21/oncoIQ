@@ -65,10 +65,7 @@ export default function Archive() {
             </div>
             {!allShown ? (
                 <div className='flex-grow-1 justify-content-center mt-4'>
-                    <Button
-                        variant='outline-primary'
-                        onClick={getImages}
-                    >View More</Button>
+                    <button className="btn btn-navy" onClick={getImages}>View More</button>
                 </div>
             ) : <></>}
         </div>

@@ -148,14 +148,14 @@ textarea.input {
 
 .file-uploader:hover > .btn {
     color: #fff;
-    background-color: #5bc0de;
-    border-color: #5bc0de;
+    background-color: #011c33;
+    border-color: #011c33;
     cursor: pointer;
 }
 
 .model-card:hover {
     color: #fff;
-    background-color: #5bc0de;
+    background-color: #011c33;
     cursor: pointer;
 }
 
@@ -194,12 +194,6 @@ textarea.input {
         height: 76.6px;
     }
 }
-
-.bg-navy {
-    background-color: #011c33;
-}
-
-
 
 .nav-tabs a {
     color: #5bc0de;
@@ -311,4 +305,51 @@ textarea.input {
 
 .pointer {
     cursor: pointer;
+}
+
+.bg-navy {
+    background-color: #011c33;
+}
+
+.btn-navy,
+.btn-navy.focus,
+.btn-navy:focus {
+    background-color: #011c33;
+    border-style: none;
+    color: white;
+}
+
+.btn-navy:hover,
+.btn-navy.active,
+.btn-navy:active,
+.btn-navy.active.focus,
+.btn-navy.active:focus,
+.btn-navy.active:hover,
+.btn-navy:active.focus,
+.btn-navy:active:focus,
+.btn-navy:active:hover,
+.btn-navy:not(:disabled):not(.disabled).active {
+    background-color: white !important;
+    color: #011c33;
+}
+
+.btn-outline-navy,
+.btn-outline-navy.focus,
+.btn-outline-navy:focus {
+    border-color: #011c33;
+    color: #011c33;
+}
+
+.btn-outline-navy:hover,
+.btn-outline-navy.active,
+.btn-outline-navy:active,
+.btn-outline-navy.active.focus,
+.btn-outline-navy.active:focus,
+.btn-outline-navy.active:hover,
+.btn-outline-navy:active.focus,
+.btn-outline-navy:active:focus,
+.btn-outline-navy:active:hover,
+.btn-outline-navy:not(:disabled):not(.disabled).active {
+    background-color: #011c33 !important;
+    color: white;
 }

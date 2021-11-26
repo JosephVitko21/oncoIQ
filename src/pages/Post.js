@@ -11,7 +11,7 @@ import {faArrowDown, faArrowLeft, faChevronDown, faRedo} from "@fortawesome/free
 import ErrorDialog from "../components/ErrorDialog";
 import {makeAuthenticatedRequest} from "../utils/middleware";
 
-export default class Upload extends React.Component {
+export default class Post extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -205,130 +205,77 @@ export default class Upload extends React.Component {
         let spinning;
         if (this.state.loading) {
             spinning =
-                <Button className='w-100' variant='info' type='submit' size='lg'>
+                <button className='btn btn-navy w-100' type='submit' size='lg'>
                     <ProgressBar animated striped variant="info" now={this.calculateLoadingProgress()} label={this.state.loadingMessage} />
-                </Button>;
+                </button>;
         } else {
             spinning =
-                <Button className='w-100' variant='info' type='submit' size='lg' onClick={this.submitForm}>
-                    Upload
-                </Button>;
+                <button className='btn btn-navy w-100' type='submit' size='lg' onClick={this.submitForm}>
+                    Post
+                </button>;
         }
 
         return (
             <div className="container text-center mt-5">
+                <h3>Ask the Community</h3>
 
-                {this.state.showErrorDialog ? (
-                    <ErrorDialog
-                        message={this.state.errorMessage}
-                        hideAction={() => {this.setState({errorMessage: null, showErrorDialog: false,})}}
-                    />
-                ) : (
-                    <></>
-                )}
-
-                <h3>Upload a Histology Image</h3>
-
-                {!this.state.selectedModel ? (
-                    <>
-                        <p>One of our AI models will predict its cancer risk</p>
-                        <br/>
-                        <ModelListModal
-                            selectModel={(model) => this.setState({
-                                selectedModel: model,
-                                selectModelText: <FontAwesomeIcon icon={faChevronDown}/>,
-                            })}
-                            selectText={this.state.selectModelText}
-                            size="lg"
-                        />
-                        {!this.state.imageDetailData ? (
-                            <></>
-                        ) : (
-                            // TODO: Make this go to the archive tab when it closes
-                            <ImageDetailModal
-                                data={this.state.imageDetailData}
-                                showOnCreate={true}
+                <div className='upload-form validate-form d-flex'>
+                    <Col xs={12} md={6}>
+                        <div className="wrap-input validate-input mb-5" data-validate="Name is required">
+                            <span className="label-input">Title</span>
+                            <input
+                                className="input text-center"
+                                type="text"
+                                name="name"
+                                placeholder="Enter title name"
+                                onChange={this.handleNameChange}
                             />
-                        )}
-
-                    </>
-
-                ) : (
-                    // TODO: make form fields more relevant to those needed when sorting through patient data
-                    <>
-                        <br/>
-
-                        <div className="d-flex justify-content-center align-items-center mb-5">
-                            <div className='mr-4'>
-                                <h5 className='mb-0'>Selected Model:</h5>
-                                <p className='mb-0 text-muted'>{this.state.selectedModel.name}</p>
-                            </div>
-                            <ModelListModal
-                                selectModel={(model) => this.setState({selectedModel: model})}
-                                selectText={this.state.selectModelText}
-                                size=""
-                            />
+                            <span className="focus-input"/>
                         </div>
-                        <div className='upload-form validate-form d-flex'>
-                            <Col xs={12} md={6}>
-                                <div className="wrap-input validate-input mb-5" data-validate="Name is required">
-                                    <span className="label-input">Name</span>
-                                    <input
-                                        className="input text-center"
-                                        type="text"
-                                        name="name"
-                                        placeholder="Enter image name"
-                                        onChange={this.handleNameChange}
-                                    />
-                                    <span className="focus-input"/>
-                                </div>
-                                <div className="wrap-input validate-input mb-5" data-validate="Message is required">
-                                    <span className="label-input">Description</span>
-                                    <textarea
-                                        className="input text-center"
-                                        name="message"
-                                        placeholder="Enter image description"
-                                        onChange={this.handleDescriptionChange}
-                                    />
-                                    <span className="focus-input"/>
-                                </div>
-                            </Col>
-                            <Col xs={12} md={6}>
-                                <div >
-                                    <div className="wrap-input validate-input file-input-container text-center mb-5">
-                                        <h1 className="imgupload">
-                                            {!this.state.uploadAttempted ? (
-                                                <i className="fa fa-file-image-o"/>
+                        <div className="wrap-input validate-input mb-5" data-validate="Message is required">
+                            <span className="label-input">Description</span>
+                            <textarea
+                                className="input text-center"
+                                name="message"
+                                placeholder="Enter case description"
+                                onChange={this.handleDescriptionChange}
+                            />
+                            <span className="focus-input"/>
+                        </div>
+                    </Col>
+                    <Col xs={12} md={6}>
+                        <div >
+                            <div className="wrap-input validate-input file-input-container text-center mb-5">
+                                <h1 className="imgupload">
+                                    {!this.state.uploadAttempted ? (
+                                        <i className="fa fa-file-image-o"/>
+                                    ) : (
+                                        <>
+                                            {this.state.imageFile ? (
+                                                <i className="fa fa-check text-success"/>
                                             ) : (
-                                                <>
-                                                    {this.state.imageFile ? (
-                                                        <i className="fa fa-check text-success"/>
-                                                    ) : (
-                                                        <i className="fa fa-times text-danger"/>
-                                                    )}
-                                                </>
+                                                <i className="fa fa-times text-danger"/>
                                             )}
-                                        </h1>
-                                        <p id="namefile">{this.state.uploadMessage}</p>
+                                        </>
+                                    )}
+                                </h1>
+                                <p id="namefile">{this.state.uploadMessage}</p>
 
-                                        <div className='d-flex justify-content-center mb-4'>
-                                            <FileUploader
-                                                onFileSelectSuccess={(file) => this.handleUploadFile(file)}
-                                                onFileSelectError={(error) => this.handleUploadError(error)}
-                                            />
-                                        </div>
-                                    </div>
+                                <div className='d-flex justify-content-center mb-4'>
+                                    <FileUploader
+                                        onFileSelectSuccess={(file) => this.handleUploadFile(file)}
+                                        onFileSelectError={(error) => this.handleUploadError(error)}
+                                    />
                                 </div>
-                            </Col>
-                            <Row className='flex-grow-1 justify-content-center mt-4'>
-                                <div className='flex-grow-1 mb-4 d-flex justify-content-center'>
-                                    {spinning}
-                                </div>
-                            </Row>
+                            </div>
                         </div>
-                    </>
-                )}
-
+                    </Col>
+                    <Row className='flex-grow-1 justify-content-center mt-4'>
+                        <div className='flex-grow-1 mb-4 d-flex justify-content-center'>
+                            {spinning}
+                        </div>
+                    </Row>
+                </div>
             </div>
         )
     }
