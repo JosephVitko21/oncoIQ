@@ -30,14 +30,16 @@ export default function Landing() {
                         <p className="text-white mb-4">
                             Get help diagnosing cases from <strong>expert pathologists</strong> and <strong>artificial intelligence</strong>
                         </p>
-                        <Button
-                            size='md'
-                            style={{width: '38%', backgroundColor: '#EF476F', border: 'none'}}
-                            color='white'
-                            className='mt-4'
-                        >
-                            Get Started
-                        </Button>
+                        <Col xs='12' lg='4' style={{flexShrink: 'inherit'}}>
+                            <Button
+                                size='md'
+                                style={{backgroundColor: '#EF476F', border: 'none'}}
+                                color='white'
+                                className='mt-4'
+                            >Get Started
+                            </Button>
+                        </Col>
+
                     </Col>
                     <Col>
                         <img 
