@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {login, authFetch, useAuth, logout} from "../../auth";
 import { LoginPopContext } from "../../context/GlobalContext"
 import { useNavigate } from "react-router-dom";
@@ -14,11 +14,19 @@ import DropdownMenu from "react-bootstrap/DropdownMenu";
 export default function Navigation() {
     const [logged] = useAuth();
     const {loginPop, setLoginPop} = useContext(LoginPopContext);
+    const [profilePic, setProfilePic] = useState(user.profilePic)
+
     let navigate = useNavigate();
 
     var logBtn
     var navContent
     let navContentRight = <></>
+
+    if (user.profilePic == null) {
+        user.getUsername().then(() => {
+            setProfilePic(user.profilePic)
+        })
+    }
 
     if (logged) {
         logBtn = <Dropdown>
