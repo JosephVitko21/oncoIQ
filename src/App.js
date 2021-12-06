@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import Navigation from './components/Navigation';
+import Navigation from './components/nav/Navigation';
 import Landing from './pages/Landing';
 import Archive from './pages/Archive';
 import Post from "./pages/Post"

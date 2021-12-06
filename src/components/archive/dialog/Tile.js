@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import utils from "../utils/utils";
+import utils from "../../../utils/utils";
 import {Card} from "react-bootstrap";
 
 export default class Tile extends Component {

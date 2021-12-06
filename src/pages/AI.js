@@ -1,14 +1,14 @@
 import React from 'react';
-import ModelListModal from "../components/ModelSelector";
-import FileUploader from "../components/FileUploader";
+import ModelListModal from "../components/upload/models/ModelSelector";
+import FileUploader from "../components/upload/FileUploader";
 import {Button, Col, ProgressBar, Row, Spinner} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import user from "../utils/user";
+import user from "../auth/user";
 import domain from "../utils/site-domain";
-import ImageDetailModal from "../components/ImageDetail";
+import ImageDetailModal from "../components/archive/dialog/ImageDetail";
 import {faArrowDown, faArrowLeft, faChevronDown, faRedo} from "@fortawesome/free-solid-svg-icons";
-import ErrorDialog from "../components/ErrorDialog";
+import ErrorDialog from "../components/upload/ErrorDialog";
 import {makeAuthenticatedRequest} from "../utils/middleware";
 
 export default class AI extends React.Component {

@@ -1,20 +1,23 @@
 import React, {useEffect, useState} from 'react';
 
-import user from "../utils/user";
+import user from "../auth/user";
 import domain from "../utils/site-domain";
-import ImageDetailModal from "../components/ImageDetail";
+import ImageDetailModal from "../components/archive/dialog/ImageDetail";
 import {Button, FormControl, FormLabel, Row} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faFilter, faSearch, faSort} from '@fortawesome/free-solid-svg-icons'
 import {makeAuthenticatedRequest} from "../utils/middleware";
+import {useNavigate} from "react-router-dom";
 
 export default function Archive() {
     const [imgList, setImgList] = useState([]);
     const [nextPageToGet, setNextPageToGet] = useState(0);
     const [allShown, setAllShown] = useState(false)
 
+    let navigate = useNavigate();
+
     const getImages = () => {
-        makeAuthenticatedRequest('GET', `/images?page=${nextPageToGet}`)
+        makeAuthenticatedRequest('GET', `/users/${user.username}/images?page=${nextPageToGet}`)
             .then(data => {
                 setImgList(imgList.concat(data))
                 if (!data || data.length < 12) {
@@ -26,7 +29,11 @@ export default function Archive() {
     }
 
     useEffect(() => {
-        getImages()
+        if (!user.username) {
+            navigate('/')
+        } else {
+            getImages()
+        }
     }, [])
 
 

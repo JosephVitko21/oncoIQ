@@ -1,7 +1,7 @@
 import React from "react";
 import Tile from "./Tile";
-import domain from "../utils/site-domain";
-import googleDomain from "../utils/google-drive-domain";
+import domain from "../../../utils/site-domain";
+import googleDomain from "../../../utils/google-drive-domain";
 
 export default class TileGrid extends React.Component {
     renderGrid(numRows, numCols) {

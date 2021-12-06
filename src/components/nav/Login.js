@@ -1,8 +1,9 @@
 import React, {useState, useContext} from "react";
 import {Button, Form, Modal} from "react-bootstrap";
-import {login, authFetch, useAuth, logout} from "../auth";
-import domain from "../utils/site-domain";
+import {login, authFetch, useAuth, logout} from "../../auth";
+import domain from "../../utils/site-domain";
 import { useNavigate, Link } from "react-router-dom";
+import user from "../../auth/user";
 
 export default function Login() {
     const [logged] = useAuth();
@@ -37,6 +38,7 @@ export default function Login() {
             
             if (result.access_token != null) {
                 login(result.access_token);
+                user.username = result.username
                 console.log(result.access_token);
 
                 navigate("/");
@@ -93,7 +95,7 @@ export default function Login() {
         setEmail(event.target.value);
     }
 
-    if (view == "signup") {
+    if (view === "signup") {
         return (
             <div>
                 <Modal.Header closeButton>

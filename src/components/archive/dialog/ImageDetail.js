@@ -3,12 +3,12 @@ import {Modal, Button, Card, Badge, Image, Row, Col} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import TileGrid from "./TileGrid";
-import googleDomain from "../utils/google-drive-domain";
-import RiskBadge from "./RiskBadge";
+import googleDomain from "../../../utils/google-drive-domain";
+import RiskBadge from "../RiskBadge";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
-import ErrorDialog from "./ErrorDialog";
-import {makeAuthenticatedRequest} from "../utils/middleware";
+import ErrorDialog from "../../upload/ErrorDialog";
+import {makeAuthenticatedRequest} from "../../../utils/middleware";
 
 export default class ImageDetailModal extends React.Component {
     constructor(props) {

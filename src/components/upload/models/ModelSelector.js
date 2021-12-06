@@ -2,10 +2,10 @@ import React, {useContext, useState} from 'react';
 import {Modal, Button, Col} from "react-bootstrap";
 import ModelCard from "./ModelCard";
 
-import user from "../utils/user";
-import utils from "../utils/utils";
-import domain from "../utils/site-domain";
-import {makeAuthenticatedRequest} from "../utils/middleware";
+import user from "../../../auth/user";
+import utils from "../../../utils/utils";
+import domain from "../../../utils/site-domain";
+import {makeAuthenticatedRequest} from "../../../utils/middleware";
 
 export default class ModelSelector extends React.Component {
     renderModelCard(model_datum) {

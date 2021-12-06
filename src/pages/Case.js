@@ -1,6 +1,6 @@
 import React from 'react';
-import ThreadCard from '../components/ThreadCard';
-import ReplyCard from '../components/ReplyCard';
+import CommentCard from '../components/forum/CommentCard';
+import ReplyCard from '../components/forum/NewCommentCard';
 
 export default function Case() {
     return (
@@ -8,7 +8,7 @@ export default function Case() {
             <div className="container">
                 <h1 className="text-white mb-4">Case Discussion</h1>
 
-                <ThreadCard />
+                <CommentCard />
                 <ReplyCard />
             </div> 
         </div>

@@ -1,5 +1,5 @@
 import domain from "./site-domain";
-import user from "./user";
+import user from "../auth/user";
 
 const utils = {
     capitalize: function(str) {

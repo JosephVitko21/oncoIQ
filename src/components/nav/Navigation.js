@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
-import {login, authFetch, useAuth, logout} from "../auth";
-import { LoginPopContext } from "../context/GlobalContext"
+import {login, authFetch, useAuth, logout} from "../../auth";
+import { LoginPopContext } from "../../context/GlobalContext"
 import { useNavigate } from "react-router-dom";
-import logo from "./oncoiq-white.png"
+import logo from "../oncoiq-white.png"
 
 // TODO: add a profile icon that contains the sign out button
 export default function Navigation() {

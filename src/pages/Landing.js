@@ -1,6 +1,6 @@
 import React, {useState, useContext} from "react";
 import { Modal } from "react-bootstrap";
-import Login from "../components/Login";
+import Login from "../components/nav/Login";
 import { LoginPopContext } from "../context/GlobalContext"
 
 export default function Landing() {

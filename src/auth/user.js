@@ -1,7 +1,9 @@
-import domain from "./site-domain";
-const {logout} = require("../auth");
+import domain from "../utils/site-domain";
+const {logout} = require("./");
 
 const user = {
+    username: null,
+
     getAuthToken: function() {
         return localStorage.getItem('REACT_TOKEN_AUTH_KEY').split('"')[1]
     },

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Badge} from "react-bootstrap";
-import utils from "../utils/utils";
+import utils from "../../utils/utils";
 
 export default class RiskBadge extends React.Component {
     render() {

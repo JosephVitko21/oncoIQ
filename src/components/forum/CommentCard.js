@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function ThreadCard() {
+export default function CommentCard() {
     return (
         <div className="card mb-3">
             <img className="mx-auto" src="https://m.media-amazon.com/images/I/919hmlKVNhL._AC_SL1200_.jpg" width="50%" />

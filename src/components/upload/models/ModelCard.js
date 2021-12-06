@@ -1,7 +1,7 @@
 import React from 'react'
 import {Card, Col, Row} from "react-bootstrap";
 
-import domain from "../utils/site-domain";
+import domain from "../../../utils/site-domain";
 
 export default function ModelCard(props) {
     let thumbnail_src = domain + props.thumbnail_url;

@@ -1,5 +1,5 @@
 import domain from "./site-domain";
-import user from "./user";
+import user from "../auth/user";
 
 export async function makeAuthenticatedRequest(method, path, formData) {
     return new Promise(async function(resolve, reject) {
