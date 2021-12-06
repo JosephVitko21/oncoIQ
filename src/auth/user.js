@@ -5,6 +5,9 @@ const {logout} = require("./");
 
 const user = {
     username: null,
+    profilePic: null,
+    name: null,
+    position: null,
 
     getAuthToken: function() {
         try {

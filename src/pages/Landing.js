@@ -49,8 +49,8 @@ export default function Landing() {
                 <h3 style={{color: 'white', paddingBottom: '10px', borderBottom:`solid .25px rgba(255,255,255,0.25)`}} className="mb-4">
                     How it Works
                 </h3>
-                <Row className='mb-4'>
-                    <Col size='sm'>
+                <Row className='mb-4 justify-content-center'>
+                    <Col xs="9" sm="9" md="4" lg="4" xl="4" style={{marginBlockEnd: "40px"}}>
                         <Card>
                             <Card.Body style={{textAlign: 'center'}}>
                                 <Card.Title className='mb-4'>
@@ -63,7 +63,7 @@ export default function Landing() {
                             </Card.Body>
                         </Card>
                     </Col>
-                    <Col size='sm'>
+                    <Col xs="9" sm="9" md="4" lg="4" xl="4" style={{marginBlockEnd: "40px"}}>
                         <Card>
                             <Card.Body style={{textAlign: 'center'}}>
                                 <Card.Title className='mb-4'>
@@ -76,7 +76,7 @@ export default function Landing() {
                             </Card.Body>
                         </Card>
                     </Col>
-                    <Col size='sm'>
+                    <Col xs="9" sm="9" md="4" lg="4" xl="4" style={{marginBlockEnd: "40px"}}>
                         <Card>
                             <Card.Body style={{textAlign: 'center'}}>
                                 <Card.Title className='mb-4'>

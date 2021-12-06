@@ -353,3 +353,7 @@ textarea.input {
     background-color: #011c33 !important;
     color: white;
 }
+
+.navbar-toggler {
+    border: none;
+}
