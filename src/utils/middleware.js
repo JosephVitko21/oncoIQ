@@ -4,42 +4,34 @@ import user from "../auth/user";
 export async function makeAuthenticatedRequest(method, path, formData) {
     return new Promise(async function(resolve, reject) {
         const apiUrl = domain + path
-        fetch(apiUrl, {
+        let authToken = user.getAuthToken()
+        let r = await fetch(apiUrl, {
             method: method,
             headers: {
-                Authorization: "Bearer " + user.getAuthToken(),
+                Authorization: "Bearer " + authToken,
             },
             body: formData,
             redirect: 'follow'
-        }).then(r => {
-            let resp = r.json()
-                .then(data => {
-                    //console.log(data)
-                    //console.log("data:", data)
-                    if(data.status_code === 401) {
-                        // if request returns 401, get new token and try again
-                        console.log("refreshing token")
-                        user.refreshToken()
-                            .then(_ => {
-                                makeAuthenticatedRequest(method, path, formData)
-                                    .then(response => {
-                                        response.json()
-                                            .then(data => {
-                                                if(data.status_code === 200) {
-                                                    // if it works this time, return data
-                                                    resolve(data)
-                                                } else {
-                                                    console.log("Refresh token failed, going back to login page")
-                                                    reject("Could not log in")
-                                                }
-                                            }).catch(err => reject(err))
-                                    }).catch(err => reject(err))
-                            }).catch(err => reject(err))
-                    } else {
-                        // otherwise, return data
-                        resolve(data);
-                    }
-                }).catch(err => reject(err))
-        }).catch(err => reject(err))
+        })
+        let data = await r.json()
+
+        if (r.status === 401) {
+            console.log("refreshing token")
+            await user.refreshToken()
+            let response2 = await makeAuthenticatedRequest(method, path, formData)
+            let data2 = await response2.json()
+            if (response2.status === 200) {
+                // if it worked this time, return data
+                resolve(data2)
+            } else {
+                console.log("Refresh token failed, going back to login page")
+                reject("Could not log in")
+            }
+        } else if (r.status === 200) {
+            console.log('successfully retrieved data: ' + data)
+            resolve(data)
+        } else {
+            reject(`Error: request returned status code ${r.statusCode}`)
+        }
     })
 }

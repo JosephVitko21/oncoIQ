@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from "react";
-import {makeAuthenticatedRequest} from "../../utils/middleware";
+import {makeAuthenticatedRequest} from "../../../utils/middleware";
 import CaseCard from "./CaseCard";
-import ImageDetailModal from "../archive/dialog/ImageDetail";
-import user from "../../auth/user";
+import ImageDetailModal from "../../archive/dialog/ImageDetail";
+import user from "../../../auth/user";
 
-export default function CaseList() {
+export default function CaseList(props) {
     const [postList, setPostList] = useState([]);
     const [nextPageToGet, setNextPageToGet] = useState(0);
     const [allShown, setAllShown] = useState(false)
 
     const getPosts = () => {
-        makeAuthenticatedRequest('GET', `/users/${user.username}/images?page=${nextPageToGet}`)
+        makeAuthenticatedRequest('GET', `/images?page=${nextPageToGet}`)
             .then(data => {
                 setPostList(postList.concat(data))
                 if (!data || data.length < 12) {
@@ -42,6 +42,7 @@ export default function CaseList() {
                         profilePic={datum.uploader_profile_pic}
                         job={datum.uploader_job}
                         risk_level={datum.risk_level}
+                        image_id={datum.image_id}
                     />
                 );
             })}

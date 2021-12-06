@@ -1,11 +1,11 @@
 import React, {useState, useContext, useEffect} from "react";
-import CaseCard from '../components/forum/CaseCard';
+import CaseCard from '../components/forum/list/CaseCard';
 import { Modal } from "react-bootstrap";
 import Login from "../components/nav/Login";
 import { LoginPopContext } from "../context/GlobalContext"
 import {makeAuthenticatedRequest} from "../utils/middleware";
 import user from "../auth/user";
-import CaseList from "../components/forum/CaseList";
+import CaseList from "../components/forum/list/CaseList";
 
 export default function Explore() {
     return (

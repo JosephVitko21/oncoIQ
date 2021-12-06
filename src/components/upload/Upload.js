@@ -29,6 +29,8 @@ export default class Upload extends React.Component {
             loadingMessage: null,
             errorMessage: null,
             showErrorDialog: false,
+            public: false,
+            ai: false,
         }
     }
 
@@ -71,6 +73,8 @@ export default class Upload extends React.Component {
         formData.append('model', this.state.selectedModel.file_name)
         formData.append('name', this.state.imageName)
         formData.append('description', this.state.imageDescription)
+        formData.append('public', this.state.public)
+        formData.append('ai', this.state.ai)
         console.log(formData)
 
         makeAuthenticatedRequest("POST", "/images/upload_image", formData)
@@ -96,6 +100,8 @@ export default class Upload extends React.Component {
                     loadingCurrent: 0,
                     loadingTotal: 0,
                     loadingMessage: null,
+                    public: false,
+                    ai: false,
                 })
             });
     }
@@ -326,7 +332,12 @@ export default class Upload extends React.Component {
                                                 style={{backgroundColor: "#ffffff", border: "0px solid #ffffff"}}
                                             >
                                                 Post to community forum:
-                                                <input type="checkbox" aria-label="community" className="ml-2"/>
+                                                <input
+                                                    type="checkbox"
+                                                    aria-label="community"
+                                                    className="ml-2"
+                                                    onChange = {() => {this.setState({public: !this.state.public})}}
+                                                />
                                             </InputGroup.Text>
 
                                         </InputGroup>
@@ -337,7 +348,12 @@ export default class Upload extends React.Component {
                                                 style={{backgroundColor: "#ffffff", border: "0px solid #ffffff"}}
                                             >
                                                 Scan image with AI:
-                                                <input type="checkbox" aria-label="ai" className="ml-2"/>
+                                                <input
+                                                    type="checkbox"
+                                                    aria-label="ai"
+                                                    className="ml-2"
+                                                    onChange = {() => {this.setState({ai: !this.state.ai})}}
+                                                />
                                             </InputGroup.Text>
 
                                         </InputGroup>

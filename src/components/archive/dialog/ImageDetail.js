@@ -70,7 +70,7 @@ export default class ImageDetailModal extends React.Component {
                                     {console.log("data to render:", this.state.data)}
                                     <TileGrid
                                         tiles={this.state.data.tiles}
-                                        id={this.state.data.id}
+                                        image_id={this.state.data.image_id}
                                         image_url={googleDomain + this.state.data.file_id}
                                         num_rows={this.state.data.num_rows}
                                         num_cols={this.state.data.num_cols}

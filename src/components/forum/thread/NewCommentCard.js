@@ -1,5 +1,5 @@
 import React from 'react';
-import {login, authFetch, useAuth, logout} from "../../auth";
+import {login, authFetch, useAuth, logout} from "../../../auth";
 
 export default function NewCommentCard() {
     const [logged] = useAuth();

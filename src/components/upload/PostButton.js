@@ -13,7 +13,7 @@ export default function PostButton() {
                 <Button
                     tooltip="Upload a histology image"
                     onClick={() => setShowUploadDialog(true)}
-                    styles={{backgroundColor: "#7b32d9", color: lightColors.white}}
+                    styles={{backgroundColor: "#EF476F", color: lightColors.white}}
                 >
                     {<FontAwesomeIcon icon={faPlus}/>}
                 </Button>
@@ -40,7 +40,7 @@ export default function PostButton() {
                             <Modal.Title>
                                 Upload a Histology Image
                             </Modal.Title>
-                            <p>Use AI or the pathology to help make a diagnosis</p>
+                            <p>Use AI or the community to help make a diagnosis</p>
                         </div>
 
                     </Modal.Header>

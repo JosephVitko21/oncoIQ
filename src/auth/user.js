@@ -1,11 +1,18 @@
 import domain from "../utils/site-domain";
+import {makeAuthenticatedRequest} from "../utils/middleware";
+import {useNavigate} from "react-router-dom";
 const {logout} = require("./");
 
 const user = {
     username: null,
 
     getAuthToken: function() {
-        return localStorage.getItem('REACT_TOKEN_AUTH_KEY').split('"')[1]
+        try {
+            return localStorage.getItem('REACT_TOKEN_AUTH_KEY').split('"')[1]
+        } catch (e) {
+            return null
+        }
+
     },
 
     setAuthToken: function(token) {
@@ -41,6 +48,19 @@ const user = {
                 reject(err)
             })
         })
+    },
+
+    getUsername: async function() {
+        console.log('getting username')
+        let data = await makeAuthenticatedRequest('GET', `/users/data`)
+        if (!data) {
+            await logout()
+            return null
+            // calling should handle by navigating to homepage
+        } else {
+            user.username = data.username
+            return user.username
+        }
     }
 }
 

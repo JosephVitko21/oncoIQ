@@ -16,7 +16,18 @@ export default function Archive() {
 
     let navigate = useNavigate();
 
-    const getImages = () => {
+    const getImages = async () => {
+        console.log('getting images')
+        let username = user.username
+        if (!username) {
+            username = await user.getUsername()
+        }
+        console.log(`username: ${username}`)
+        if (!username) {
+            navigate('/')
+            return
+        }
+
         makeAuthenticatedRequest('GET', `/users/${user.username}/images?page=${nextPageToGet}`)
             .then(data => {
                 setImgList(imgList.concat(data))
@@ -29,11 +40,7 @@ export default function Archive() {
     }
 
     useEffect(() => {
-        if (!user.username) {
-            navigate('/')
-        } else {
-            getImages()
-        }
+        getImages()
     }, [])
 
 
