@@ -37,10 +37,11 @@ function App() {
             </LoginPopContext.Provider>
             </NavContext.Provider>
             {logged ? <PostButton /> : <></>}
-            <footer className="py-1" style={{paddingTop: '200px!important', backgroundColor:'#111111', marginTop:'120px'}}>
-                <div className="container">
+            <footer className="py-1" style={{backgroundColor:'#111111', marginTop:'120px'}}>
+                <div className="container"style={{paddingTop: '200px'}}>
                     <p className="m-0 text-left text-white">&copy; oncoIQ 2021</p>
                 </div>
+
             </footer>
 
         </div>

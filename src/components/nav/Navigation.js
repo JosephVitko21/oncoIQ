@@ -3,7 +3,7 @@ import {login, authFetch, useAuth, logout} from "../../auth";
 import { LoginPopContext } from "../../context/GlobalContext"
 import { useNavigate } from "react-router-dom";
 import logo from "../logo-white.svg"
-import { Modal } from "react-bootstrap";
+import {Container, Modal} from "react-bootstrap";
 import Login from "./Login";
 
 // TODO: add a profile icon that contains the sign out button
@@ -25,17 +25,23 @@ export default function Navigation() {
     }
 
     return (
-        <div>
+        <Container>
             <Modal size="lg" show={loginPop} onHide={() => setLoginPop(false)}>
                 <Login />
             </Modal>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-navy">
+            <nav className="navbar navbar-expand-lg navbar-dark"
+                 style={{
+                     backgroundColor: 'rgba(0,0,0,0)',
+                     paddingTop: '1em',
+                     paddingBottom: '1em'
+                 }}
+            >
                 <a className="navbar-brand" onClick={() => navigate("/")}>
                     <img src={logo} width="100"></img>
                 </a>
                 {navContent}
                 {logBtn}
             </nav>
-        </div>
+        </Container>
     );
 }

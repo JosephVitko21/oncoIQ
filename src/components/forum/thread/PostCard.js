@@ -21,7 +21,7 @@ export default function PostCard(props) {
     }, [])
 
     return (
-        <Card className='mb-4'>
+        <Card style={{marginBottom: '60px'}}>
             <Card.Header>
                 <Card.Title className='mt-2'>
                     {data.name}

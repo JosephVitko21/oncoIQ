@@ -8,8 +8,12 @@ import user from "../auth/user";
 import CaseList from "../components/forum/list/CaseList";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBrain, faMicroscope, faUsers} from "@fortawesome/free-solid-svg-icons";
+import {useNavigate} from "react-router-dom";
 
 export default function Landing() {
+
+    const navigate = useNavigate();
+
     return (
         <div className="bg-navy min-vh-100">
             <div className="container mt-5">
@@ -88,7 +92,10 @@ export default function Landing() {
                 </Row>
                 <h3 className='text-white mb-4' style={{marginTop: '80px'}}>Latest Cases</h3>
                 <CaseList/>
-                <Button style={{backgroundColor: '#06D6A0', border: 'none'}}>View More</Button>
+                <div className='flex-grow-1 justify-content-center' style={{display: 'flex', marginTop: '40px'}}>
+                    <Button style={{backgroundColor: '#06D6A0', border: 'none'}} onClick={() => navigate('/community')}>View More</Button>
+                </div>
+
                 {/*if logged in, navigate to community tab, otherwise show log in dialog*/}
             </div>
         </div>
