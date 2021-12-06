@@ -3,9 +3,12 @@ import {login, authFetch, useAuth, logout} from "../../auth";
 import { LoginPopContext } from "../../context/GlobalContext"
 import { useNavigate } from "react-router-dom";
 import logo from "../logo-white.svg"
-import {Container, Modal, Nav, Navbar} from "react-bootstrap";
+import {Container, Dropdown, Modal, Nav, Navbar} from "react-bootstrap";
 import Login from "./Login";
 import user from "../../auth/user";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
+import DropdownMenu from "react-bootstrap/DropdownMenu";
 
 // TODO: add a profile icon that contains the sign out button
 export default function Navigation() {
@@ -18,14 +21,24 @@ export default function Navigation() {
     let navContentRight = <></>
 
     if (logged) {
-        logBtn = <img
-            className="profile-pic"
-            width="50px"
-            height="50px"
-            src={user.profilePic}
-            style={{borderRadius: '50%'}}
-            onClick={() => logout()}
-        />
+        logBtn = <Dropdown>
+            <Dropdown.Toggle id='dropdown-basic' style={{backgroundColor: 'transparent', borderColor: 'transparent'}}>
+                <img
+                    className="profile-pic"
+                    width="50px"
+                    height="50px"
+                    src={user.profilePic}
+                    style={{borderRadius: '50%'}}
+                />
+            </Dropdown.Toggle>
+            <DropdownMenu>
+                <Dropdown.Item onClick={() => logout()}>
+                    <FontAwesomeIcon icon={faSignOutAlt}/>
+                    Log Out
+                </Dropdown.Item>
+            </DropdownMenu>
+        </Dropdown>
+
         navContent =
             <Nav className="me-auto">
                 <Nav.Link onClick={() => navigate("/community")}>Community</Nav.Link>
