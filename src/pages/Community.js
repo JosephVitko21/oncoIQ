@@ -7,15 +7,15 @@ import {makeAuthenticatedRequest} from "../utils/middleware";
 import user from "../auth/user";
 import CaseList from "../components/forum/list/CaseList";
 
-export default function Explore() {
+export default function Community() {
     return (
         <div className="bg-navy min-vh-100">
-            <div className="container">
-                <h1 className="text-white">Explore Cases</h1>
+            <div className="container mt-5">
+                <h1 className="text-white">Help a Pathologist</h1>
                 <p className="text-white mb-4">
-                    Get feedbacks from our AI models and community of pathologists
+                    Explore cases the pathology community needs help solving
                 </p>
-
+                <br/>
                 <CaseList/>
             </div> 
         </div>

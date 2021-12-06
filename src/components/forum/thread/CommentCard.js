@@ -4,7 +4,7 @@ import PostFooter from "./PostFooter";
 
 export default function CommentCard(props) {
     return (
-        <Card className="mb-3">
+        <Card className="mb-4">
             <Card.Body>
                 <Card.Text >
                     {props.content}

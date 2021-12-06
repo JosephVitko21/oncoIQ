@@ -46,6 +46,11 @@ export default function CaseList(props) {
                     />
                 );
             })}
+            {!allShown ? (
+                <div className='flex-grow-1 justify-content-center mt-4'>
+                    <button className="btn" onClick={() => getPosts} style={{backgroundColor: "#06D6A0", color: 'white'}}>View More</button>
+                </div>
+            ) : <></>}
         </>
     )
 

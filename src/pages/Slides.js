@@ -9,7 +9,7 @@ import {faFilter, faSearch, faSort} from '@fortawesome/free-solid-svg-icons'
 import {makeAuthenticatedRequest} from "../utils/middleware";
 import {useNavigate} from "react-router-dom";
 
-export default function Archive() {
+export default function Slides() {
     const [imgList, setImgList] = useState([]);
     const [nextPageToGet, setNextPageToGet] = useState(0);
     const [allShown, setAllShown] = useState(false)
@@ -48,8 +48,8 @@ export default function Archive() {
     // TODO: Separate the search box and button from the filter and sort buttons
     // TODO: Add search, filter, sort, functionality
     return (
-        <div className="container text-center mt-5">
-            <h3>My Image Archive</h3>
+        <div className="container text-center" style={{backgroundColor: 'white', minWidth: '100vw', minHeight: '100vh'}}>
+            <h3 className='pt-5'>My Slide Archive</h3>
             <p>Click or tap on a histology to view its details</p>
             <br />
             <Row className='search-row'>

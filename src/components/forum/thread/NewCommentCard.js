@@ -3,6 +3,7 @@ import {login, authFetch, useAuth, logout} from "../../../auth";
 import {Card} from "react-bootstrap";
 import {makeAuthenticatedRequest} from "../../../utils/middleware";
 import ErrorDialog from "../../upload/ErrorDialog";
+import {useNavigate} from "react-router-dom";
 
 export default function NewCommentCard(props) {
     const [logged] = useAuth();
@@ -27,7 +28,7 @@ export default function NewCommentCard(props) {
                 'content': replyContent
             }
             await makeAuthenticatedRequest('POST', '/posts/' + props.image_id + '/comments', JSON.stringify(formData))
-            window.location.reload()
+            // TODO: Refresh the page somehow
         } catch (e) {
             setShowErrorDialog(true)
         }
@@ -40,7 +41,7 @@ export default function NewCommentCard(props) {
 
     return (
         <>
-            <Card className=" p-3 mb-3">
+            <Card className=" p-3 mb-4 mt-4">
                 <h5 className="mb-3">Reply</h5>
                 <textarea className="w-100 mb-2" onChange={handleDescriptionChange}/>
                 <button className="btn btn-success" onClick={submitComment} type='submit'>Submit</button>
