@@ -36,7 +36,7 @@ export default function PostCard(props) {
                             image_url={googleDomain + data.file_id}
                             num_rows={data.num_rows}
                             num_cols={data.num_cols}
-
+                            showSlider={true}
                         />
                     </div>
                 </div>

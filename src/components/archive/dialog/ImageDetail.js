@@ -74,6 +74,7 @@ export default class ImageDetailModal extends React.Component {
                                         image_url={googleDomain + this.state.data.file_id}
                                         num_rows={this.state.data.num_rows}
                                         num_cols={this.state.data.num_cols}
+                                        showSlider={true}
                                     />
                                 </div>
                                 <p>{this.state.data.description}</p>

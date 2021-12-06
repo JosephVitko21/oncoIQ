@@ -2,9 +2,19 @@ import React from "react";
 import Tile from "./Tile";
 import domain from "../../../utils/site-domain";
 import googleDomain from "../../../utils/google-drive-domain";
+import SwitchSelector from "react-switch-selector";
+import {faArrowsAltH, faExclamationTriangle, faImage, faPercentage, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export default class TileGrid extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            mode: 1
+        }
+    }
     renderGrid(numRows, numCols) {
+        console.log('rendering tiles')
         let rows = []
         for (let i = 0; i < numRows; i++) {
             let row = []
@@ -32,13 +42,54 @@ export default class TileGrid extends React.Component {
         return <Tile
             image={image}
             riskScore={riskScore}
+            mode={this.state.mode}
         />
     }
-    render() {
+    renderSlider() {
+        const options = [
+            {
+                label: <FontAwesomeIcon icon={faImage} className='mt-2' color='white'/>,
+                value: 0,
+                selectedBackgroundColor: "#1B9AAA",
+            },
+            {
+                label: <FontAwesomeIcon icon={faArrowsAltH} className='mt-2' color='white'/>,
+                value: 1,
+                selectedBackgroundColor: "#1B9AAA"
+            },
+            {
+                label: <FontAwesomeIcon icon={faExclamationTriangle} className='mt-2' color='white'/>,
+                value: 2,
+                selectedBackgroundColor: "#1B9AAA"
+            }
+        ]
+        const onChange = (newValue) => {
+            this.setState({
+                mode: newValue
+            })
+        }
+
+        const initialSelectedIndex = options.findIndex(({value}) => value === 1)
+
         return (
-            <>
+            <div className="your-required-wrapper mt-2" style={{display: 'flex', justifyContent: 'center', flexDirection: 'row', marginRight: '33%', marginLeft: '33%'}}>
+                <SwitchSelector
+                    onChange={onChange}
+                    options={options}
+                    initialSelectedIndex={initialSelectedIndex}
+                    backgroundColor={"#77dce9"}
+                    fontColor={"#ffffff"}
+                />
+            </div>
+        );
+    }
+    render() {
+        console.log('rendering tile grid')
+        return (
+            <div className='mb-4'>
                 {this.renderGrid(this.props.num_rows, this.props.num_cols)}
-            </>
+                {this.props.showSlider ? this.renderSlider() : <></>}
+            </div>
 
         )
     }

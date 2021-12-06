@@ -1,5 +1,5 @@
 import { Container, Button, lightColors, darkColors} from 'react-floating-action-button'
-import {faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faCamera, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React, {useState} from "react";
 import {Modal} from "react-bootstrap";

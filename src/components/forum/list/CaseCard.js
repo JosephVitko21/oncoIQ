@@ -38,13 +38,15 @@ export default function CaseCard(props) {
                             <p>{props.description}</p>
                         </div>
 
-                        <PostFooter
-                            poster={props.poster}
-                            profilePic={props.profilePic}
-                            job={props.job}
-                            date={props.date}
-                        />
+                        <div style={{borderTop: "solid 0.5px #eeeeee", paddingTop: '15px'}}>
+                            <PostFooter
+                                poster={props.poster}
+                                profilePic={props.profilePic}
+                                job={props.job}
+                                date={props.date}
 
+                            />
+                        </div>
                     </Col>
                 </div>
             </div>

@@ -20,6 +20,7 @@
     "react-helmet": "^6.1.0",
     "react-router-dom": "6",
     "react-scripts": "4.0.3",
+    "react-switch-selector": "^1.2.1",
     "react-token-auth": "^1.1.8",
     "web-vitals": "^1.1.0"
   },
