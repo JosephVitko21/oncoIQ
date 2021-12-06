@@ -44,7 +44,7 @@ export default class ImageDetailModal extends React.Component {
                                     <Card.Title>{this.props.name}</Card.Title>
                                     <Card.Subtitle className='mb-1'>{this.props.model}</Card.Subtitle>
                                     <Card.Text className="text-muted">{moment.utc(this.props.date).fromNow()}</Card.Text>
-                                    <RiskBadge risk_level={this.props.risk_level} />
+                                    <RiskBadge risk_level={this.props.risk_level} size='md'/>
                                 </div>
                             </Card>
                         </Col>
@@ -66,7 +66,7 @@ export default class ImageDetailModal extends React.Component {
                             </Modal.Header>
                             <Modal.Body>
                                 <div className="image-detail">
-                                    <RiskBadge risk_level={this.props.risk_level} />
+                                    <RiskBadge risk_level={this.props.risk_level} size='md'/>
                                     {console.log("data to render:", this.state.data)}
                                     <TileGrid
                                         tiles={this.state.data.tiles}

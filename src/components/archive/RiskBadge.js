@@ -26,7 +26,7 @@ export default class RiskBadge extends React.Component {
         }
 
         if (size === 'md') {
-
+            return <h5><Badge pill style={badgeStyle}>Estimated Risk: {utils.makePercentage(this.props.risk_level, 0)}</Badge></h5>
         } else if (size === 'sm') {
             return <p><Badge pill style={badgeStyle}>Estimated Risk: {utils.makePercentage(this.props.risk_level, 0)}</Badge></p>
         }
