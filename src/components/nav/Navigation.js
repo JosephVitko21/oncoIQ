@@ -18,8 +18,6 @@ export default function Navigation() {
         navContent =
             <div className="navbar-nav mr-auto">
                 <a className="nav-link" onClick={() => navigate("/")}>Explore</a>
-                <a className="nav-link" onClick={() => navigate("/post")}>Post</a>
-                <a className="nav-link" onClick={() => navigate("/ai")}>AI</a>
                 <a className="nav-link" onClick={() => navigate("/archive")}>Archive</a>
             </div>;
     }

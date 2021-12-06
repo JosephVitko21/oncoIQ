@@ -1,17 +1,17 @@
 import React from 'react';
-import ModelListModal from "../components/upload/models/ModelSelector";
-import FileUploader from "../components/upload/FileUploader";
-import {Button, Col, ProgressBar, Row, Spinner} from "react-bootstrap";
+import ModelListModal from "./models/ModelSelector";
+import FileUploader from "./FileUploader";
+import {Button, Col, ProgressBar, Row, Spinner, ButtonGroup, InputGroup} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import user from "../auth/user";
-import domain from "../utils/site-domain";
-import ImageDetailModal from "../components/archive/dialog/ImageDetail";
+import user from "../../auth/user";
+import domain from "../../utils/site-domain";
+import ImageDetailModal from "../archive/dialog/ImageDetail";
 import {faArrowDown, faArrowLeft, faChevronDown, faRedo} from "@fortawesome/free-solid-svg-icons";
-import ErrorDialog from "../components/upload/ErrorDialog";
-import {makeAuthenticatedRequest} from "../utils/middleware";
+import ErrorDialog from "./ErrorDialog";
+import {makeAuthenticatedRequest} from "../../utils/middleware";
 
-export default class AI extends React.Component {
+export default class Upload extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,7 +21,7 @@ export default class AI extends React.Component {
             imageFile: null,
             uploadAttempted: false,
             uploadMessage: 'Only pics allowed: (jpg,jpeg,bmp,png)',
-            selectModelText: 'Select a Model',
+            selectModelText: 'Select a Disease',
             imageDetailData: null,
             loading: false,
             loadingProgress: 0,
@@ -91,7 +91,7 @@ export default class AI extends React.Component {
                     imageFile: null,
                     uploadAttempted: false,
                     uploadMessage: 'Only pics allowed: (jpg,jpeg,bmp,png)',
-                    selectModelText: 'Select a Model',
+                    selectModelText: 'Select a Disease',
                     loading: false,
                     loadingCurrent: 0,
                     loadingTotal: 0,
@@ -114,34 +114,34 @@ export default class AI extends React.Component {
                     {
                         'method': 'GET',
                     }).then(r => {
-                        // convert the resulting data json to an object
-                        r.json()
-                            .then(data => {
-                                if (data.state === 'PROGRESS' || data.state === 'PENDING') {
-                                    // if the task state is either PROGRESS or PENDING
-                                    reject(data)
-                                } else if (data.state === 'ERROR') {
-                                    // an error occurred server side, polling can conclude
-                                    resolve(data)
-                                } else {
-                                    // if the task state is complete, polling can conclude
-                                    console.log('Successfully got result. Polling should conclude')
-                                    resolve(data)
-                                }
-                            }).catch(() => {
-                                // if converting to JSON failed, an error has occurred and polling can stop
-                                let data = {
-                                    state: 'ERROR'
-                                }
+                    // convert the resulting data json to an object
+                    r.json()
+                        .then(data => {
+                            if (data.state === 'PROGRESS' || data.state === 'PENDING') {
+                                // if the task state is either PROGRESS or PENDING
                                 reject(data)
-                        })
-                    }).catch(() => {
-                        // if the request failed, an error has occurred and polling can stop.
+                            } else if (data.state === 'ERROR') {
+                                // an error occurred server side, polling can conclude
+                                resolve(data)
+                            } else {
+                                // if the task state is complete, polling can conclude
+                                console.log('Successfully got result. Polling should conclude')
+                                resolve(data)
+                            }
+                        }).catch(() => {
+                        // if converting to JSON failed, an error has occurred and polling can stop
                         let data = {
                             state: 'ERROR'
                         }
                         reject(data)
                     })
+                }).catch(() => {
+                    // if the request failed, an error has occurred and polling can stop.
+                    let data = {
+                        state: 'ERROR'
+                    }
+                    reject(data)
+                })
             })
 
         }
@@ -216,7 +216,7 @@ export default class AI extends React.Component {
         }
 
         return (
-            <div className="container text-center mt-5">
+            <div className="container text-center mt-4 mb-4">
 
                 {this.state.showErrorDialog ? (
                     <ErrorDialog
@@ -227,12 +227,8 @@ export default class AI extends React.Component {
                     <></>
                 )}
 
-                <h3>Upload a Histology Image</h3>
-
                 {!this.state.selectedModel ? (
                     <>
-                        <p>One of our AI models will predict its cancer risk</p>
-                        <br/>
                         <ModelListModal
                             selectModel={(model) => this.setState({
                                 selectedModel: model,
@@ -260,7 +256,7 @@ export default class AI extends React.Component {
 
                         <div className="d-flex justify-content-center align-items-center mb-5">
                             <div className='mr-4'>
-                                <h5 className='mb-0'>Selected Model:</h5>
+                                <h5 className='mb-0'>Selected Disease:</h5>
                                 <p className='mb-0 text-muted'>{this.state.selectedModel.name}</p>
                             </div>
                             <ModelListModal
@@ -269,6 +265,8 @@ export default class AI extends React.Component {
                                 size=""
                             />
                         </div>
+
+
                         <div className='upload-form validate-form d-flex'>
                             <Col xs={12} md={6}>
                                 <div className="wrap-input validate-input mb-5" data-validate="Name is required">
@@ -320,11 +318,29 @@ export default class AI extends React.Component {
                                     </div>
                                 </div>
                             </Col>
-                            <Row className='flex-grow-1 justify-content-center mt-4'>
-                                <div className='flex-grow-1 mb-4 d-flex justify-content-center'>
-                                    {spinning}
-                                </div>
-                            </Row>
+                            <Col>
+                                <Row className='flex-grow-1 justify-content-around mt-2 mb-4'>
+                                    <Row className='justify-content-center'>
+                                        <p className='mr-2'>Post to community forum: </p>
+                                        <InputGroup className="mb-3">
+                                            <InputGroup.Checkbox aria-label="Checkbox for following text input" />
+                                        </InputGroup>
+                                    </Row>
+                                    <Row className='justify-content-center'>
+                                        <p className='mr-2'>Scan image with AI: </p>
+                                        <InputGroup className="mb-3">
+                                            <InputGroup.Checkbox aria-label="Checkbox for following text input" />
+                                        </InputGroup>
+                                    </Row>
+                                </Row>
+
+                                <br/>
+                                <Row className='flex-grow-1 justify-content-center mt-4 mr-5 ml-5'>
+                                    <div className='flex-grow-1 mb-4 d-flex justify-content-center'>
+                                        {spinning}
+                                    </div>
+                                </Row>
+                            </Col>
                         </div>
                     </>
                 )}

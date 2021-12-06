@@ -43,7 +43,7 @@ export default class ModelSelector extends React.Component {
                     >
                         <Modal.Header closeButton>
                             <Modal.Title>
-                                Choose a Model
+                                Select a Disease to Detect
                             </Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
