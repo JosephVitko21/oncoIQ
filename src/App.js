@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
 import Navigation from './components/nav/Navigation';
-import Landing from './pages/Landing';
 import Archive from './pages/Archive';
 import Explore from './pages/Explore';
 import Case from './pages/Case'
