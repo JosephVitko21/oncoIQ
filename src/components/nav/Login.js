@@ -4,17 +4,28 @@ import {login, authFetch, useAuth, logout} from "../../auth";
 import domain from "../../utils/site-domain";
 import { useNavigate, Link } from "react-router-dom";
 import user from "../../auth/user";
+import { LoginPopContext } from "../../context/GlobalContext"
 
 export default function Login() {
     const [logged] = useAuth();
+    const {loginPop, setLoginPop} = useContext(LoginPopContext);
 
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
     const [view, setView] = useState("login");
     const [errorMsg, setErrorMsg] = useState(null);
 
     const navigate = useNavigate();
+
+    const userData = {
+        "firstName": null,
+        "lastName": null,
+        "username": null,
+        "email": null,
+        "password": null,
+        "position": null,
+        "workplace": null,
+        "website": null,
+        "profilePicUrl": null
+    }
     
     function handleLogin(event) {
         event.preventDefault();
@@ -22,7 +33,7 @@ export default function Login() {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
-        var raw = JSON.stringify({"username":username,"password":password});
+        var raw = JSON.stringify({"username": userData.username,"password": userData.password});
 
         var requestOptions = {
             method: "POST",
@@ -41,6 +52,7 @@ export default function Login() {
                 user.username = result.username
                 console.log(result.access_token);
 
+                setLoginPop(false)
                 navigate("/");
             } else {
                 console.log("error message: ", result.message);
@@ -58,7 +70,7 @@ export default function Login() {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
-        var raw = JSON.stringify({"username":username,"email":email,"password":password});
+        var raw = JSON.stringify(userData);
 
         var requestOptions = {
             method: "POST",
@@ -80,21 +92,6 @@ export default function Login() {
         });
     }
 
-    function handleUsernameChange(event) {
-        event.preventDefault();
-        setUsername(event.target.value);
-    }
-
-    function handlePasswordChange(event) {
-        event.preventDefault();
-        setPassword(event.target.value);
-    }
-
-    function handleEmailChange(event) {
-        event.preventDefault();
-        setEmail(event.target.value);
-    }
-
     if (view === "signup") {
         return (
             <div>
@@ -103,19 +100,39 @@ export default function Login() {
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSignup}>
-                        <Form.Group controlId="formEmail">
+                        <Form.Group>
+                            <Form.Label>First Name</Form.Label>
+                            <Form.Control type="text" placeholder="First Name" onChange={(event) => userData.firstName = event.target.value}/>
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label>Last Name</Form.Label>
+                            <Form.Control type="text" placeholder="Last Name" onChange={(event) => userData.lastName = event.target.value}/>
+                        </Form.Group>
+
+                        <Form.Group>
                             <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" placeholder="Email" onChange={handleEmailChange}/>
+                            <Form.Control type="email" placeholder="Email" onChange={(event) => userData.email = event.target.value}/>
                         </Form.Group>
 
-                        <Form.Group controlId="formUsername">
+                        <Form.Group>
                             <Form.Label>Username</Form.Label>
-                            <Form.Control type="text" placeholder="Username" onChange={handleUsernameChange}/>
+                            <Form.Control type="text" placeholder="Username" onChange={(event) => userData.username = event.target.value}/>
                         </Form.Group>
 
-                        <Form.Group controlId="formPassword">
+                        <Form.Group>
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" onChange={handlePasswordChange}/>
+                            <Form.Control type="password" placeholder="Password" onChange={(event) => userData.password = event.target.value}/>
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label>Position</Form.Label>
+                            <Form.Control type="text" placeholder="Position" onChange={(event) => userData.position = event.target.value}/>
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label>Workplace</Form.Label>
+                            <Form.Control type="text" placeholder="Workplace" onChange={(event) => userData.workplace = event.target.value}/>
                         </Form.Group>
 
                         <p className="text-success">{errorMsg}</p>
@@ -139,14 +156,14 @@ export default function Login() {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleLogin}>
-                    <Form.Group controlId="formUsername">
+                    <Form.Group>
                         <Form.Label>Username</Form.Label>
-                        <Form.Control className="w-auto" type="text" placeholder="Username" onChange={handleUsernameChange}/>
+                        <Form.Control className="w-auto" type="text" placeholder="Username" onChange={(event) => userData.username = event.target.value}/>
                     </Form.Group>
 
-                    <Form.Group controlId="formPassword">
+                    <Form.Group>
                         <Form.Label>Password</Form.Label>
-                        <Form.Control className="w-auto" type="password" placeholder="Password" onChange={handlePasswordChange}/>
+                        <Form.Control className="w-auto" type="password" placeholder="Password" onChange={(event) => userData.password = event.target.value}/>
                     </Form.Group>
 
                     <p className="text-danger">{errorMsg}</p>
