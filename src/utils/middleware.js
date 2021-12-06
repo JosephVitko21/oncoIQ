@@ -28,7 +28,6 @@ export async function makeAuthenticatedRequest(method, path, formData) {
                 reject("Could not log in")
             }
         } else if (r.status === 200) {
-            console.log('successfully retrieved data: ' + data)
             resolve(data)
         } else {
             reject(`Error: request returned status code ${r.statusCode}`)

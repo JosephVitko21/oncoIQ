@@ -281,7 +281,7 @@ export default class Upload extends React.Component {
                                         className="input text-center"
                                         type="text"
                                         name="name"
-                                        placeholder="Enter image name"
+                                        placeholder="Enter histology title"
                                         onChange={this.handleNameChange}
                                     />
                                     <span className="focus-input"/>
@@ -291,7 +291,7 @@ export default class Upload extends React.Component {
                                     <textarea
                                         className="input text-center"
                                         name="message"
-                                        placeholder="Enter image description"
+                                        placeholder="Enter any additional details"
                                         onChange={this.handleDescriptionChange}
                                     />
                                     <span className="focus-input"/>

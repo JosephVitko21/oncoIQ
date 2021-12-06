@@ -1,13 +1,23 @@
 import React from 'react';
+import {Card} from "react-bootstrap";
+import PostFooter from "./PostFooter";
 
-export default function CommentCard() {
+export default function CommentCard(props) {
     return (
-        <div className="card mb-3">
-            <div className="card-body">
-                <p className="card-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-            </div>
-        </div>
+        <Card className="mb-3">
+            <Card.Body>
+                <Card.Text >
+                    {props.content}
+                </Card.Text>
+            </Card.Body>
+            <Card.Footer>
+                <PostFooter
+                    poster = {props.authorName}
+                    job={props.authorJob}
+                    profilePic={props.authorProfilePic}
+                    date={props.date}
+                />
+            </Card.Footer>
+        </Card>
     );
 }

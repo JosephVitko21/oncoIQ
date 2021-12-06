@@ -28,7 +28,7 @@ export default function PostCard(props) {
                 </Card.Title>
             </Card.Header>
             <Card.Body>
-                <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                <div style={{width: '100%', display: 'flex', justifyContent: 'center'}} className="mt-4 mb-4">
                     <div style={{width: '50%'}}>
                         <TileGrid
                             tiles={data.tiles}

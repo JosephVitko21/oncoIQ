@@ -3,6 +3,7 @@ import CommentCard from '../components/forum/thread/CommentCard';
 import ReplyCard from '../components/forum/thread/NewCommentCard';
 import PostCard from "../components/forum/thread/PostCard";
 import {useLocation, useNavigate} from "react-router-dom";
+import CommentList from "../components/forum/thread/CommentList";
 
 export default function Thread() {
     const navigate = useNavigate()
@@ -23,8 +24,12 @@ export default function Thread() {
                 <PostCard
                     image_id ={imageID}
                 />
-                <CommentCard />
-                <ReplyCard />
+                <CommentList
+                    image_id={imageID}
+                />
+                <ReplyCard
+                    image_id ={imageID}
+                />
             </div>
         </div>
     )
