@@ -27,7 +27,7 @@ export async function makeAuthenticatedRequest(method, path, formData) {
                 console.log("Refresh token failed, going back to login page")
                 reject("Could not log in")
             }
-        } else if (r.status === 200) {
+        } else if (r.status === 200 || r.status === 202) {
             resolve(data)
         } else {
             reject(`Error: request returned status code ${r.statusCode}`)
