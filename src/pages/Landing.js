@@ -46,7 +46,7 @@ export default function Landing() {
                         />
                     </Col>
                 </Row>
-                <h3 style={{color: 'white'}} className="mb-4">
+                <h3 style={{color: 'white', paddingBottom: '10px', borderBottom:`solid .25px rgba(255,255,255,0.25)`}} className="mb-4">
                     How it Works
                 </h3>
                 <Row className='mb-4'>
@@ -90,7 +90,7 @@ export default function Landing() {
                         </Card>
                     </Col>
                 </Row>
-                <h3 className='text-white mb-4' style={{marginTop: '80px'}}>Latest Cases</h3>
+                <h3 className='text-white mb-4' style={{marginTop: '80px', paddingBottom: '10px', borderBottom:`solid .25px rgba(255,255,255,0.25)`}}>Latest Cases</h3>
                 <CaseList/>
                 <div className='flex-grow-1 justify-content-center' style={{display: 'flex', marginTop: '40px'}}>
                     <Button style={{backgroundColor: '#06D6A0', border: 'none'}} onClick={() => navigate('/community')}>View More</Button>

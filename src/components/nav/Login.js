@@ -16,6 +16,7 @@ export default function Login() {
     const navigate = useNavigate();
 
     const userData = {
+        "title": null,
         "firstName": null,
         "lastName": null,
         "username": null,
@@ -33,7 +34,7 @@ export default function Login() {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
-        var raw = JSON.stringify({"username": userData.username,"password": userData.password});
+        var raw = JSON.stringify(userData);
 
         var requestOptions = {
             method: "POST",
@@ -101,38 +102,54 @@ export default function Login() {
                 <Modal.Body>
                     <Form onSubmit={handleSignup}>
                         <Form.Group>
-                            <Form.Label>First Name</Form.Label>
-                            <Form.Control type="text" placeholder="First Name" onChange={(event) => userData.firstName = event.target.value}/>
-                        </Form.Group>
-
-                        <Form.Group>
-                            <Form.Label>Last Name</Form.Label>
-                            <Form.Control type="text" placeholder="Last Name" onChange={(event) => userData.lastName = event.target.value}/>
-                        </Form.Group>
-
-                        <Form.Group>
                             <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" placeholder="Email" onChange={(event) => userData.email = event.target.value}/>
+                            <Form.Control type="email" placeholder="johndoe@email.com" onChange={(event) => userData.email = event.target.value}/>
                         </Form.Group>
 
                         <Form.Group>
                             <Form.Label>Username</Form.Label>
-                            <Form.Control type="text" placeholder="Username" onChange={(event) => userData.username = event.target.value}/>
+                            <Form.Control type="text" placeholder="JohnDoe123" onChange={(event) => userData.username = event.target.value}/>
                         </Form.Group>
 
                         <Form.Group>
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" onChange={(event) => userData.password = event.target.value}/>
+                            <Form.Control type="password" placeholder="Secure Password" onChange={(event) => userData.password = event.target.value}/>
+                        </Form.Group>
+
+                        <br/>
+
+                        <Form.Group>
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control type="text" placeholder="Dr." onChange={(event) => userData.title = event.target.value}/>
                         </Form.Group>
 
                         <Form.Group>
+                            <Form.Label>First Name</Form.Label>
+                            <Form.Control type="text" placeholder="John" onChange={(event) => userData.firstName = event.target.value}/>
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label>Last Name</Form.Label>
+                            <Form.Control type="text" placeholder="Doe" onChange={(event) => userData.lastName = event.target.value}/>
+                        </Form.Group>
+
+                        <br/>
+
+                        <Form.Group>
                             <Form.Label>Position</Form.Label>
-                            <Form.Control type="text" placeholder="Position" onChange={(event) => userData.position = event.target.value}/>
+                            <Form.Control type="text" placeholder="Pathologist" onChange={(event) => userData.position = event.target.value}/>
                         </Form.Group>
 
                         <Form.Group>
                             <Form.Label>Workplace</Form.Label>
-                            <Form.Control type="text" placeholder="Workplace" onChange={(event) => userData.workplace = event.target.value}/>
+                            <Form.Control type="text" placeholder="Hospital" onChange={(event) => userData.workplace = event.target.value}/>
+                        </Form.Group>
+
+                        <br/>
+
+                        <Form.Group>
+                            <Form.Label>Profile Pic URL</Form.Label>
+                            <Form.Control type="text" placeholder="http://website.com/images/myprofilepic" onChange={(event) => userData.profilePicUrl = event.target.value}/>
                         </Form.Group>
 
                         <p className="text-success">{errorMsg}</p>

@@ -13,7 +13,7 @@ export default function Community() {
             <div className="container mt-5">
                 <h1 className="text-white">Help a Pathologist</h1>
                 <p className="text-white mb-4">
-                    Explore cases the pathology community needs help solving
+                    Explore cases the pathology community needs help diagnosing
                 </p>
                 <br/>
                 <CaseList/>
