@@ -9,11 +9,11 @@ import CaseList from "../components/forum/CaseList";
 
 export default function Explore() {
     return (
-        <div className="bg-navy" style={{minHeight: '100vh'}}>
+        <div className="bg-navy min-vh-100">
             <div className="container">
-                <h1 className="text-white">Help a Pathologists</h1>
+                <h1 className="text-white">Explore Cases</h1>
                 <p className="text-white mb-4">
-                    Offer your advice to a Pathologist in need
+                    Get feedbacks from our AI models and community of pathologists
                 </p>
 
                 <CaseList/>

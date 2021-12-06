@@ -13,7 +13,7 @@ export default function PostButton() {
                 <Button
                     tooltip="Upload a histology image"
                     onClick={() => setShowUploadDialog(true)}
-                    styles={{backgroundColor: "#EF476F", color: lightColors.white}}
+                    styles={{backgroundColor: "#7b32d9", color: lightColors.white}}
                 >
                     {<FontAwesomeIcon icon={faPlus}/>}
                 </Button>

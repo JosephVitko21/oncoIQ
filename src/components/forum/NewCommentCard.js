@@ -15,7 +15,7 @@ export default function NewCommentCard() {
     return (
         <div className="card p-3 mb-3">
             <h5 className="mb-3">Reply</h5>
-            <textarea className="bg-light w-100 mb-2"></textarea>
+            <textarea className="w-100 mb-2"></textarea>
             <button className="btn btn-success">Submit</button>
         </div>
     );
