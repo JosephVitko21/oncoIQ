@@ -45,13 +45,15 @@ export default function Login() {
 
         fetch(domain + "/users/login", requestOptions)
         .then(response => response.json())
-        .then((result) => {
+        .then(async (result) => {
             console.log(result);
             
             if (result.access_token != null) {
                 login(result.access_token);
                 user.username = result.username
                 console.log(result.access_token);
+
+                await user.getUsername()
 
                 setLoginPop(false)
                 navigate("/");

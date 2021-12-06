@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../logo-white.svg"
 import {Container, Modal, Nav, Navbar} from "react-bootstrap";
 import Login from "./Login";
+import user from "../../auth/user";
 
 // TODO: add a profile icon that contains the sign out button
 export default function Navigation() {
@@ -12,18 +13,32 @@ export default function Navigation() {
     const {loginPop, setLoginPop} = useContext(LoginPopContext);
     let navigate = useNavigate();
 
-    var logBtn = <button className="btn btn-outline-light" onClick={() => setLoginPop(true)}>Login</button>;
+    var logBtn
     var navContent
     let navContentRight = <></>
 
     if (logged) {
-        logBtn = <button className="btn btn-outline-light" onClick={() => logout()}>Logout</button>;
+        logBtn = <img
+            className="profile-pic"
+            width="50px"
+            height="50px"
+            src={user.profilePic}
+            style={{borderRadius: '50%'}}
+            onClick={() => logout()}
+        />
         navContent =
             <Nav className="me-auto">
                 <Nav.Link onClick={() => navigate("/community")}>Community</Nav.Link>
                 <Nav.Link onClick={() => navigate("/slides")}>My Slides</Nav.Link>
             </Nav>;
+    } else {
+        logBtn = <button className="btn btn-outline-light" onClick={() => setLoginPop(true)}>Login</button>;
+        navContent =
+            <Nav className="me-auto">
+                <Nav.Link onClick={() => navigate("/community")}>Community</Nav.Link>
+            </Nav>;
     }
+
     navContentRight =
         <Nav style={{flexDirection: 'row'}}>
             {logBtn}

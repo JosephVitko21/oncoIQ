@@ -62,6 +62,9 @@ const user = {
             // calling should handle by navigating to homepage
         } else {
             user.username = data.username
+            user.name = data.name
+            user.position = data.position
+            user.profilePic = data.profilePic
             return user.username
         }
     }
