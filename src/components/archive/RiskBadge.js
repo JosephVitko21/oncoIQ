@@ -5,6 +5,12 @@ import utils from "../../utils/utils";
 
 export default class RiskBadge extends React.Component {
     render() {
+        let size;
+        if (this.props.size == null) {
+            size = 'md'
+        } else {
+            size = this.props.size;
+        }
         const risk = this.props.risk_level
         let red, green
         if (risk >= .5) {
@@ -18,8 +24,11 @@ export default class RiskBadge extends React.Component {
             color: "white",
             backgroundColor: "rgb(" + red + ", " + green + ", 0)"
         }
-        return (
-            <h5><Badge pill style={badgeStyle}>Estimated Risk: {utils.makePercentage(this.props.risk_level, 0)}</Badge></h5>
-        )
+
+        if (size === 'md') {
+
+        } else if (size === 'sm') {
+            return <p><Badge pill style={badgeStyle}>Estimated Risk: {utils.makePercentage(this.props.risk_level, 0)}</Badge></p>
+        }
     }
 }
