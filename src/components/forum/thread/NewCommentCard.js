@@ -8,7 +8,8 @@ import {useNavigate} from "react-router-dom";
 export default function NewCommentCard(props) {
     const [logged] = useAuth();
     const [showErrorDialog, setShowErrorDialog] = useState(false)
-    const [replyContent, setReplyContent] = useState("")
+    
+    let replyContent = ""
 
     if (!logged){
         return (
@@ -20,6 +21,7 @@ export default function NewCommentCard(props) {
 
     const submitComment = async () => {
         console.log('submitting comment')
+        
         try {
             if (replyContent == null) {
                 throw Error;
@@ -29,21 +31,19 @@ export default function NewCommentCard(props) {
             }
             await makeAuthenticatedRequest('POST', '/posts/' + props.image_id + '/comments', JSON.stringify(formData))
             // TODO: Refresh the page somehow
+
+            window.location.reload();
         } catch (e) {
             setShowErrorDialog(true)
         }
-    }
-
-    const handleDescriptionChange = (event) => {
-        let content = event.target.value
-        setReplyContent(content)
+        
     }
 
     return (
         <>
             <Card className=" p-3 mb-4 mt-4">
                 <h5 className="mb-3">Reply</h5>
-                <textarea className="w-100 mb-2" onChange={handleDescriptionChange}/>
+                <textarea className="w-100 mb-2" onChange={(event) => replyContent = event.target.value}/>
                 <button className="btn btn-success" onClick={submitComment} type='submit'>Submit</button>
             </Card>
             {showErrorDialog ? <ErrorDialog message='There was a problem submitting your reply'/> : <></>}
