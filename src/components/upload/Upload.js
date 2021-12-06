@@ -321,15 +321,25 @@ export default class Upload extends React.Component {
                             <Col>
                                 <Row className='flex-grow-1 justify-content-around mt-2 mb-4'>
                                     <Row className='justify-content-center'>
-                                        <p className='mr-2'>Post to community forum: </p>
-                                        <InputGroup className="mb-3">
-                                            <InputGroup.Checkbox aria-label="Checkbox for following text input" />
+                                        <InputGroup className="mb-3" style={{backgroundColor: "#ffffff", border: ""}}>
+                                            <InputGroup.Text
+                                                style={{backgroundColor: "#ffffff", border: "0px solid #ffffff"}}
+                                            >
+                                                Post to community forum:
+                                                <input type="checkbox" aria-label="community" className="ml-2"/>
+                                            </InputGroup.Text>
+
                                         </InputGroup>
                                     </Row>
                                     <Row className='justify-content-center'>
-                                        <p className='mr-2'>Scan image with AI: </p>
-                                        <InputGroup className="mb-3">
-                                            <InputGroup.Checkbox aria-label="Checkbox for following text input" />
+                                        <InputGroup className="mb-3" >
+                                            <InputGroup.Text
+                                                style={{backgroundColor: "#ffffff", border: "0px solid #ffffff"}}
+                                            >
+                                                Scan image with AI:
+                                                <input type="checkbox" aria-label="ai" className="ml-2"/>
+                                            </InputGroup.Text>
+
                                         </InputGroup>
                                     </Row>
                                 </Row>

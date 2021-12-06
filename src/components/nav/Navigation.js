@@ -17,7 +17,7 @@ export default function Navigation() {
         logBtn = <button className="btn btn-outline-light" onClick={() => logout()}>Logout</button>;
         navContent =
             <div className="navbar-nav mr-auto">
-                <a className="nav-link" onClick={() => navigate("/")}>Explore</a>
+                <a className="nav-link" onClick={() => navigate("/")}>Community</a>
                 <a className="nav-link" onClick={() => navigate("/archive")}>Archive</a>
             </div>;
     }
