@@ -1,4 +1,4 @@
-![screenshot](./public/screenshots/landing.PNG)
+![screenshot](./public/logo.svg)
 # oncoIQ
-🔍Using Post image recognition to help pathologists make diagnoses.\
+An online platform that leverages machine learning and crowdsourcing to help pathologists make diagnoses.\
 [Check it out](https://oncoiq.io)
