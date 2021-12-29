@@ -1,5 +1,4 @@
 import React from 'react';
-import CommentCard from '../components/forum/thread/CommentCard';
 import ReplyCard from '../components/forum/thread/NewCommentCard';
 import PostCard from "../components/forum/thread/PostCard";
 import {useLocation, useNavigate} from "react-router-dom";

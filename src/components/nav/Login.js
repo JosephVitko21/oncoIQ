@@ -4,12 +4,9 @@ import {login, authFetch, useAuth, logout} from "../../auth";
 import domain from "../../utils/site-domain";
 import { useNavigate, Link } from "react-router-dom";
 import user from "../../auth/user";
-import { LoginPopContext } from "../../context/GlobalContext"
 
-export default function Login() {
+export default function Login(props) {
     const [logged] = useAuth();
-    const {loginPop, setLoginPop} = useContext(LoginPopContext);
-
     const [view, setView] = useState("login");
     const [errorMsg, setErrorMsg] = useState(null);
 
@@ -55,7 +52,7 @@ export default function Login() {
 
                 await user.getUsername()
 
-                setLoginPop(false)
+                props.setLoginPop(false)
                 navigate("/");
             } else {
                 console.log("error message: ", result.message);

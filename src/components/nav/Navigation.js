@@ -1,6 +1,5 @@
 import React, {useContext, useState} from 'react';
 import {login, authFetch, useAuth, logout} from "../../auth";
-import { LoginPopContext } from "../../context/GlobalContext"
 import { useNavigate } from "react-router-dom";
 import logo from "../logo-white.svg"
 import {Container, Dropdown, Modal, Nav, Navbar} from "react-bootstrap";
@@ -13,7 +12,7 @@ import DropdownMenu from "react-bootstrap/DropdownMenu";
 // TODO: add a profile icon that contains the sign out button
 export default function Navigation() {
     const [logged] = useAuth();
-    const {loginPop, setLoginPop} = useContext(LoginPopContext);
+    const [loginPop, setLoginPop] = useState(false);
     const [profilePic, setProfilePic] = useState(user.profilePic)
 
     let navigate = useNavigate();
@@ -69,7 +68,7 @@ export default function Navigation() {
     return (
         <Container>
             <Modal size="lg" show={loginPop} onHide={() => setLoginPop(false)}>
-                <Login />
+                <Login setLoginPop={setLoginPop} />
             </Modal>
             <Navbar
                  style={{
