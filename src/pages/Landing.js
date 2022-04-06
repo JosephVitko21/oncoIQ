@@ -1,9 +1,5 @@
 import React, {useState, useContext, useEffect} from "react";
-import CaseCard from '../components/forum/list/CaseCard';
 import {Button, Card, Col, Modal, Row} from "react-bootstrap";
-import Login from "../components/nav/Login";
-import {makeAuthenticatedRequest} from "../utils/middleware";
-import user from "../auth/user";
 import CaseList from "../components/forum/list/CaseList";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBrain, faMicroscope, faUsers} from "@fortawesome/free-solid-svg-icons";
