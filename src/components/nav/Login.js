@@ -7,12 +7,21 @@ import user from "../../auth/user";
 
 export default function Login(props) {
     const [logged] = useAuth();
-    const [view, setView] = useState("login");
+
+    let initial_view = "login"
+    if (props.showSignUpOnOpen) {
+        initial_view = 'signup'
+    }
+
+    const [view, setView] = useState(initial_view);
     const [errorMsg, setErrorMsg] = useState(null);
+    const [success, setSuccess] = useState(false)
+
+
 
     const navigate = useNavigate();
 
-    const userData = {
+    const [userData, setUserData] = useState({
         "title": null,
         "firstName": null,
         "lastName": null,
@@ -23,9 +32,18 @@ export default function Login(props) {
         "workplace": null,
         "website": null,
         "profilePicUrl": null
+    })
+
+    const clearFormData = () => {
+        try {
+            document.getElementById("sign-up-form").reset()
+        } catch (e) {}
+        try {
+            document.getElementById("login-form").reset()
+        } catch (e) {}
     }
     
-    function handleLogin(event) {
+    async function handleLogin(event) {
         event.preventDefault();
 
         var myHeaders = new Headers();
@@ -40,35 +58,43 @@ export default function Login(props) {
             redirect: "follow"
         };
 
-        fetch(domain + "/users/login", requestOptions)
-        .then(response => response.json())
-        .then(async (result) => {
-            console.log(result);
-            
-            if (result.access_token != null) {
-                login(result.access_token);
-                user.username = result.username
-                console.log(result.access_token);
+        let response = await fetch(domain + "/users/login", requestOptions)
+        let data
+        try {
+            data = await response.json()
+        } catch (e) {
+            setSuccess(false)
+            setErrorMsg('There was a problem logging in, please try again')
+            clearFormData()
+            return
+        }
+        if (response.status !== 200 || data.access_token == null) {
+            setSuccess(false)
+            setErrorMsg(data.message)
+            clearFormData()
+        } else {
+            login(data.access_token);
+            user.username = data.username
+            console.log(data.access_token);
 
-                await user.getUsername()
+            await user.getUsername()
 
-                props.setLoginPop(false)
-                navigate("/");
-            } else {
-                console.log("error message: ", result.message);
-                setErrorMsg(result.message);
-            }
-        })
-        .catch((error) => {
-            console.log("error: ", error);
-        });
+            props.setLoginPop(false)
+            navigate("/");
+        }
     }
 
-    function handleSignup(event) {
+    async function handleSignup(event) {
         event.preventDefault();
 
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
+
+        // for (let key of Object.keys(userData)) {
+        //     if (userData[key] == null) {
+        //         userData[key] = lastUserData[key]
+        //     }
+        // }
 
         var raw = JSON.stringify(userData);
 
@@ -79,17 +105,27 @@ export default function Login(props) {
             redirect: "follow"
         };
 
-        fetch(domain + "/users/register", requestOptions)
-        .then(response => response.json())
-        .then((result) => {
-            console.log(result);
-            // setView("login");
-            setErrorMsg("Successfully signed up");
-        })
-        .catch((error) => {
-            console.log("error: ", error);
-            setErrorMsg("Successfully signed up");
-        });
+        let response = await fetch(domain + "/users/register", requestOptions)
+        if (response.status !== 200) {
+            setSuccess(false)
+            setErrorMsg(`Error signing up, please try again: ${await response.text()}`);
+            console.log(userData)
+            // console.log(lastUserData)
+            // Object.assign(lastUserData, userData)
+            // console.log(lastUserData)
+        } else {
+            try {
+                // let data = await response.json()
+                setErrorMsg("Successfully signed up");
+                setSuccess(true);
+                clearFormData()
+            } catch (e) {
+                console.log("error: ", e);
+                setErrorMsg(`Error signing up, please try again`);
+                // Object.assign(lastUserData, userData)
+            }
+
+        }
     }
 
     if (view === "signup") {
@@ -99,20 +135,20 @@ export default function Login(props) {
                     <Modal.Title>Sign Up</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={handleSignup}>
+                    <Form onSubmit={handleSignup} id="sign-up-form">
                         <Form.Group>
-                            <Form.Label>Email</Form.Label>
+                            <Form.Label>Email*</Form.Label>
                             <Form.Control type="email" placeholder="johndoe@email.com" onChange={(event) => userData.email = event.target.value}/>
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label>Username</Form.Label>
+                            <Form.Label>Username*</Form.Label>
                             <Form.Control type="text" placeholder="JohnDoe123" onChange={(event) => userData.username = event.target.value}/>
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Secure Password" onChange={(event) => userData.password = event.target.value}/>
+                            <Form.Label>Password*</Form.Label>
+                            <Form.Control type="password" placeholder="********" onChange={(event) => userData.password = event.target.value}/>
                         </Form.Group>
 
                         <br/>
@@ -123,42 +159,62 @@ export default function Login(props) {
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label>First Name</Form.Label>
+                            <Form.Label>First Name*</Form.Label>
                             <Form.Control type="text" placeholder="John" onChange={(event) => userData.firstName = event.target.value}/>
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label>Last Name</Form.Label>
+                            <Form.Label>Last Name*</Form.Label>
                             <Form.Control type="text" placeholder="Doe" onChange={(event) => userData.lastName = event.target.value}/>
                         </Form.Group>
 
                         <br/>
 
                         <Form.Group>
-                            <Form.Label>Position</Form.Label>
+                            <Form.Label>Position*</Form.Label>
                             <Form.Control type="text" placeholder="Pathologist" onChange={(event) => userData.position = event.target.value}/>
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label>Workplace</Form.Label>
+                            <Form.Label>Workplace*</Form.Label>
                             <Form.Control type="text" placeholder="Hospital" onChange={(event) => userData.workplace = event.target.value}/>
                         </Form.Group>
 
                         <br/>
 
-                        <Form.Group>
-                            <Form.Label>Profile Pic URL</Form.Label>
-                            <Form.Control type="text" placeholder="http://website.com/images/myprofilepic" onChange={(event) => userData.profilePicUrl = event.target.value}/>
-                        </Form.Group>
+                        {/*<Form.Group>*/}
+                        {/*    <Form.Label>Profile Pic URL</Form.Label>*/}
+                        {/*    <Form.Control type="text" placeholder="http://website.com/images/myprofilepic" onChange={(event) => userData.profilePicUrl = event.target.value}/>*/}
+                        {/*</Form.Group>*/}
 
-                        <p className="text-success">{errorMsg}</p>
+                        {success ? <p className="text-success">{errorMsg}</p> :
+                            <p className="text-danger">{errorMsg}</p>
+                        }
 
-                        <button className="btn btn-navy" type="submit">
-                            Sign Up
-                        </button>
-                        <button className="btn btn-outline-navy ml-2" onClick={() => setView(login)}>
-                            Login
-                        </button>
+                        <div style={{
+                            display: 'flex',
+                            margin: '12px',
+                            justifyContent: 'center',
+                        }}>
+                            <button className="btn btn-navy" type="submit" style={{width: "62%"}}>
+                                Sign Up
+                            </button>
+                        </div>
+
+                        <div style={{
+                            display: 'flex',
+                            margin: '12px',
+                            justifyContent: 'center',
+                        }}>
+                            <button className="btn btn-outline-navy ml-2" onClick={() => {
+                                clearFormData()
+                                setView(login)
+                                setErrorMsg('')
+                            }} style={{width: "38%"}}>
+                                Back to Login
+                            </button>
+                        </div>
+
                     </Form>
                 </Modal.Body>
             </div>
@@ -171,25 +227,49 @@ export default function Login(props) {
                 <Modal.Title>Login</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form onSubmit={handleLogin}>
-                    <Form.Group>
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control className="w-auto" type="text" placeholder="Username" onChange={(event) => userData.username = event.target.value}/>
-                    </Form.Group>
+                <Form onSubmit={handleLogin} id="login-form" >
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        flexDirection: 'column'
+                    }}>
+                        <Form.Group>
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control className="w-auto" type="text" placeholder="Username" onChange={(event) => userData.username = event.target.value}/>
+                        </Form.Group>
 
-                    <Form.Group>
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control className="w-auto" type="password" placeholder="Password" onChange={(event) => userData.password = event.target.value}/>
-                    </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control className="w-auto" type="password" placeholder="Password" onChange={(event) => userData.password = event.target.value}/>
+                        </Form.Group>
+                    </div>
 
-                    <p className="text-danger">{errorMsg}</p>
 
-                    <button className="btn btn-navy" type="submit">
-                        Login
-                    </button>
-                    <button className="btn btn-outline-navy ml-2" onClick={() => setView("signup")}>
-                        Sign Up
-                    </button>
+                    {success ? <p className="text-success">{errorMsg}</p> :
+                        <p className="text-danger">{errorMsg}</p>
+                    }
+
+                    <div style={{
+                        display: "flex",
+                        justifyContent: "left"
+                    }}>
+                        <button className="btn btn-navy mt-4" type="submit" style={{width: '38%'}}>
+                            Login
+                        </button>
+                    </div>
+                    <div style={{
+                        display: "flex",
+                        justifyContent: "left",
+                    }}>
+                        <button className="btn btn-outline-navy mt-2" onClick={() => {
+                            clearFormData()
+                            setView("signup")
+                            setErrorMsg('')
+                        }} style={{width: '24%'}}>
+                            New User? Sign Up
+                        </button>
+                    </div>
+
                 </Form>
             </Modal.Body>
         </div>

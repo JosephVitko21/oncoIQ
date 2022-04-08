@@ -4,14 +4,21 @@ import CaseList from "../components/forum/list/CaseList";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBrain, faMicroscope, faUsers} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
+import Login from "../components/nav/Login";
+import {useAuth} from "../auth";
 
 export default function Landing() {
 
     const navigate = useNavigate();
+    const [logged] = useAuth();
+    const [loginPop, setLoginPop] = useState(false);
 
     return (
         <div className="bg-navy min-vh-100">
             <div className="container mt-5">
+                <Modal size="lg" show={loginPop} onHide={() => setLoginPop(false)}>
+                    <Login setLoginPop={setLoginPop} showSignUpOnOpen={true}/>
+                </Modal>
                 <Row style={{
                     paddingTop: '62px',
                     paddingBottom: '100px'
@@ -31,6 +38,13 @@ export default function Landing() {
                                 style={{backgroundColor: '#EF476F', border: 'none'}}
                                 color='white'
                                 className='mt-4'
+                                onClick={() => {
+                                    if (logged) {
+                                        navigate('/community')
+                                    } else {
+                                        setLoginPop(true)
+                                    }
+                                }}
                             >Get Started
                             </Button>
                         </Col>
