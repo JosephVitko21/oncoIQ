@@ -71,14 +71,10 @@ export default function Navigation() {
                 <Login setLoginPop={setLoginPop} />
             </Modal>
             <Navbar
-                 style={{
-                     backgroundColor: 'rgba(0,0,0,0)',
-                     paddingTop: '1em',
-                     paddingBottom: '1em'
-                 }}
                  collapseOnSelect
                  expand="lg"
                  variant='dark'
+                 className="px-0 py-3"
             >
                 <Navbar.Brand onClick={() => navigate("/")}>
                     <img src={logo} width="100"/>

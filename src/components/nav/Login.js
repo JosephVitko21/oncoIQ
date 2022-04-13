@@ -5,6 +5,19 @@ import domain from "../../utils/site-domain";
 import { useNavigate, Link } from "react-router-dom";
 import user from "../../auth/user";
 
+const userData = {
+    "title": null,
+    "firstName": null,
+    "lastName": null,
+    "username": null,
+    "email": null,
+    "password": null,
+    "position": null,
+    "workplace": null,
+    "website": null,
+    "profilePicUrl": null
+}
+
 export default function Login(props) {
     const [logged] = useAuth();
 
@@ -17,22 +30,7 @@ export default function Login(props) {
     const [errorMsg, setErrorMsg] = useState(null);
     const [success, setSuccess] = useState(false)
 
-
-
     const navigate = useNavigate();
-
-    const [userData, setUserData] = useState({
-        "title": null,
-        "firstName": null,
-        "lastName": null,
-        "username": null,
-        "email": null,
-        "password": null,
-        "position": null,
-        "workplace": null,
-        "website": null,
-        "profilePicUrl": null
-    })
 
     const clearFormData = () => {
         try {
@@ -130,7 +128,7 @@ export default function Login(props) {
 
     if (view === "signup") {
         return (
-            <div>
+            <>
                 <Modal.Header closeButton>
                     <Modal.Title>Sign Up</Modal.Title>
                 </Modal.Header>
@@ -191,87 +189,60 @@ export default function Login(props) {
                             <p className="text-danger">{errorMsg}</p>
                         }
 
-                        <div style={{
-                            display: 'flex',
-                            margin: '12px',
-                            justifyContent: 'center',
-                        }}>
-                            <button className="btn btn-navy" type="submit" style={{width: "62%"}}>
+                        <div className="d-flex flex-column align-items-center mt-4">
+                            <button className="btn btn-navy w-50" type="submit">
                                 Sign Up
                             </button>
-                        </div>
-
-                        <div style={{
-                            display: 'flex',
-                            margin: '12px',
-                            justifyContent: 'center',
-                        }}>
-                            <button className="btn btn-outline-navy ml-2" onClick={() => {
+                            <button className="btn btn-outline-navy mt-2 w-25" onClick={() => {
                                 clearFormData()
                                 setView(login)
                                 setErrorMsg('')
-                            }} style={{width: "38%"}}>
+                            }}>
                                 Back to Login
                             </button>
                         </div>
-
                     </Form>
                 </Modal.Body>
-            </div>
+            </>
         );
     }
 
     return (
-        <div>
+        <>
             <Modal.Header closeButton>
                 <Modal.Title>Login</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form onSubmit={handleLogin} id="login-form" >
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        flexDirection: 'column'
-                    }}>
-                        <Form.Group>
-                            <Form.Label>Username</Form.Label>
-                            <Form.Control className="w-auto" type="text" placeholder="Username" onChange={(event) => userData.username = event.target.value}/>
-                        </Form.Group>
+                <Form onSubmit={handleLogin} id="login-form">
+                    <Form.Group>
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control type="text" placeholder="Username" onChange={(event) => userData.username = event.target.value}/>
+                    </Form.Group>
 
-                        <Form.Group>
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control className="w-auto" type="password" placeholder="Password" onChange={(event) => userData.password = event.target.value}/>
-                        </Form.Group>
-                    </div>
+                    <Form.Group>
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control type="password" placeholder="Password" onChange={(event) => userData.password = event.target.value}/>
+                    </Form.Group>
 
 
                     {success ? <p className="text-success">{errorMsg}</p> :
                         <p className="text-danger">{errorMsg}</p>
                     }
 
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "left"
-                    }}>
-                        <button className="btn btn-navy mt-4" type="submit" style={{width: '38%'}}>
+                    <div className="d-flex flex-column align-items-center">
+                        <button className="btn btn-navy mt-4 w-50" type="submit">
                             Login
                         </button>
-                    </div>
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "left",
-                    }}>
-                        <button className="btn btn-outline-navy mt-2" onClick={() => {
+                        <button className="btn btn-outline-navy mt-2 w-25" onClick={() => {
                             clearFormData()
                             setView("signup")
                             setErrorMsg('')
-                        }} style={{width: '24%'}}>
+                        }}>
                             New User? Sign Up
                         </button>
                     </div>
-
                 </Form>
             </Modal.Body>
-        </div>
+        </>
     );
 }
