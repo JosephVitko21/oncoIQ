@@ -1,19 +1,25 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import Navigation from './components/nav/Navigation';
+import { ChakraProvider } from '@chakra-ui/react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Slides from './pages/Slides';
 import Community from './pages/Community';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import PostButton from "./components/upload/PostButton";
 import Thread from "./pages/Thread";
 import Landing from "./pages/Landing";
-import {useAuth} from "./auth";
+import PostButton from "./components/upload/PostButton";
+import Navigation from './components/nav/Navigation';
+import Footer from './components/landing/Footer';
+
+import { useAuth } from "./auth";
+import theme from "./styles/theme";
 
 function App() {
     const [logged] = useAuth();
 
     return (
-        <div id="app" className='bg-navy'>
+        <div>
+            <ChakraProvider theme={theme}>
             <BrowserRouter>
                 <Navigation />
                     <Routes>
@@ -24,11 +30,10 @@ function App() {
                     </Routes>
             </BrowserRouter>
 
-            {logged ? <PostButton /> : null}
+            <Footer />
+            </ChakraProvider>
 
-            <footer className="d-flex justify-content-center py-1" style={{backgroundColor:'#111111', marginTop:'120px'}}>
-                <p className="m-0 text-left text-white">&copy; oncoIQ 2021</p>
-            </footer>
+            {logged ? <PostButton /> : null}
         </div>
     );
 }
