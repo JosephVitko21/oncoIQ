@@ -20,7 +20,7 @@ export default function CaseCard(props) {
     return (
         <Flex 
             w="60vw" justifyContent="space-between" mb="30px" p="15px"
-            borderRadius="7px" boxShadow="rgb(186 186 186 / 40%) 0px 4px 16px" bg="white" 
+            border="1px solid var(--chakra-colors-shadow)" borderRadius="7px" boxShadow="var(--chakra-colors-shadow) 0px 4px 16px" 
             transition="transform .2s" _hover={{ transform: "scale(1.05)" }}
             onClick={() => navigate("/thread?id="+props.image_id)}
         >
@@ -42,6 +42,7 @@ export default function CaseCard(props) {
                     profilePic={props.profilePic}
                     job={props.job}
                     date={props.date}
+                    borderTop="1px solid" borderTopColor="gray.200" pt="10px" w="90%"
                 />
             </Flex>
         </Flex>

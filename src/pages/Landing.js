@@ -22,14 +22,14 @@ export default function Landing() {
             <Flex justifyContent="space-between" alignItems='center' h="100vh">
                 <Box ml="20vw">
                     {/* linear-gradient(90deg, rgba(120,83,134,1) 0%, rgba(216,173,196,1) 50%) */}
-                    <Heading fontSize='80px' bg="linear-gradient(135deg, rgba(168,118,202,1) 0%, rgba(219,126,171,1) 60%)" color="transparent" backgroundClip="text">Pathology</Heading>
-                    <Heading fontSize='80px' bg="linear-gradient(135deg, rgba(168,118,202,1) 0%, rgba(219,126,171,1) 60%)" color="transparent" backgroundClip="text">Transformed</Heading>
+                    <Heading fontWeight="800" letterSpacing='-0.05em' fontSize='80px' bg="linear-gradient(135deg, rgba(168,118,202,1) 0%, rgba(219,126,171,1) 60%)" color="transparent" backgroundClip="text">Pathology</Heading>
+                    <Heading fontWeight="800" letterSpacing='-0.05em' fontSize='80px' bg="linear-gradient(135deg, rgba(168,118,202,1) 0%, rgba(219,126,171,1) 60%)" color="transparent" backgroundClip="text">Transformed</Heading>
                     <Heading fontSize="md" mt="20px">Get help diagnosing cases from expert pathologists and artificial intelligence</Heading>
                 </Box>
 
                 <Image src={slideSample} objectFit="contain" h="100%" />
             </Flex>
-            <Box bg="linear-gradient(0deg, rgba(246,236,250,1) 0%, rgba(255,255,255,1) 100%)" pb="50px">
+            <Box pb="50px">
                 <Flex flexDirection="column" alignItems="center" mt="10vh">
                     <Heading fontSize='40px'>How it works</Heading>
                     <Flex justifyContent='space-between' alignItems='center' mt="20px">
@@ -41,7 +41,7 @@ export default function Landing() {
                 <Flex flexDirection="column" alignItems="center" mt="10vh">
                     <Heading mb="20px">Latest Cases</Heading>
                     <CaseList/>
-                    <OutlineBtn colorArr={["black", "white"]} onClick={() => navigate('/community')}>View More</OutlineBtn>
+                    <OutlineBtn colorArr={["primary", "white"]} onClick={() => navigate('/community')}>View More</OutlineBtn>
                 </Flex>
             </Box>
         </>

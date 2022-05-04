@@ -4,7 +4,7 @@ import moment from "moment";
 
 export default function PostFooter(props) {
     return (
-        <Flex justifyContent="space-between" alignItems="center" borderTop="1px solid" borderTopColor="gray.200" pt="15px" w="90%">
+        <Flex justifyContent="space-between" alignItems="center" {...props}>
             <Flex>
                 <Image width="50px" src={props.profilePic} borderRadius="50%" mr="15px" />
                 <Box>
@@ -12,7 +12,7 @@ export default function PostFooter(props) {
                     <Text fontSize="sm">{props.job}</Text>
                 </Box>
             </Flex>
-            <Text>{moment.utc(props.date).fromNow()}</Text>
+            <Text fontSize="sm" color="primary">{moment.utc(props.date).fromNow()}</Text>
         </Flex>
     );
 }

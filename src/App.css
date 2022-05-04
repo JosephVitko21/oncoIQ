@@ -12,6 +12,13 @@
     src: url("./styles/Inter/static/Inter-Bold.ttf");
 }
 
+@font-face {
+	font-family: Inter;
+    font-style: normal;
+    font-weight: 800;
+    src: url("./styles/Inter/static/Inter-ExtraBold.ttf");
+}
+
 html, body {
     background-color: white;
     font-family: Inter;

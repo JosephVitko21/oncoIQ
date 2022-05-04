@@ -7,8 +7,9 @@ const theme = extendTheme({
   },
   colors: {
     primary: "#a876ca",
+    secondary: "#db7eab",
     light: "#f6ecfa",
-    secondary: "#db7eab"
+    shadow: "rgb(186 186 186 / 40%)"
   },
 })
 
