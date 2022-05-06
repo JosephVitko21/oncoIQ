@@ -42,7 +42,7 @@ export default function CaseCard(props) {
                     profilePic={props.profilePic}
                     job={props.job}
                     date={props.date}
-                    borderTop="1px solid" borderTopColor="gray.200" pt="10px" w="90%"
+                    borderTop="1px solid var(--chakra-colors-shadow)" pt="10px" w="90%"
                 />
             </Flex>
         </Flex>

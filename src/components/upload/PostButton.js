@@ -1,4 +1,4 @@
-import { Container, Button, lightColors, darkColors} from 'react-floating-action-button'
+import { Container, Button, lightColors, darkColors } from 'react-floating-action-button'
 import {faCamera, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React, {useState} from "react";
@@ -13,7 +13,7 @@ export default function PostButton() {
                 <Button
                     tooltip="Upload a histology image"
                     onClick={() => setShowUploadDialog(true)}
-                    styles={{backgroundColor: "#EF476F", color: lightColors.white}}
+                    styles={{backgroundColor: "var(--chakra-colors-secondary)", color: "white"}}
                 >
                     {<FontAwesomeIcon icon={faPlus}/>}
                 </Button>

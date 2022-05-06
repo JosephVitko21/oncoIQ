@@ -50,17 +50,17 @@ export default class TileGrid extends React.Component {
             {
                 label: <FontAwesomeIcon icon={faImage} className='mt-2' color='white'/>,
                 value: 0,
-                selectedBackgroundColor: "#1B9AAA",
+                selectedBackgroundColor: "var(--chakra-colors-darkPrimary)",
             },
             {
                 label: <FontAwesomeIcon icon={faArrowsAltH} className='mt-2' color='white'/>,
                 value: 1,
-                selectedBackgroundColor: "#1B9AAA"
+                selectedBackgroundColor: "var(--chakra-colors-darkPrimary)"
             },
             {
                 label: <FontAwesomeIcon icon={faExclamationTriangle} className='mt-2' color='white'/>,
                 value: 2,
-                selectedBackgroundColor: "#1B9AAA"
+                selectedBackgroundColor: "var(--chakra-colors-darkPrimary)"
             }
         ]
         const onChange = (newValue) => {
@@ -77,7 +77,7 @@ export default class TileGrid extends React.Component {
                     onChange={onChange}
                     options={options}
                     initialSelectedIndex={initialSelectedIndex}
-                    backgroundColor={"#77dce9"}
+                    backgroundColor={"var(--chakra-colors-primary)"}
                     fontColor={"#ffffff"}
                 />
             </div>

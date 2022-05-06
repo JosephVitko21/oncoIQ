@@ -14,8 +14,6 @@ import OutlineBtn from "../components/basic/OutlineBtn";
 export default function Landing() {
     const navigate = useNavigate();
     const [logged] = useAuth();
-    const [loginPop, setLoginPop] = useState(false);
-
 
     return (
         <>

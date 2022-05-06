@@ -6,16 +6,18 @@ import PostFooter from "./PostFooter";
 export default function CommentCard(props) {
     return (
         <Box 
-            w="60vw" mb="30px" p="20px"
+            w="60vw" mb="30px" pt="20px"
             border="1px solid var(--chakra-colors-shadow)" borderRadius="7px" boxShadow="var(--chakra-colors-shadow) 0px 4px 16px" 
         >
-            <Text fontSize="md" mb="30px">{props.content}</Text>
+            <Text fontSize="md" mb="30px" px="20px">{props.content}</Text>
             <PostFooter
                 poster = {props.authorName}
                 job={props.authorJob}
                 profilePic={props.authorProfilePic}
                 date={props.date}
                 borderTop="1px solid var(--chakra-colors-shadow)" pt="10px"
+                px="20px"
+                pb="10px"
             />
         </Box>
     );

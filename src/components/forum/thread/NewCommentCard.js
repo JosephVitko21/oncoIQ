@@ -13,16 +13,16 @@ export default function NewCommentCard(props) {
     const [logged] = useAuth();
     const [showErrorDialog, setShowErrorDialog] = useState(false)
 
-    // if (!logged){
-    //     return (
-    //         <Flex 
-    //             w="60vw" justifyContent="center" mb="30px" p="15px"
-    //             borderRadius="7px" boxShadow="rgb(186 186 186 / 40%) 0px 4px 16px" bg="white" 
-    //         >
-    //             <Text fontSize="md">Login to reply</Text>
-    //         </Flex>
-    //     );
-    // }
+    if (!logged){
+        return (
+            <Flex 
+                w="60vw" justifyContent="center" mb="30px" p="15px"
+                borderRadius="7px" boxShadow="rgb(186 186 186 / 40%) 0px 4px 16px" bg="white" 
+            >
+                <Text fontSize="md">Login to reply</Text>
+            </Flex>
+        );
+    }
 
     const submitComment = async () => {
         console.log('submitting comment')
