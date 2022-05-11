@@ -30,7 +30,7 @@ export default function Landing() {
             <Box pb="50px">
                 <Flex flexDirection="column" alignItems="center" mt="10vh">
                     <Heading fontSize='40px'>How it works</Heading>
-                    <Flex justifyContent='space-between' alignItems='center' mt="20px">
+                    <Flex justifyContent='space-between' alignItems='center' mt="20px" columnGap="30px">
                         <HowCards icon={faUsers} title="Community">Collaborate with the global pathology community to solve cases.</HowCards>
                         <HowCards icon={faBrain} title="Intelligence">Take advantage of the latest AI technology to increase productivity.</HowCards>
                         <HowCards icon={faMicroscope} title="Experience">Consult specialists with decades of experience for help with difficult cases.</HowCards>

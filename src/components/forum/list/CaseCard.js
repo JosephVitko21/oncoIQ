@@ -23,6 +23,7 @@ export default function CaseCard(props) {
             border="1px solid var(--chakra-colors-shadow)" borderRadius="7px" boxShadow="var(--chakra-colors-shadow) 0px 4px 16px" 
             transition="transform .2s" _hover={{ transform: "scale(1.05)" }}
             onClick={() => navigate("/thread?id="+props.image_id)}
+            cursor="pointer"
         >
             <Image w="25%" borderRadius="7px" src={image_src} />
             <Flex w="70%" flexDirection="column" justifyContent="space-around">

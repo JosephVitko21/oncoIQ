@@ -1,4 +1,6 @@
-import React, {useRef} from 'react'
+import React, { useRef } from 'react';
+import OutlineBtn from '../basic/OutlineBtn';
+import { Flex, Box } from '@chakra-ui/react';
 
 export default function FileUploader({onFileSelectSuccess, onFileSelectError}) {
     const fileInput = useRef(null)
@@ -26,11 +28,9 @@ export default function FileUploader({onFileSelectSuccess, onFileSelectError}) {
 
 
     return (
-        <div className="file-uploader">
-            <button type="button" onClick={handleClick} className="btn btn-outline-navy btn-lg">
-                Select an image
-            </button>
+        <Box>
+            <OutlineBtn colorArr={["primary", "white"]} onClick={handleClick}>Select an image</OutlineBtn>
             <input type="file" onChange={handleFileInput} ref={fileInput} className='file-input'/>
-        </div>
+        </Box>
     )
 }

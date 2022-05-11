@@ -145,7 +145,7 @@ export default function Login(props) {
             return (
                 <ModalContent>
                     <ModalHeader>Sign Up</ModalHeader>
-                    <ModalCloseButton _focus={{ borderColor: "primary" }} />
+                    <ModalCloseButton _focus={{ borderColor: "none", outline: "none" }} />
                     <ModalBody pt="0">
                         <Flex flexDirection="column" alignItems="center" px="20px" pb="20px">
                             <FormIn mb="15px" title="Email*" type="email" placeholder="johndoe@email.com" onChange={(event) => userData.email = event.target.value}/>
@@ -179,7 +179,7 @@ export default function Login(props) {
         return (
             <ModalContent>
                 <ModalHeader>Login</ModalHeader>
-                <ModalCloseButton _focus={{ borderColor: "primary" }} />
+                <ModalCloseButton _focus={{ borderColor: "none", outline: "none" }} />
                 <ModalBody pt="0">
                     <Flex flexDirection="column" alignItems="center" px="20px" pb="20px">
                         <FormIn mb="15px" title="Username" type="text" placeholder="Username" onChange={(event) => userData.username = event.target.value} />

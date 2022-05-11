@@ -31,9 +31,8 @@ function App() {
             </BrowserRouter>
 
             <Footer />
-            </ChakraProvider>
-
             {logged ? <PostButton /> : null}
+            </ChakraProvider>
         </div>
     );
 }

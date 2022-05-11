@@ -1,15 +1,15 @@
 import React from 'react';
-import ModelListModal from "./models/ModelSelector";
+import ModelSelector from "./models/ModelSelector";
 import FileUploader from "./FileUploader";
-import {Button, Col, ProgressBar, Row, Spinner, ButtonGroup, InputGroup} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown, faFileImage, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { Checkbox, Text, Heading, Box, Flex, Input, Textarea, Progress } from '@chakra-ui/react'
 
-import user from "../../auth/user";
 import domain from "../../utils/site-domain";
 import ImageDetailModal from "../archive/dialog/ImageDetail";
-import {faArrowDown, faArrowLeft, faChevronDown, faRedo} from "@fortawesome/free-solid-svg-icons";
 import ErrorDialog from "./ErrorDialog";
-import {makeAuthenticatedRequest} from "../../utils/middleware";
+import { makeAuthenticatedRequest } from "../../utils/middleware";
+import Btn from '../basic/Btn';
 
 export default class Upload extends React.Component {
     constructor(props) {
@@ -208,34 +208,33 @@ export default class Upload extends React.Component {
     }
 
     render() {
-        let spinning;
-        if (this.state.loading) {
-            spinning =
-                <button className='btn btn-navy w-100' type='submit' size='lg'>
-                    <ProgressBar animated striped variant="info" now={this.calculateLoadingProgress()} label={this.state.loadingMessage} />
-                </button>;
-        } else {
-            spinning =
-                <button className='btn btn-navy w-100' type='submit' size='lg' onClick={this.submitForm}>
-                    Upload
-                </button>;
+        const spinning = () => {
+            if (this.state.loading) {
+                return (
+                    <Box w="100%">
+                        <Progress isAnimated hasStripe colorScheme='blackAlpha' value={this.calculateLoadingProgress()} />
+                        <Text textAlign="center">{this.state.loadingMessage}</Text>
+                    </Box>  
+                );
+            }
+
+            return <Btn colorArr={["white", "primary"]} onClick={this.submitForm}>Upload</Btn>;
         }
 
         return (
-            <div className="container text-center mt-4 mb-4">
-
+            <>
                 {this.state.showErrorDialog ? (
                     <ErrorDialog
                         message={this.state.errorMessage}
                         hideAction={() => {this.setState({errorMessage: null, showErrorDialog: false,})}}
                     />
                 ) : (
-                    <></>
+                    null
                 )}
 
                 {!this.state.selectedModel ? (
-                    <>
-                        <ModelListModal
+                    <Flex justifyContent="center" p="15px">
+                        <ModelSelector
                             selectModel={(model) => this.setState({
                                 selectedModel: model,
                                 selectModelText: <FontAwesomeIcon icon={faChevronDown}/>,
@@ -244,7 +243,7 @@ export default class Upload extends React.Component {
                             size="lg"
                         />
                         {!this.state.imageDetailData ? (
-                            <></>
+                            null
                         ) : (
                             // TODO: Make this go to the archive tab when it closes
                             <ImageDetailModal
@@ -253,125 +252,74 @@ export default class Upload extends React.Component {
                             />
                         )}
 
-                    </>
+                    </Flex>
 
                 ) : (
                     // TODO: make form fields more relevant to those needed when sorting through patient data
-                    <>
-                        <br/>
-
-                        <div className="d-flex justify-content-center align-items-center mb-5">
-                            <div className='mr-4'>
-                                <h5 className='mb-0'>Selected Disease:</h5>
-                                <p className='mb-0 text-muted'>{this.state.selectedModel.name}</p>
-                            </div>
-                            <ModelListModal
+                    <Flex flexDir="column" p="15px" rowGap="30px">
+                        <Flex justifyContent="center" alignItems="center">
+                            <Box textAlign="center" mr="10px">
+                                <Heading fontSize="lg">Selected Disease:</Heading>
+                                <Text fontSize="sm">{this.state.selectedModel.name}</Text>
+                            </Box>
+                            <ModelSelector
                                 selectModel={(model) => this.setState({selectedModel: model})}
                                 selectText={this.state.selectModelText}
                                 size=""
                             />
-                        </div>
+                        </Flex>
 
-
-                        <div className='upload-form validate-form d-flex'>
-                            <Col xs={12} md={6}>
-                                <div className="wrap-input validate-input mb-5" data-validate="Name is required">
-                                    <span className="label-input">Name</span>
-                                    <input
-                                        className="input text-center"
-                                        type="text"
-                                        name="name"
-                                        placeholder="Enter histology title"
-                                        onChange={this.handleNameChange}
+                        <Flex justifyContent="center" columnGap="30px">
+                            <Flex flexDir="column" rowGap="30px">
+                                <Box>
+                                    <Heading fontSize="md">Name</Heading>
+                                    <Input
+                                        border="none" borderRadius="0" borderBottom="2px solid var(--chakra-colors-shadow)"
+                                        _focus={{ borderColor: "primary" }} _hover={{ borderColor: "primary" }}
+                                        placeholder="Enter histology title" onChange={this.handleNameChange}
                                     />
-                                    <span className="focus-input"/>
-                                </div>
-                                <div className="wrap-input validate-input mb-5" data-validate="Message is required">
-                                    <span className="label-input">Description</span>
-                                    <textarea
-                                        className="input text-center"
-                                        name="message"
-                                        placeholder="Enter any additional details"
-                                        onChange={this.handleDescriptionChange}
+                                </Box>
+                                <Box>
+                                    <Heading fontSize="md">Description</Heading>
+                                    <Textarea
+                                        border="none" borderRadius="0" borderBottom="2px solid var(--chakra-colors-shadow)"
+                                        _focus={{ borderColor: "primary" }} _hover={{ borderColor: "primary" }}
+                                        placeholder="Enter any additional details" onChange={this.handleDescriptionChange}
                                     />
-                                    <span className="focus-input"/>
-                                </div>
-                            </Col>
-                            <Col xs={12} md={6}>
-                                <div >
-                                    <div className="wrap-input validate-input file-input-container text-center mb-5">
-                                        <h1 className="imgupload">
-                                            {!this.state.uploadAttempted ? (
-                                                <i className="fa fa-file-image-o"/>
-                                            ) : (
-                                                <>
-                                                    {this.state.imageFile ? (
-                                                        <i className="fa fa-check text-success"/>
-                                                    ) : (
-                                                        <i className="fa fa-times text-danger"/>
-                                                    )}
-                                                </>
-                                            )}
-                                        </h1>
-                                        <p id="namefile">{this.state.uploadMessage}</p>
+                                </Box>
+                            </Flex>
+                            <Flex flexDir="column" alignItems="center" rowGap="15px">     
+                                {!this.state.uploadAttempted ? (
+                                    <Text fontSize='90px' color="shadow"><FontAwesomeIcon icon={faFileImage}/></Text>
+                                ) : (
+                                    <>
+                                        {this.state.imageFile ? (
+                                            <Text fontSize='90px' color="green"><FontAwesomeIcon icon={faCheck}/></Text>
+                                        ) : (
+                                            <Text fontSize='90px' color="red"><FontAwesomeIcon icon={faTimes}/></Text>
+                                        )}
+                                    </>
+                                )}
+                                        
+                                <Text fontSize="sm" textAlign="center">{this.state.uploadMessage}</Text>
+                                <FileUploader
+                                    onFileSelectSuccess={(file) => this.handleUploadFile(file)}
+                                    onFileSelectError={(error) => this.handleUploadError(error)}
+                                />
+                            </Flex>
+                        </Flex>
 
-                                        <div className='d-flex justify-content-center mb-4'>
-                                            <FileUploader
-                                                onFileSelectSuccess={(file) => this.handleUploadFile(file)}
-                                                onFileSelectError={(error) => this.handleUploadError(error)}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </Col>
-                            <Col>
-                                <Row className='flex-grow-1 justify-content-around mt-2 mb-4'>
-                                    <Row className='justify-content-center'>
-                                        <InputGroup className="mb-3" style={{backgroundColor: "#ffffff", border: ""}}>
-                                            <InputGroup.Text
-                                                style={{backgroundColor: "#ffffff", border: "0px solid #ffffff"}}
-                                            >
-                                                Post to community forum:
-                                                <input
-                                                    type="checkbox"
-                                                    aria-label="community"
-                                                    className="ml-2"
-                                                    onChange = {() => {this.setState({public: !this.state.public})}}
-                                                />
-                                            </InputGroup.Text>
+                        <Flex justifyContent="center" columnGap="15px">
+                            <Checkbox onChange={() => {this.setState({public: !this.state.public})}} colorScheme='gray'>Post to community forum:</Checkbox>
+                            <Checkbox onChange={() => {this.setState({ai: !this.state.ai})}} colorScheme='gray'>Scan image with AI:</Checkbox>
+                        </Flex>
 
-                                        </InputGroup>
-                                    </Row>
-                                    <Row className='justify-content-center'>
-                                        <InputGroup className="mb-3" >
-                                            <InputGroup.Text
-                                                style={{backgroundColor: "#ffffff", border: "0px solid #ffffff"}}
-                                            >
-                                                Scan image with AI:
-                                                <input
-                                                    type="checkbox"
-                                                    aria-label="ai"
-                                                    className="ml-2"
-                                                    onChange = {() => {this.setState({ai: !this.state.ai})}}
-                                                />
-                                            </InputGroup.Text>
-
-                                        </InputGroup>
-                                    </Row>
-                                </Row>
-
-                                <br/>
-                                <Row className='flex-grow-1 justify-content-center mt-4 mr-5 ml-5'>
-                                    <div className='flex-grow-1 mb-4 d-flex justify-content-center'>
-                                        {spinning}
-                                    </div>
-                                </Row>
-                            </Col>
-                        </div>
-                    </>
+                        <Flex justifyContent="center">
+                            {spinning()}
+                        </Flex>
+                    </Flex>
                 )}
-
-            </div>
+            </>
         )
     }
 
