@@ -1,17 +1,18 @@
 import React from "react";
 import CaseList from "../components/forum/list/CaseList";
 
+import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+
 export default function Community() {
     return (
-        <div className="bg-navy min-vh-100">
-            <div className="container mt-5">
-                <h1 className="text-white">Help a Pathologist</h1>
-                <p className="text-white mb-4">
-                    Explore cases the pathology community needs help diagnosing
-                </p>
-                <br/>
+        <Box minH="100vh">
+            <Flex flexDirection="column" alignItems="center" mt="30px">
+                <Box w="60vw" mb="30px">
+                    <Heading mb="10px">Help a Pathologist</Heading>
+                    <Text fontSize="md" color="primary">Explore cases the pathology community needs help diagnosing</Text>
+                </Box>
                 <CaseList/>
-            </div> 
-        </div>
+            </Flex>
+        </Box>
     )
 }

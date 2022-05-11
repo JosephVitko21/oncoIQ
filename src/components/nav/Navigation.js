@@ -1,25 +1,31 @@
-import React, {useContext, useState} from 'react';
-import {login, authFetch, useAuth, logout} from "../../auth";
+import React, { useContext, useState } from 'react';
+import { Box, Flex, Heading, Text, Image, Button, Link } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
-import logo from "../logo-white.svg"
-import {Container, Dropdown, Modal, Nav, Navbar} from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuItemOption,
+    MenuGroup,
+    MenuOptionGroup,
+    MenuDivider,
+} from '@chakra-ui/react'
+
+import { login, authFetch, useAuth, logout } from "../../auth";
+import logo from "./logo.svg"
 import Login from "./Login";
 import user from "../../auth/user";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
-import DropdownMenu from "react-bootstrap/DropdownMenu";
+
 
 // TODO: add a profile icon that contains the sign out button
 export default function Navigation() {
     const [logged] = useAuth();
-    const [loginPop, setLoginPop] = useState(false);
     const [profilePic, setProfilePic] = useState(user.profilePic)
 
     let navigate = useNavigate();
-
-    var logBtn
-    var navContent
-    let navContentRight = <></>
 
     if (user.profilePic == null) {
         user.getUsername().then(() => {
@@ -27,63 +33,42 @@ export default function Navigation() {
         })
     }
 
+    var logBtn;
+    var navContent;
     if (logged) {
-        logBtn = <Dropdown>
-            <Dropdown.Toggle id='dropdown-basic' style={{backgroundColor: 'transparent', borderColor: 'transparent'}}>
-                <img
-                    className="profile-pic"
-                    width="50px"
-                    height="50px"
-                    src={user.profilePic}
-                    style={{borderRadius: '50%'}}
-                />
-            </Dropdown.Toggle>
-            <DropdownMenu>
-                <Dropdown.Item onClick={() => logout()}>
-                    <FontAwesomeIcon icon={faSignOutAlt}/>
-                    Log Out
-                </Dropdown.Item>
-            </DropdownMenu>
-        </Dropdown>
+        logBtn = 
+            <Menu>
+                <MenuButton _focus={{ outline: "none" }} bg="transparent"><Image width="50px" src={user.profilePic} borderRadius="50%" /></MenuButton>
+                <MenuList>
+                    <MenuItem 
+                        _focus={{ outline: "none" }} _hover={{ outline: "none", bg: "primary", color: "white" }}
+                        onClick={() => logout()}
+                    >
+                        Log Out
+                    </MenuItem>
+                </MenuList>
+            </Menu>;
 
         navContent =
-            <Nav className="me-auto">
-                <Nav.Link onClick={() => navigate("/community")}>Community</Nav.Link>
-                <Nav.Link onClick={() => navigate("/slides")}>My Slides</Nav.Link>
-            </Nav>;
+            <Box>
+                <Link mr="15px" onClick={() => navigate("/community")}>Community</Link>
+                <Link onClick={() => navigate("/slides")}>My Slides</Link>
+            </Box>;
     } else {
-        logBtn = <button className="btn btn-outline-light" onClick={() => setLoginPop(true)}>Login</button>;
+        logBtn = <Login />;
         navContent =
-            <Nav className="me-auto">
-                <Nav.Link onClick={() => navigate("/community")}>Community</Nav.Link>
-            </Nav>;
+            <Box>
+                <Link onClick={() => navigate("/community")}>Community</Link>
+            </Box>
     }
 
-    navContentRight =
-        <Nav style={{flexDirection: 'row'}}>
-            {logBtn}
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        </Nav>
-
     return (
-        <Container>
-            <Modal size="lg" show={loginPop} onHide={() => setLoginPop(false)}>
-                <Login setLoginPop={setLoginPop} />
-            </Modal>
-            <Navbar
-                 collapseOnSelect
-                 expand="lg"
-                 variant='dark'
-                 className="px-0 py-3"
-            >
-                <Navbar.Brand onClick={() => navigate("/")}>
-                    <img src={logo} width="100"/>
-                </Navbar.Brand>
-                <Navbar.Collapse id="responsive-navbar-nav">
-                    {navContent}
-                </Navbar.Collapse>
-                {navContentRight}
-            </Navbar>
-        </Container>
+        <Flex mx="20px" mt="20px" alignItems="center" justifyContent="space-between">
+            <Flex alignItems="center">
+                <Image src={logo} width="100px" onClick={() => navigate("/")} mr="40px" />
+                {navContent}
+            </Flex>
+            {logBtn}
+        </Flex>
     );
 }

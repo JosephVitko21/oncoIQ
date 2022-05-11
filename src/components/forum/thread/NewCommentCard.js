@@ -1,21 +1,26 @@
-import React, {useState} from 'react';
-import {login, authFetch, useAuth, logout} from "../../../auth";
-import {Card} from "react-bootstrap";
-import {makeAuthenticatedRequest} from "../../../utils/middleware";
+import React, { useState } from 'react';
+import { Card } from "react-bootstrap";
+import { Box, Flex, Heading, Text, Button, Textarea } from '@chakra-ui/react';
+
+import { login, authFetch, useAuth, logout } from "../../../auth";
+import { makeAuthenticatedRequest } from "../../../utils/middleware";
 import ErrorDialog from "../../upload/ErrorDialog";
-import {useNavigate} from "react-router-dom";
+import Btn from "../../basic/Btn"
+
+let replyContent = "";
 
 export default function NewCommentCard(props) {
     const [logged] = useAuth();
     const [showErrorDialog, setShowErrorDialog] = useState(false)
-    
-    let replyContent = ""
 
     if (!logged){
         return (
-            <div className="card p-3 mb-3">
-                <h5 className="mb-3">Login to reply</h5>
-            </div>
+            <Flex 
+                w="60vw" justifyContent="center" mb="30px" p="15px"
+                borderRadius="7px" boxShadow="rgb(186 186 186 / 40%) 0px 4px 16px" bg="white" 
+            >
+                <Text fontSize="md">Login to reply</Text>
+            </Flex>
         );
     }
 
@@ -41,11 +46,16 @@ export default function NewCommentCard(props) {
 
     return (
         <>
-            <Card className=" p-3 mb-4 mt-4">
-                <h5 className="mb-3">Reply</h5>
-                <textarea className="w-100 mb-2" onChange={(event) => replyContent = event.target.value}/>
-                <button className="btn btn-success" onClick={submitComment} type='submit'>Submit</button>
-            </Card>
+            <Box 
+                w="60vw" mb="30px" p="20px"
+                border="1px solid var(--chakra-colors-shadow)" borderRadius="7px" boxShadow="var(--chakra-colors-shadow) 0px 4px 16px" 
+            >
+                <Heading fontSize="lg" mb="10px">Reply</Heading>
+                <Textarea mb="10px" _focus={{ borderColor: "primary" }} onChange={(event) => replyContent = event.target.value} />
+                <Flex justifyContent="center">
+                    <Btn colorArr={["white", "primary"]} onClick={submitComment} type='submit'>Submit</Btn>
+                </Flex>
+            </Box>
             {showErrorDialog ? <ErrorDialog message='There was a problem submitting your reply'/> : <></>}
         </>
 

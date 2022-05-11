@@ -1,9 +1,23 @@
 import React, {useState, useContext} from "react";
-import {Button, Form, Modal} from "react-bootstrap";
+import { useNavigate, Link } from "react-router-dom";
+import { Flex, Box, Text } from "@chakra-ui/react";
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure 
+} from '@chakra-ui/react'
+
 import {login, authFetch, useAuth, logout} from "../../auth";
 import domain from "../../utils/site-domain";
-import { useNavigate, Link } from "react-router-dom";
 import user from "../../auth/user";
+import FormIn from "../basic/FormIn";
+import Btn from "../basic/Btn";
+import OutlineBtn from "../basic/OutlineBtn";
 
 const userData = {
     "title": null,
@@ -20,6 +34,7 @@ const userData = {
 
 export default function Login(props) {
     const [logged] = useAuth();
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
     let initial_view = "login"
     if (props.showSignUpOnOpen) {
@@ -77,7 +92,6 @@ export default function Login(props) {
 
             await user.getUsername()
 
-            props.setLoginPop(false)
             navigate("/");
         }
     }
@@ -126,123 +140,76 @@ export default function Login(props) {
         }
     }
 
-    if (view === "signup") {
+    const modalContent = () => {
+        if (view == "signup") {
+            return (
+                <ModalContent>
+                    <ModalHeader>Sign Up</ModalHeader>
+                    <ModalCloseButton _focus={{ borderColor: "none", outline: "none" }} />
+                    <ModalBody pt="0">
+                        <Flex flexDirection="column" alignItems="center" px="20px" pb="20px">
+                            <FormIn mb="15px" title="Email*" type="email" placeholder="johndoe@email.com" onChange={(event) => userData.email = event.target.value}/>
+                            <FormIn mb="15px" title="Username*" type="text" placeholder="JohnDoe123" onChange={(event) => userData.username = event.target.value}/>
+                            <FormIn mb="30px" title="Password*" type="password" placeholder="********" onChange={(event) => userData.password = event.target.value}/>
+                            <FormIn mb="15px" title="Title" type="text" placeholder="Dr." onChange={(event) => userData.title = event.target.value}/>
+                            <FormIn mb="15px" title="First Name*" type="text" placeholder="John" onChange={(event) => userData.firstName = event.target.value}/>
+                            <FormIn mb="30px" title="Last Name*" type="text" placeholder="Doe" onChange={(event) => userData.lastName = event.target.value}/>
+                            <FormIn mb="15px" title="Position*" type="text" placeholder="Pathologist" onChange={(event) => userData.position = event.target.value}/>
+                            <FormIn title="Workplace*" type="text" placeholder="Hospital" onChange={(event) => userData.workplace = event.target.value}/>
+
+                            {success ? <Text fontSize="sm" color='green'>{errorMsg}</Text> :
+                                <Text fontSize="sm" color='red'>{errorMsg}</Text>
+                            }
+                            <Flex mt="20px">
+                                <Btn mr="5px" colorArr={["white", "primary"]} onClick={handleLogin}>Sign up</Btn>
+                                <OutlineBtn colorArr={["primary", "white"]} onClick={() => {
+                                    clearFormData()
+                                    setView("login")
+                                    setErrorMsg('')
+                                }}>
+                                    Back to login
+                                </OutlineBtn>
+                            </Flex>
+                        </Flex>
+                    </ModalBody>
+                </ModalContent>
+            );
+        }
+
         return (
-            <>
-                <Modal.Header closeButton>
-                    <Modal.Title>Sign Up</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form onSubmit={handleSignup} id="sign-up-form">
-                        <Form.Group>
-                            <Form.Label>Email*</Form.Label>
-                            <Form.Control type="email" placeholder="johndoe@email.com" onChange={(event) => userData.email = event.target.value}/>
-                        </Form.Group>
-
-                        <Form.Group>
-                            <Form.Label>Username*</Form.Label>
-                            <Form.Control type="text" placeholder="JohnDoe123" onChange={(event) => userData.username = event.target.value}/>
-                        </Form.Group>
-
-                        <Form.Group>
-                            <Form.Label>Password*</Form.Label>
-                            <Form.Control type="password" placeholder="********" onChange={(event) => userData.password = event.target.value}/>
-                        </Form.Group>
-
-                        <br/>
-
-                        <Form.Group>
-                            <Form.Label>Title</Form.Label>
-                            <Form.Control type="text" placeholder="Dr." onChange={(event) => userData.title = event.target.value}/>
-                        </Form.Group>
-
-                        <Form.Group>
-                            <Form.Label>First Name*</Form.Label>
-                            <Form.Control type="text" placeholder="John" onChange={(event) => userData.firstName = event.target.value}/>
-                        </Form.Group>
-
-                        <Form.Group>
-                            <Form.Label>Last Name*</Form.Label>
-                            <Form.Control type="text" placeholder="Doe" onChange={(event) => userData.lastName = event.target.value}/>
-                        </Form.Group>
-
-                        <br/>
-
-                        <Form.Group>
-                            <Form.Label>Position*</Form.Label>
-                            <Form.Control type="text" placeholder="Pathologist" onChange={(event) => userData.position = event.target.value}/>
-                        </Form.Group>
-
-                        <Form.Group>
-                            <Form.Label>Workplace*</Form.Label>
-                            <Form.Control type="text" placeholder="Hospital" onChange={(event) => userData.workplace = event.target.value}/>
-                        </Form.Group>
-
-                        <br/>
-
-                        {/*<Form.Group>*/}
-                        {/*    <Form.Label>Profile Pic URL</Form.Label>*/}
-                        {/*    <Form.Control type="text" placeholder="http://website.com/images/myprofilepic" onChange={(event) => userData.profilePicUrl = event.target.value}/>*/}
-                        {/*</Form.Group>*/}
-
-                        {success ? <p className="text-success">{errorMsg}</p> :
-                            <p className="text-danger">{errorMsg}</p>
+            <ModalContent>
+                <ModalHeader>Login</ModalHeader>
+                <ModalCloseButton _focus={{ borderColor: "none", outline: "none" }} />
+                <ModalBody pt="0">
+                    <Flex flexDirection="column" alignItems="center" px="20px" pb="20px">
+                        <FormIn mb="15px" title="Username" type="text" placeholder="Username" onChange={(event) => userData.username = event.target.value} />
+                        <FormIn title="Password" type="password" placeholder="Password" onChange={(event) => userData.password = event.target.value} />
+                        {success ? <Text fontSize="sm" color='green'>{errorMsg}</Text> :
+                            <Text fontSize="sm" color='red'>{errorMsg}</Text>
                         }
-
-                        <div className="d-flex flex-column align-items-center mt-4">
-                            <button className="btn btn-navy w-50" type="submit">
-                                Sign Up
-                            </button>
-                            <button className="btn btn-outline-navy mt-2 w-25" onClick={() => {
+                        <Flex mt="20px">
+                            <Btn mr="5px" colorArr={["white", "primary"]} onClick={handleLogin}>Login</Btn>
+                            <OutlineBtn colorArr={["primary", "white"]} onClick={() => {
                                 clearFormData()
-                                setView(login)
+                                setView("signup")
                                 setErrorMsg('')
                             }}>
-                                Back to Login
-                            </button>
-                        </div>
-                    </Form>
-                </Modal.Body>
-            </>
+                                Sign up
+                            </OutlineBtn>
+                        </Flex>
+                    </Flex>
+                </ModalBody>
+            </ModalContent>
         );
     }
 
     return (
         <>
-            <Modal.Header closeButton>
-                <Modal.Title>Login</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form onSubmit={handleLogin} id="login-form">
-                    <Form.Group>
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control type="text" placeholder="Username" onChange={(event) => userData.username = event.target.value}/>
-                    </Form.Group>
-
-                    <Form.Group>
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" onChange={(event) => userData.password = event.target.value}/>
-                    </Form.Group>
-
-
-                    {success ? <p className="text-success">{errorMsg}</p> :
-                        <p className="text-danger">{errorMsg}</p>
-                    }
-
-                    <div className="d-flex flex-column align-items-center">
-                        <button className="btn btn-navy mt-4 w-50" type="submit">
-                            Login
-                        </button>
-                        <button className="btn btn-outline-navy mt-2 w-25" onClick={() => {
-                            clearFormData()
-                            setView("signup")
-                            setErrorMsg('')
-                        }}>
-                            New User? Sign Up
-                        </button>
-                    </div>
-                </Form>
-            </Modal.Body>
+            <OutlineBtn colorArr={["black", "white"]} onClick={onOpen}>Login</OutlineBtn>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                {modalContent()}
+            </Modal>
         </>
     );
 }

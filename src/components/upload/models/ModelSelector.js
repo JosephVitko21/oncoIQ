@@ -1,85 +1,73 @@
-import React, {useContext, useState} from 'react';
-import {Modal, Button, Col} from "react-bootstrap";
+import React, { useState } from 'react';
+import { Flex, Box, Text } from "@chakra-ui/react";
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure 
+} from '@chakra-ui/react'
+
 import ModelCard from "./ModelCard";
+import { makeAuthenticatedRequest } from "../../../utils/middleware";
+import OutlineBtn from '../../basic/OutlineBtn';
 
-import user from "../../../auth/user";
-import utils from "../../../utils/utils";
-import domain from "../../../utils/site-domain";
-import {makeAuthenticatedRequest} from "../../../utils/middleware";
+export default function ModelSelector(props) {
+    const [show, setShow] = useState(false);
+    const [data, setData] = useState(null);
 
-export default class ModelSelector extends React.Component {
-    renderModelCard(model_datum) {
-        console.log("creating model card")
-        return <ModelCard
-            thumbnail_url={model_datum.thumbnail}
-            name={model_datum.name}
-            status={model_datum.status}
-            selectModel={() => this.props.selectModel(model_datum)}
-        />
-    }
-    constructor(props) {
-        console.log(props)
-        super(props)
-        this.state = {
-            show: false,
-            data: null
-        }
-    }
-    render() {
-        // TODO: make this hide on selection
-        // TODO: add search
-        return (
-            <>
-                <div className="text-center">
-                    <button className="btn btn-outline-navy" onClick={this.handleShow} size={this.props.size}>
-                        {this.props.selectText}
-                    </button>
-                </div>
-                {this.state.data ? (
-                    <Modal
-                        size="lg"
-                        show={this.state.show}
-                        onHide={this.handleHide}
-                    >
-                        <Modal.Header closeButton>
-                            <Modal.Title>
-                                Select a Disease to Detect
-                            </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <div className="row">
-                                {console.log(this.state.data)}
-                                {this.state.data.map((datum) => {
-                                    console.log("datum:", datum)
-                                    return (
-                                        <Col lg="6" sm="12">
-                                            {this.renderModelCard(datum)}
-                                        </Col>
-                                    )
-                                })}
-                            </div>
-                        </Modal.Body>
-                    </Modal>
-                ) : <></>}
-            </>
-        )
-    }
-    handleShow = () => {
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const handleShow = () => {
         console.log("Loading models")
         makeAuthenticatedRequest('GET', '/models')
             .then(r => {
                 console.log("loaded models")
-                this.setState({
-                    show: true,
-                    data: r,
-                })
+                onOpen();
+                setData(r);
             })
     }
 
-    handleHide = () => {
-        this.setState({
-            show: false,
-            data: null,
-        })
+    const handleHide = () => {
+        onClose();
+        setData(null);
     }
+
+    console.log(data)
+
+    // TODO: make this hide on selection
+    // TODO: add search
+    return (
+        <>
+            <OutlineBtn colorArr={["primary", "white"]} onClick={handleShow} >{props.selectText}</OutlineBtn>
+
+            {data ? (
+                <Modal isOpen={isOpen} onClose={handleHide}>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader textAlign="center" borderBottom="1px solid var(--chakra-colors-shadow)">Select a Disease to Detect</ModalHeader>
+                        <ModalCloseButton _focus={{ borderColor: "none", outline: "none" }} />
+                        <ModalBody pt="0">
+                            <Flex py="15px">
+                                {data.map((datum) => {
+                                    console.log("datum:", datum)
+                                    return (
+                                        <ModelCard
+                                            thumbnail_url={datum.thumbnail}
+                                            name={datum.name}
+                                            status={datum.status}
+                                            selectModel={() => props.selectModel(datum)}
+                                        />
+                                    )
+                                })}
+                            </Flex>
+                        </ModalBody>
+                    </ModalContent>
+                </Modal>
+            ) : null}
+        </>
+    );
 }

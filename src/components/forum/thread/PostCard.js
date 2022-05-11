@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
+import { Box, Flex, Heading, Text, Badge } from '@chakra-ui/react';
+
+import PostFooter from "./PostFooter";
 import googleDomain from "../../../utils/google-drive-domain";
 import TileGrid from "../../archive/dialog/TileGrid";
 import {makeAuthenticatedRequest} from "../../../utils/middleware";
-import {Card, Col, Row} from "react-bootstrap";
-import moment from "moment";
-import PostFooter from "./PostFooter";
 
 export default function PostCard(props) {
     const [data, setData] = useState({})
@@ -21,15 +21,14 @@ export default function PostCard(props) {
     }, [])
 
     return (
-        <Card style={{marginBottom: '60px'}}>
-            <Card.Header>
-                <Card.Title className='mt-2'>
-                    {data.name}
-                </Card.Title>
-            </Card.Header>
-            <Card.Body>
-                <div style={{width: '100%', display: 'flex', justifyContent: 'center'}} className="mt-4 mb-4">
-                    <div style={{width: '50%'}}>
+        <Box 
+            w="60vw" mb="30px"
+            border="1px solid var(--chakra-colors-shadow)" borderRadius="7px" boxShadow="var(--chakra-colors-shadow) 0px 4px 16px" 
+        >
+            <Heading fontSize="2xl" mb="30px" mt="10px" px="20px" borderBottom="1px solid var(--chakra-colors-shadow)" py="10px">{data.name}</Heading>
+            <Box px="20px">
+                <Flex justifyContent="center">
+                    <Box w="50%">
                         <TileGrid
                             tiles={data.tiles}
                             id={data.image_id}
@@ -38,19 +37,51 @@ export default function PostCard(props) {
                             num_cols={data.num_cols}
                             showSlider={true}
                         />
-                    </div>
-                </div>
-                {data.description}
-            </Card.Body>
-
-            <Card.Footer>
-                <PostFooter
-                    poster = {data.uploader}
-                    job={data.uploader_job}
-                    profilePic={data.uploader_profile_pic}
-                    date={data.date}
-                />
-            </Card.Footer>
-        </Card>
+                    </Box>
+                </Flex>
+                <Text fontSize="md" mb="30px">{data.description}</Text>
+            </Box>
+            <PostFooter
+                poster = {data.uploader}
+                job={data.uploader_job}
+                profilePic={data.uploader_profile_pic}
+                date={data.date}
+                borderTop="1px solid var(--chakra-colors-shadow)" pt="10px"
+                px="20px"
+                pb="10px"
+            />
+        </Box>
     );
 }
+
+{/* <Card style={{marginBottom: '60px'}}>
+    <Card.Header>
+        <Card.Title className='mt-2'>
+            {data.name}
+        </Card.Title>
+    </Card.Header>
+    <Card.Body>
+        <div style={{width: '100%', display: 'flex', justifyContent: 'center'}} className="mt-4 mb-4">
+            <div style={{width: '50%'}}>
+                <TileGrid
+                    tiles={data.tiles}
+                    id={data.image_id}
+                    image_url={googleDomain + data.file_id}
+                    num_rows={data.num_rows}
+                    num_cols={data.num_cols}
+                    showSlider={true}
+                />
+            </div>
+        </div>
+        {data.description}
+    </Card.Body>
+
+    <Card.Footer>
+        <PostFooter
+            poster = {data.uploader}
+            job={data.uploader_job}
+            profilePic={data.uploader_profile_pic}
+            date={data.date}
+        />
+    </Card.Footer>
+</Card> */}

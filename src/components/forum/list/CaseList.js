@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
+import { Flex, Text } from '@chakra-ui/react';
+
 import {makeAuthenticatedRequest} from "../../../utils/middleware";
 import CaseCard from "./CaseCard";
-import ImageDetailModal from "../../archive/dialog/ImageDetail";
-import user from "../../../auth/user";
+import OutlineBtn from "../../basic/OutlineBtn";
 
 export default function CaseList(props) {
     const [postList, setPostList] = useState([]);
@@ -25,7 +26,7 @@ export default function CaseList(props) {
         getPosts()
     }, [])
 
-    if (!postList) return <p>Loading...</p>
+    if (!postList) return <Text>Loading...</Text>
 
     return(
         <>
@@ -47,10 +48,10 @@ export default function CaseList(props) {
                 );
             })}
             {!allShown ? (
-                <div className='flex-grow-1 justify-content-center mt-4'>
-                    <button className="btn" onClick={() => getPosts} style={{backgroundColor: "#06D6A0", color: 'white'}}>View More</button>
-                </div>
-            ) : <></>}
+                <Flex flexDirection="column" alignItems="center">
+                    <OutlineBtn colorArr={["black", "white"]} onClick={() => getPosts}>View More</OutlineBtn>
+                </Flex>
+            ) : null}
         </>
     )
 

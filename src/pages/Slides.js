@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faFilter, faSearch, faSort} from '@fortawesome/free-solid-svg-icons'
 import {makeAuthenticatedRequest} from "../utils/middleware";
 import {useNavigate} from "react-router-dom";
+import Btn from '../components/basic/Btn';
 
 export default function Slides() {
     const [imgList, setImgList] = useState([]);
@@ -79,7 +80,7 @@ export default function Slides() {
             </div>
             {!allShown ? (
                 <div className='flex-grow-1 justify-content-center mt-4'>
-                    <button className="btn btn-navy" onClick={getImages}>View More</button>
+                    <Btn colorArr={["white", "primary"]} onClick={getImages}>View More</Btn>;
                 </div>
             ) : <></>}
         </div>
