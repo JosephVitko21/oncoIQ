@@ -43,7 +43,7 @@ export default class Tile extends Component {
 
         return (
             <Card className="risk-card">
-                <img src='https://www.halberesford.com/content/images/2018/07/null.png'  alt='risk-tile'/>
+                <img src='/transparent-square.png'  alt='risk-tile'/>
                 <div
                     className="risk-overlay"
                     style={ overlayStyle }
